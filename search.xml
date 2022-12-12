@@ -3,7 +3,8 @@
   <entry>
     <title>Ruby on Rails 小試身手 (初識 Rails)</title>
     <url>/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/</url>
-    <content><![CDATA[<h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><ol>
+    <content><![CDATA[<h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span>
+<ol>
 <li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p>
 </li>
 <li><p>發明人:David Heinemeier Hansson(DHH)</p>
@@ -11,7 +12,7 @@
 <li><p>首次公開發表:西元2004年</p>
 </li>
 <li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
-<span id="more"></span></li>
+</li>
 </ol>
 <h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
 <li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
