@@ -11,7 +11,7 @@
 <li><p>首次公開發表:西元2004年</p>
 </li>
 <li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
-</li>
+<span id="more"></span></li>
 </ol>
 <h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
 <li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
