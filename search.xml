@@ -1,90 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Ruby on Rails 小試身手 (初識 Rails)</title>
-    <url>/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/</url>
-    <content><![CDATA[<h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span>
-<ol>
-<li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p>
-</li>
-<li><p>發明人:David Heinemeier Hansson(DHH)</p>
-</li>
-<li><p>首次公開發表:西元2004年</p>
-</li>
-<li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
-</li>
-</ol>
-<h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
-<li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
-</li>
-<li><p>CoC &#x3D; 慣例優於設定 (Covention Over Configuration)</p>
-</li>
-</ol>
-<h2 id="使用-Scaffold-創建一個-table-出來"><a href="#使用-Scaffold-創建一個-table-出來" class="headerlink" title="使用 Scaffold 創建一個 table 出來"></a>使用 Scaffold 創建一個 table 出來</h2><p>第一步 輸入指令:</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">generate scaffold <span class="title class_">User</span> <span class="symbol">name:</span>string <span class="symbol">email:</span>string <span class="symbol">tel:</span>string</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以偷懶一下少敲打一些字 ：<br>generate &#x3D; g<br>String 型態可省略不打<br>bin&#x2F;rails 可以輸入 rails 就好</li>
-</ul>
-<hr>
-<p>至於什麼時候用<code>bin/rails</code>這個指令，是因為在本機有安裝不同版本的rails，每個專案開發時使用的版本不同，<code>bin/rails</code>會只針對專案本身使用的rails版本去執行。</p>
-<p>而<code>rails</code>預設會使用目前本機端內最新版本的rails來執行。</p>
-<ul>
-<li>所以有時候會發現某些專案輸入<code>rails g</code>不會執行，要使用<code>bin/rails</code>才會執行。</li>
-</ul>
-<hr>
-<p>讓我們開始認識Ruby on Rails，看看它有什麼厲害的地方吧！</p>
-<p>首先：cd 到我們要建立專案的目錄底下輸入指令:<code>rails new test-scaffold</code>再 cd 到 test-scaffold 目錄中。</p>
-<p>接著我們就開始在終端機輸入指令</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails g scaffold <span class="title class_">User</span> name email tel</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/LALBWQs.png"></p>
-<p>可以看到Rails已經幫我們生成好多檔案出來，雖然目前還不了解這些檔案的個別功用，之後在實體課程中會進一步了解。這些檔案就是網站架構起來的關鍵。</p>
-<p>看到指令中<code>scaffold</code>這個單字，中文翻譯「鷹架」，從這邊其實大概可以猜的出來這個指令應該是要產生類似腳架的結構出來，一般我們日常生活最常看到這種腳架或鷹架結構，就是建造房屋、大樓。所以看到這行指令會猜想應該是產生要架構出網站的「鷹架」。</p>
-<p>這個指令所產生一整串的檔案，其中db&#x2F;migrate&#x2F;這個目錄開頭的.rb檔，是一個描述檔。描述「資料庫的架構長什麼樣子」。在這邊可以先理解成描述我們剛剛輸入的指令，之後要建立一張資料表，表單名稱叫做User，且表單裡面會有一些欄位分別是要存放name、email、tellphone等資料。</p>
-<p>你會想問為什麼會有這個表單，它的作用如何？這就要說到Rails是由一種叫做 MVC 的軟體構模式來設計網站，主要目的是分化程式的權責，口語化來說，就是各司其職，比如一間餐廳，廚師負責烹飪出菜，服務人員負責接待客人、帶位，收銀櫃檯人員負責結帳，就是分工合作的概念。</p>
-<ul>
-<li><p>M(Model):模型，它主要負責跟資料庫溝通。該拿取什麼資料透過Model。</p>
-</li>
-<li><p>V(View):可以當作讓使用者看到的畫面，所以稱為「View」。主要是呈現畫面讓使用者看到。</p>
-</li>
-<li><p>C(Controller):控制器，可以想像成「指揮官」，contoller負責指揮model要去資料庫拿什麼資料，然後決定要用什麼樣的畫面讓view呈現給使用者看到。</p>
-</li>
-</ul>
-<hr>
-<p>所以剛剛前面提到的「描述檔」就是跟model有關係的，因為model才會知道要怎麼拿取資料。之後的實體課程會再進一步的學習。</p>
-<p>第二步：把 scaffold 的資料表設定具象化</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails <span class="symbol">db:</span>migrate</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/hXOlgae.png"></p>
-<p>這個步驟是把描述檔，生成User資料表。</p>
-<p>第三步：啟動伺服器</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails server 或是 減寫 rails s</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/gVRiWXF.png"></p>
-<p>然後，打開瀏覽器，輸入網址<br><code>http://localhost:3000/users</code><br><img src="https://i.imgur.com/Rt2Ohey.png"></p>
-<p>耶～～恭喜你，成功建立一個簡單的表單網頁了~~~</p>
-<p>按下<code>New user</code>會看到一個新增user的頁面</p>
-<p><img src="https://i.imgur.com/nsEcMsk.png"></p>
-<p>可以快速的產生一個簡單的user頁面。還能做到新增&#x2F;修改&#x2F;刪除。這邊就不放上修改及刪除的頁面了。</p>
-<p><img src="https://i.imgur.com/lMGDM7R.png"></p>
-<p><img src="https://i.imgur.com/CXVHCqt.png"></p>
-<p>第一次看到，哇!!!真是太神奇了，Rails。</p>
-<p>這就是第一次與Rails見面。也是第一次寫學習筆記的分享。</p>
-<p>或許有些觀念是沒有理解清楚，可以幫忙給予糾正。</p>
-<p>期許自己透過分享學習筆記的過程，課程中較模糊或沒有完全理解的觀念可以慢慢的整理清楚。</p>
-]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2022/12/05/test/</url>
-    <content><![CDATA[<hr>
-<p>title: test<br>date: 2022-12-05 18:59:18<br>tags:<br>這是測試用文章</p>
-]]></content>
-  </entry>
-  <entry>
     <title>Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)</title>
     <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/</url>
     <content><![CDATA[<h2 id="不使用-scaffold-目的？"><a href="#不使用-scaffold-目的？" class="headerlink" title="不使用 scaffold 目的？"></a>不使用 scaffold 目的？</h2><ol>
@@ -398,5 +314,89 @@
       <tags>
         <tag>Ruby on Rails</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 小試身手 (初識 Rails)</title>
+    <url>/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/</url>
+    <content><![CDATA[<h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span>
+<ol>
+<li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p>
+</li>
+<li><p>發明人:David Heinemeier Hansson(DHH)</p>
+</li>
+<li><p>首次公開發表:西元2004年</p>
+</li>
+<li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
+</li>
+</ol>
+<h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
+<li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
+</li>
+<li><p>CoC &#x3D; 慣例優於設定 (Covention Over Configuration)</p>
+</li>
+</ol>
+<h2 id="使用-Scaffold-創建一個-table-出來"><a href="#使用-Scaffold-創建一個-table-出來" class="headerlink" title="使用 Scaffold 創建一個 table 出來"></a>使用 Scaffold 創建一個 table 出來</h2><p>第一步 輸入指令:</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">generate scaffold <span class="title class_">User</span> <span class="symbol">name:</span>string <span class="symbol">email:</span>string <span class="symbol">tel:</span>string</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以偷懶一下少敲打一些字 ：<br>generate &#x3D; g<br>String 型態可省略不打<br>bin&#x2F;rails 可以輸入 rails 就好</li>
+</ul>
+<hr>
+<p>至於什麼時候用<code>bin/rails</code>這個指令，是因為在本機有安裝不同版本的rails，每個專案開發時使用的版本不同，<code>bin/rails</code>會只針對專案本身使用的rails版本去執行。</p>
+<p>而<code>rails</code>預設會使用目前本機端內最新版本的rails來執行。</p>
+<ul>
+<li>所以有時候會發現某些專案輸入<code>rails g</code>不會執行，要使用<code>bin/rails</code>才會執行。</li>
+</ul>
+<hr>
+<p>讓我們開始認識Ruby on Rails，看看它有什麼厲害的地方吧！</p>
+<p>首先：cd 到我們要建立專案的目錄底下輸入指令:<code>rails new test-scaffold</code>再 cd 到 test-scaffold 目錄中。</p>
+<p>接著我們就開始在終端機輸入指令</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails g scaffold <span class="title class_">User</span> name email tel</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/LALBWQs.png"></p>
+<p>可以看到Rails已經幫我們生成好多檔案出來，雖然目前還不了解這些檔案的個別功用，之後在實體課程中會進一步了解。這些檔案就是網站架構起來的關鍵。</p>
+<p>看到指令中<code>scaffold</code>這個單字，中文翻譯「鷹架」，從這邊其實大概可以猜的出來這個指令應該是要產生類似腳架的結構出來，一般我們日常生活最常看到這種腳架或鷹架結構，就是建造房屋、大樓。所以看到這行指令會猜想應該是產生要架構出網站的「鷹架」。</p>
+<p>這個指令所產生一整串的檔案，其中db&#x2F;migrate&#x2F;這個目錄開頭的.rb檔，是一個描述檔。描述「資料庫的架構長什麼樣子」。在這邊可以先理解成描述我們剛剛輸入的指令，之後要建立一張資料表，表單名稱叫做User，且表單裡面會有一些欄位分別是要存放name、email、tellphone等資料。</p>
+<p>你會想問為什麼會有這個表單，它的作用如何？這就要說到Rails是由一種叫做 MVC 的軟體構模式來設計網站，主要目的是分化程式的權責，口語化來說，就是各司其職，比如一間餐廳，廚師負責烹飪出菜，服務人員負責接待客人、帶位，收銀櫃檯人員負責結帳，就是分工合作的概念。</p>
+<ul>
+<li><p>M(Model):模型，它主要負責跟資料庫溝通。該拿取什麼資料透過Model。</p>
+</li>
+<li><p>V(View):可以當作讓使用者看到的畫面，所以稱為「View」。主要是呈現畫面讓使用者看到。</p>
+</li>
+<li><p>C(Controller):控制器，可以想像成「指揮官」，contoller負責指揮model要去資料庫拿什麼資料，然後決定要用什麼樣的畫面讓view呈現給使用者看到。</p>
+</li>
+</ul>
+<hr>
+<p>所以剛剛前面提到的「描述檔」就是跟model有關係的，因為model才會知道要怎麼拿取資料。之後的實體課程會再進一步的學習。</p>
+<p>第二步：把 scaffold 的資料表設定具象化</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails <span class="symbol">db:</span>migrate</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/hXOlgae.png"></p>
+<p>這個步驟是把描述檔，生成User資料表。</p>
+<p>第三步：啟動伺服器</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails server 或是 減寫 rails s</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/gVRiWXF.png"></p>
+<p>然後，打開瀏覽器，輸入網址<br><code>http://localhost:3000/users</code><br><img src="https://i.imgur.com/Rt2Ohey.png"></p>
+<p>耶～～恭喜你，成功建立一個簡單的表單網頁了~~~</p>
+<p>按下<code>New user</code>會看到一個新增user的頁面</p>
+<p><img src="https://i.imgur.com/nsEcMsk.png"></p>
+<p>可以快速的產生一個簡單的user頁面。還能做到新增&#x2F;修改&#x2F;刪除。這邊就不放上修改及刪除的頁面了。</p>
+<p><img src="https://i.imgur.com/lMGDM7R.png"></p>
+<p><img src="https://i.imgur.com/CXVHCqt.png"></p>
+<p>第一次看到，哇!!!真是太神奇了，Rails。</p>
+<p>這就是第一次與Rails見面。也是第一次寫學習筆記的分享。</p>
+<p>或許有些觀念是沒有理解清楚，可以幫忙給予糾正。</p>
+<p>期許自己透過分享學習筆記的過程，課程中較模糊或沒有完全理解的觀念可以慢慢的整理清楚。</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2022/12/05/test/</url>
+    <content><![CDATA[<hr>
+<p>title: test<br>date: 2022-12-05 18:59:18<br>tags:<br>這是測試用文章</p>
+]]></content>
   </entry>
 </search>
