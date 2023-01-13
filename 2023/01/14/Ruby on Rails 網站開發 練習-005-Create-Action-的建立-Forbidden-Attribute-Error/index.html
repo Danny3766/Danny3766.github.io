@@ -20,28 +20,37 @@
     var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Ruby on Rails 小試身手 (初識 Rails)">
+  <meta name="description" content="在new.html.erb檔案使用了form_for的View action helper寫法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ruby on Rails 小試身手 (初識 Rails)">
-<meta property="og:url" content="https://danny3766.github.io/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/index.html">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - 005 (Create Action 的建立 &amp; Forbidden Attribute Error)">
+<meta property="og:url" content="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-005-Create-Action-%E7%9A%84%E5%BB%BA%E7%AB%8B-Forbidden-Attribute-Error/index.html">
 <meta property="og:site_name" content="Cheng Ting&#39;s Blog">
-<meta property="og:description" content="Ruby on Rails 小試身手 (初識 Rails)">
+<meta property="og:description" content="在new.html.erb檔案使用了form_for的View action helper寫法">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://i.imgur.com/LALBWQs.png">
-<meta property="og:image" content="https://i.imgur.com/hXOlgae.png">
-<meta property="og:image" content="https://i.imgur.com/gVRiWXF.png">
-<meta property="og:image" content="https://i.imgur.com/Rt2Ohey.png">
-<meta property="og:image" content="https://i.imgur.com/nsEcMsk.png">
-<meta property="og:image" content="https://i.imgur.com/lMGDM7R.png">
-<meta property="og:image" content="https://i.imgur.com/CXVHCqt.png">
-<meta property="article:published_time" content="2022-12-12T18:34:47.000Z">
-<meta property="article:modified_time" content="2023-01-13T17:55:30.320Z">
+<meta property="og:image" content="https://i.imgur.com/RxxiPLT.png">
+<meta property="og:image" content="https://i.imgur.com/p9z96sp.png">
+<meta property="og:image" content="https://i.imgur.com/8n6c1vv.png">
+<meta property="og:image" content="https://i.imgur.com/5OZiB34.png">
+<meta property="og:image" content="https://i.imgur.com/ga4tnuy.png">
+<meta property="og:image" content="https://i.imgur.com/c2gJFEp.png">
+<meta property="og:image" content="https://i.imgur.com/mQExxjl.png">
+<meta property="og:image" content="https://i.imgur.com/olUzfq1.png">
+<meta property="og:image" content="https://i.imgur.com/d5er7Eo.png">
+<meta property="og:image" content="https://i.imgur.com/ib2xUbP.png">
+<meta property="og:image" content="https://i.imgur.com/HA1RiKo.png">
+<meta property="og:image" content="https://i.imgur.com/BUP82nz.png">
+<meta property="og:image" content="https://i.imgur.com/ElZfKQC.png">
+<meta property="og:image" content="https://i.imgur.com/w0KTPM1.png">
+<meta property="og:image" content="https://i.imgur.com/m0V9Qmb.png">
+<meta property="og:image" content="https://i.imgur.com/XfYdypN.png">
+<meta property="article:published_time" content="2023-01-13T17:53:19.000Z">
+<meta property="article:modified_time" content="2023-01-13T18:17:57.823Z">
 <meta property="article:author" content="Cheng Ting">
 <meta property="article:tag" content="Ruby on Rails">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.imgur.com/LALBWQs.png">
+<meta name="twitter:image" content="https://i.imgur.com/RxxiPLT.png">
 
-<link rel="canonical" href="https://danny3766.github.io/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/">
+<link rel="canonical" href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-005-Create-Action-%E7%9A%84%E5%BB%BA%E7%AB%8B-Forbidden-Attribute-Error/">
 
 
 <script id="page-configurations">
@@ -54,7 +63,7 @@
   };
 </script>
 
-  <title>Ruby on Rails 小試身手 (初識 Rails) | Cheng Ting's Blog</title>
+  <title>Ruby on Rails 網站開發 練習 - 005 (Create Action 的建立 & Forbidden Attribute Error) | Cheng Ting's Blog</title>
   
 
 
@@ -200,7 +209,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-005-Create-Action-%E7%9A%84%E5%BB%BA%E7%AB%8B-Forbidden-Attribute-Error/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/self-image.jpg">
@@ -213,7 +222,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Ruby on Rails 小試身手 (初識 Rails)
+          Ruby on Rails 網站開發 練習 - 005 (Create Action 的建立 & Forbidden Attribute Error)
         </h1>
 
         <div class="post-meta">
@@ -222,16 +231,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2022-12-13 02:34:47" itemprop="dateCreated datePublished" datetime="2022-12-13T02:34:47+08:00">2022-12-13</time>
+              <time title="創建時間：2023-01-14 01:53:19 / 修改時間：02:17:57" itemprop="dateCreated datePublished" datetime="2023-01-14T01:53:19+08:00">2023-01-14</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-01-14 01:55:30" itemprop="dateModified" datetime="2023-01-14T01:55:30+08:00">2023-01-14</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -253,72 +256,53 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span>
-<ol>
-<li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p>
-</li>
-<li><p>發明人:David Heinemeier Hansson(DHH)</p>
-</li>
-<li><p>首次公開發表:西元2004年</p>
-</li>
-<li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
-</li>
-</ol>
-<h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
-<li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
-</li>
-<li><p>CoC &#x3D; 慣例優於設定 (Covention Over Configuration)</p>
-</li>
-</ol>
-<h2 id="使用-Scaffold-創建一個-table-出來"><a href="#使用-Scaffold-創建一個-table-出來" class="headerlink" title="使用 Scaffold 創建一個 table 出來"></a>使用 Scaffold 創建一個 table 出來</h2><p>第一步 輸入指令:</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">generate scaffold <span class="title class_">User</span> <span class="symbol">name:</span>string <span class="symbol">email:</span>string <span class="symbol">tel:</span>string</span><br></pre></td></tr></table></figure>
+        <h2 id="在new-html-erb檔案使用了form-for的View-action-helper寫法"><a href="#在new-html-erb檔案使用了form-for的View-action-helper寫法" class="headerlink" title="在new.html.erb檔案使用了form_for的View action helper寫法"></a>在new.html.erb檔案使用了form_for的View action helper寫法</h2><span id="more"></span>
 <ul>
-<li>可以偷懶一下少敲打一些字 ：<br>generate &#x3D; g<br>String 型態可省略不打<br>bin&#x2F;rails 可以輸入 rails 就好</li>
+<li>但是目前我們的寫法<code>form_for(Candidate.new)</code>，表示我們在view這邊有new一個新的物件出來。這邊可以做一些修改，讓view更專心做它平常做的事情。<br><img src="https://i.imgur.com/RxxiPLT.png"></li>
+<li>在MVC的架構中，view算是相對 <strong>被動</strong> 的角色，負責把東西印出來就好。</li>
+<li>應該是要由controller的部分來做這件事</li>
 </ul>
 <hr>
-<p>至於什麼時候用<code>bin/rails</code>這個指令，是因為在本機有安裝不同版本的rails，每個專案開發時使用的版本不同，<code>bin/rails</code>會只針對專案本身使用的rails版本去執行。</p>
-<p>而<code>rails</code>預設會使用目前本機端內最新版本的rails來執行。</p>
-<ul>
-<li>所以有時候會發現某些專案輸入<code>rails g</code>不會執行，要使用<code>bin/rails</code>才會執行。</li>
+<h2 id="接著進到candidates-controller"><a href="#接著進到candidates-controller" class="headerlink" title="接著進到candidates_controller"></a>接著進到candidates_controller</h2><p>把原本在<code>new.html.erb</code>檔案中的<code>Candidate.new</code>搬到<code>candidates_controller</code>的<code>new action</code>中。<br><img src="https://i.imgur.com/p9z96sp.png"><br>回到<code>new.html.erb</code>，將form_for(參數)改成<code>@candidate</code><br><img src="https://i.imgur.com/8n6c1vv.png"><br>此時打開瀏覽器，每個欄位輸入資料，按下送出按鈕，會發現好像畫面卡住不會動。<br><img src="https://i.imgur.com/5OZiB34.png"></p>
+<hr>
+<p>但其實如果看終端機log紀錄，應該會看到log顯示我們對candidates這個路徑使用POST方法，傳送一包parameters給它。並寫到沒有找到對應<code>CandidateController#create</code>的樣板。<br><img src="https://i.imgur.com/ga4tnuy.png"><br>此時，我們回到<code>CandidatesController</code>裡面的<code>create</code>action，寫入一個debugger。<br><img src="https://i.imgur.com/c2gJFEp.png"></p>
+<hr>
+<p>雖然這時候瀏覽器畫面還是呈現轉圈圈，但是終端機是有畫面的，會有一個byebug的輸入區塊<br><img src="https://i.imgur.com/mQExxjl.png"><br>此時可以輸入<code>params</code>看看會得到什麼結果。得到一大串的東西，雖然裡面有<code>token</code>，但是<code>token</code>就交給 Rails 處理。</p>
+<hr>
+<p>我們真正感興趣的是<code>&quot;candidate&quot;</code><br><img src="https://i.imgur.com/olUzfq1.png"></p>
+<hr>
+<p>那我們就接著輸入<code>params[:candidate]</code>看看會出現什麼吧。<br>咦？好像有類似hash的東西唷。先暫時把它當作一個hash看待<br><img src="https://i.imgur.com/d5er7Eo.png"></p>
+<hr>
+<p>我們想要取得當中的名字，那我們就繼續輸入<code>params[:candidate][:name]</code>試試看。確實有拿到我們要的名字<code>&quot;bbb&quot;</code><br><img src="https://i.imgur.com/ib2xUbP.png"></p>
+<hr>
+<p>此時我們可以把剛剛在<code>CandidatesController</code> <code>create</code>action裡面的<code>debugger</code>改成<code>@candidate = Candidate.new(params[:candidate])</code><br><img src="https://i.imgur.com/HA1RiKo.png"></p>
+<hr>
+<p>接著我們可以要這個新產生出來的物件去”存檔”。就會有存檔成功及存檔失敗的狀態，所以這邊我們使用<code>if...else</code>的方式去判斷不同情況，分別要做什麼動作。<br><img src="https://i.imgur.com/BUP82nz.png"></p>
+<hr>
+<h3 id="存檔成功"><a href="#存檔成功" class="headerlink" title="存檔成功"></a>存檔成功</h3><p><img src="https://i.imgur.com/ElZfKQC.png"><br>先來看看瀏覽器畫面。竟然出現之前沒有看過的錯誤訊息<br><img src="https://i.imgur.com/w0KTPM1.png"></p>
+<hr>
+<h2 id="Forbidden-Attribute-Error"><a href="#Forbidden-Attribute-Error" class="headerlink" title="Forbidden Attribute Error"></a>Forbidden Attribute Error</h2><ul>
+<li>看到「Forbidden Attribute Error」訊息，表示我們透過 model 要將整包 Hash 資料放到資料庫的時候，需要先經過「清洗」。</li>
+<li>Model 怕資料裡面會被加料一些奇奇怪怪的東西進去。</li>
+<li>如果資料沒有經過「清洗」，Model 預設是會資料檔下來。</li>
 </ul>
 <hr>
-<p>讓我們開始認識Ruby on Rails，看看它有什麼厲害的地方吧！</p>
-<p>首先：cd 到我們要建立專案的目錄底下輸入指令:<code>rails new test-scaffold</code>再 cd 到 test-scaffold 目錄中。</p>
-<p>接著我們就開始在終端機輸入指令</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails g scaffold <span class="title class_">User</span> name email tel</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/LALBWQs.png"></p>
-<p>可以看到Rails已經幫我們生成好多檔案出來，雖然目前還不了解這些檔案的個別功用，之後在實體課程中會進一步了解。這些檔案就是網站架構起來的關鍵。</p>
-<p>看到指令中<code>scaffold</code>這個單字，中文翻譯「鷹架」，從這邊其實大概可以猜的出來這個指令應該是要產生類似腳架的結構出來，一般我們日常生活最常看到這種腳架或鷹架結構，就是建造房屋、大樓。所以看到這行指令會猜想應該是產生要架構出網站的「鷹架」。</p>
-<p>這個指令所產生一整串的檔案，其中db&#x2F;migrate&#x2F;這個目錄開頭的.rb檔，是一個描述檔。描述「資料庫的架構長什麼樣子」。在這邊可以先理解成描述我們剛剛輸入的指令，之後要建立一張資料表，表單名稱叫做User，且表單裡面會有一些欄位分別是要存放name、email、tellphone等資料。</p>
-<p>你會想問為什麼會有這個表單，它的作用如何？這就要說到Rails是由一種叫做 MVC 的軟體構模式來設計網站，主要目的是分化程式的權責，口語化來說，就是各司其職，比如一間餐廳，廚師負責烹飪出菜，服務人員負責接待客人、帶位，收銀櫃檯人員負責結帳，就是分工合作的概念。</p>
+<p>(舉個例子，有點像是你不洗澡，父母不准你上床睡覺。)<br>(嗯，雖然這個例子滿爛的，但意思很像。)<br>此時會充滿疑惑？不是已經檢視頁面原始碼有使用<code>token</code>來保護了嗎？為什麼還要把資料「清洗」過才能存到資料庫裡面呢？</p>
+<hr>
+<p>現在我們打開瀏覽器，進到新增候選人的頁面，<code>右鍵 &gt; 檢查</code>。<br>將politics的<code>&lt;div&gt;</code>標籤複製然後也填入資料，並且更改裡面的值為<code>Vote</code><br><img src="https://i.imgur.com/m0V9Qmb.png"><br>發現左半邊我們的網頁真的出現剛剛新增的欄位了，我們一樣按下送出按鈕。<br>接著打開終端機，竟然會看到這樣的畫面<br><img src="https://i.imgur.com/XfYdypN.png"><br>我們透過 POST 的方式，要把一包parameters傳送到資料庫，赫然看到了剛剛我們透過瀏覽器<code>右鍵 &gt; 檢查</code>自己手動新增的 <strong>票數欄位</strong> 竟然也傳進來了。</p>
+<blockquote>
+<p><strong>表示我們新增這個候選人時，他就天生自帶1000張票數!!!</strong></p>
+</blockquote>
+<p>可以達成灌票數的原因，在於瀏覽器那邊這包資料有合法的 <code>token</code>。就這樣直接寫入資料庫的話，似乎不太對吧。</p>
+<hr>
+<p>這就是為什麼資料經由 model 寫入資料庫前，需要確認是否有經過「清洗」。</p>
 <ul>
-<li><p>M(Model):模型，它主要負責跟資料庫溝通。該拿取什麼資料透過Model。</p>
-</li>
-<li><p>V(View):可以當作讓使用者看到的畫面，所以稱為「View」。主要是呈現畫面讓使用者看到。</p>
-</li>
-<li><p>C(Controller):控制器，可以想像成「指揮官」，contoller負責指揮model要去資料庫拿什麼資料，然後決定要用什麼樣的畫面讓view呈現給使用者看到。</p>
-</li>
+<li>確保寫入資料庫的資料沒有「被加料」。</li>
+<li>同時維持寫入資料庫的資料不會過於龐大，進而消耗資料庫的資源。</li>
 </ul>
 <hr>
-<p>所以剛剛前面提到的「描述檔」就是跟model有關係的，因為model才會知道要怎麼拿取資料。之後的實體課程會再進一步的學習。</p>
-<p>第二步：把 scaffold 的資料表設定具象化</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails <span class="symbol">db:</span>migrate</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/hXOlgae.png"></p>
-<p>這個步驟是把描述檔，生成User資料表。</p>
-<p>第三步：啟動伺服器</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails server 或是 減寫 rails s</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/gVRiWXF.png"></p>
-<p>然後，打開瀏覽器，輸入網址<br><code>http://localhost:3000/users</code><br><img src="https://i.imgur.com/Rt2Ohey.png"></p>
-<p>耶～～恭喜你，成功建立一個簡單的表單網頁了~~~</p>
-<p>按下<code>New user</code>會看到一個新增user的頁面</p>
-<p><img src="https://i.imgur.com/nsEcMsk.png"></p>
-<p>可以快速的產生一個簡單的user頁面。還能做到新增&#x2F;修改&#x2F;刪除。這邊就不放上修改及刪除的頁面了。</p>
-<p><img src="https://i.imgur.com/lMGDM7R.png"></p>
-<p><img src="https://i.imgur.com/CXVHCqt.png"></p>
-<p>第一次看到，哇!!!真是太神奇了，Rails。</p>
-<p>這就是第一次與Rails見面。也是第一次寫學習筆記的分享。</p>
-<p>或許有些觀念是沒有理解清楚，可以幫忙給予糾正。</p>
-<p>期許自己透過分享學習筆記的過程，課程中較模糊或沒有完全理解的觀念可以慢慢的整理清楚。</p>
+<blockquote>
+<h3 id="下一堂課程，將學習到如何做資料清洗。"><a href="#下一堂課程，將學習到如何做資料清洗。" class="headerlink" title="下一堂課程，將學習到如何做資料清洗。"></a>下一堂課程，將學習到如何做資料清洗。</h3></blockquote>
 
     </div>
 
@@ -337,12 +321,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/12/05/test/" rel="prev" title="">
-      <i class="fa fa-chevron-left"></i> 
+    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-004-%E5%AE%8C%E6%88%90%E6%96%B0%E5%A2%9E%E5%80%99%E9%81%B8%E4%BA%BA%E9%A0%81%E9%9D%A2/" rel="prev" title="Ruby on Rails 網站開發 練習 - 004 (完成新增候選人頁面)">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - 004 (完成新增候選人頁面)
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/" rel="next" title="Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)">
-      Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統) <i class="fa fa-chevron-right"></i>
+    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-006-%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97-data-cleaning/" rel="next" title="Ruby on Rails 網站開發 練習 - 006 (資料清洗 data cleaning)">
+      Ruby on Rails 網站開發 練習 - 006 (資料清洗 data cleaning) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -402,7 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails"><span class="nav-number">1.</span> <span class="nav-text">Ruby on Rails 小試身手 (初識 Rails)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rails-%E6%9C%89%E5%85%A9%E5%A4%A7%E8%A8%AD%E8%A8%88%E5%93%B2%E5%AD%B8"><span class="nav-number">1.1.</span> <span class="nav-text">Rails 有兩大設計哲學</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Scaffold-%E5%89%B5%E5%BB%BA%E4%B8%80%E5%80%8B-table-%E5%87%BA%E4%BE%86"><span class="nav-number">1.2.</span> <span class="nav-text">使用 Scaffold 創建一個 table 出來</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8new-html-erb%E6%AA%94%E6%A1%88%E4%BD%BF%E7%94%A8%E4%BA%86form-for%E7%9A%84View-action-helper%E5%AF%AB%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">在new.html.erb檔案使用了form_for的View action helper寫法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E8%91%97%E9%80%B2%E5%88%B0candidates-controller"><span class="nav-number">2.</span> <span class="nav-text">接著進到candidates_controller</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%98%E6%AA%94%E6%88%90%E5%8A%9F"><span class="nav-number">2.1.</span> <span class="nav-text">存檔成功</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Forbidden-Attribute-Error"><span class="nav-number">3.</span> <span class="nav-text">Forbidden Attribute Error</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E5%A0%82%E8%AA%B2%E7%A8%8B%EF%BC%8C%E5%B0%87%E5%AD%B8%E7%BF%92%E5%88%B0%E5%A6%82%E4%BD%95%E5%81%9A%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97%E3%80%82"><span class="nav-number">3.1.</span> <span class="nav-text">下一堂課程，將學習到如何做資料清洗。</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

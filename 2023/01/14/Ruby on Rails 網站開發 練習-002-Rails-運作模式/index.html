@@ -20,28 +20,32 @@
     var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Ruby on Rails 小試身手 (初識 Rails)">
+  <meta name="description" content="Rails 運作模式 Route + MVC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ruby on Rails 小試身手 (初識 Rails)">
-<meta property="og:url" content="https://danny3766.github.io/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/index.html">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - 002 (Rails 運作模式)">
+<meta property="og:url" content="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-002-Rails-%E9%81%8B%E4%BD%9C%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Cheng Ting&#39;s Blog">
-<meta property="og:description" content="Ruby on Rails 小試身手 (初識 Rails)">
+<meta property="og:description" content="Rails 運作模式 Route + MVC">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://i.imgur.com/LALBWQs.png">
-<meta property="og:image" content="https://i.imgur.com/hXOlgae.png">
-<meta property="og:image" content="https://i.imgur.com/gVRiWXF.png">
-<meta property="og:image" content="https://i.imgur.com/Rt2Ohey.png">
-<meta property="og:image" content="https://i.imgur.com/nsEcMsk.png">
-<meta property="og:image" content="https://i.imgur.com/lMGDM7R.png">
-<meta property="og:image" content="https://i.imgur.com/CXVHCqt.png">
-<meta property="article:published_time" content="2022-12-12T18:34:47.000Z">
-<meta property="article:modified_time" content="2023-01-13T17:55:30.320Z">
+<meta property="og:image" content="https://i.imgur.com/9ZYEuqU.png">
+<meta property="og:image" content="https://i.imgur.com/tEKNxIg.png">
+<meta property="og:image" content="https://i.imgur.com/jxyqHBr.png">
+<meta property="og:image" content="https://i.imgur.com/KCSkf8g.png">
+<meta property="og:image" content="https://i.imgur.com/okm5Qex.png">
+<meta property="og:image" content="https://i.imgur.com/jmG09Zm.png">
+<meta property="og:image" content="https://i.imgur.com/ty6BPcu.png">
+<meta property="og:image" content="https://i.imgur.com/TdMUfVB.png">
+<meta property="og:image" content="https://i.imgur.com/sI4e8AD.png">
+<meta property="og:image" content="https://i.imgur.com/Vn4b7ES.png">
+<meta property="og:image" content="https://i.imgur.com/Kbpcfuq.png">
+<meta property="article:published_time" content="2023-01-13T17:11:22.000Z">
+<meta property="article:modified_time" content="2023-01-13T18:06:40.223Z">
 <meta property="article:author" content="Cheng Ting">
 <meta property="article:tag" content="Ruby on Rails">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.imgur.com/LALBWQs.png">
+<meta name="twitter:image" content="https://i.imgur.com/9ZYEuqU.png">
 
-<link rel="canonical" href="https://danny3766.github.io/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/">
+<link rel="canonical" href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-002-Rails-%E9%81%8B%E4%BD%9C%E6%A8%A1%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -54,7 +58,7 @@
   };
 </script>
 
-  <title>Ruby on Rails 小試身手 (初識 Rails) | Cheng Ting's Blog</title>
+  <title>Ruby on Rails 網站開發 練習 - 002 (Rails 運作模式) | Cheng Ting's Blog</title>
   
 
 
@@ -200,7 +204,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-002-Rails-%E9%81%8B%E4%BD%9C%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/self-image.jpg">
@@ -213,7 +217,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Ruby on Rails 小試身手 (初識 Rails)
+          Ruby on Rails 網站開發 練習 - 002 (Rails 運作模式)
         </h1>
 
         <div class="post-meta">
@@ -222,16 +226,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2022-12-13 02:34:47" itemprop="dateCreated datePublished" datetime="2022-12-13T02:34:47+08:00">2022-12-13</time>
+              <time title="創建時間：2023-01-14 01:11:22 / 修改時間：02:06:40" itemprop="dateCreated datePublished" datetime="2023-01-14T01:11:22+08:00">2023-01-14</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-01-14 01:55:30" itemprop="dateModified" datetime="2023-01-14T01:55:30+08:00">2023-01-14</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -253,72 +251,45 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span>
-<ol>
-<li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p>
-</li>
-<li><p>發明人:David Heinemeier Hansson(DHH)</p>
-</li>
-<li><p>首次公開發表:西元2004年</p>
-</li>
-<li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
-</li>
-</ol>
-<h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
-<li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
-</li>
-<li><p>CoC &#x3D; 慣例優於設定 (Covention Over Configuration)</p>
-</li>
-</ol>
-<h2 id="使用-Scaffold-創建一個-table-出來"><a href="#使用-Scaffold-創建一個-table-出來" class="headerlink" title="使用 Scaffold 創建一個 table 出來"></a>使用 Scaffold 創建一個 table 出來</h2><p>第一步 輸入指令:</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">generate scaffold <span class="title class_">User</span> <span class="symbol">name:</span>string <span class="symbol">email:</span>string <span class="symbol">tel:</span>string</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以偷懶一下少敲打一些字 ：<br>generate &#x3D; g<br>String 型態可省略不打<br>bin&#x2F;rails 可以輸入 rails 就好</li>
+        <h2 id="Rails-運作模式"><a href="#Rails-運作模式" class="headerlink" title="Rails 運作模式"></a>Rails 運作模式</h2><ul>
+<li>Route + MVC<span id="more"></span></li>
 </ul>
 <hr>
-<p>至於什麼時候用<code>bin/rails</code>這個指令，是因為在本機有安裝不同版本的rails，每個專案開發時使用的版本不同，<code>bin/rails</code>會只針對專案本身使用的rails版本去執行。</p>
-<p>而<code>rails</code>預設會使用目前本機端內最新版本的rails來執行。</p>
+<h2 id="先進到專案中的routes-rb"><a href="#先進到專案中的routes-rb" class="headerlink" title="先進到專案中的routes.rb"></a>先進到專案中的routes.rb</h2><p><img src="https://i.imgur.com/9ZYEuqU.png"></p>
+<h3 id="建立-Route"><a href="#建立-Route" class="headerlink" title="建立 Route"></a>建立 Route</h3><p>輸入</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resources candidates /<span class="regexp">/ 這行表示要建立 candidates 相關的資源出來</span></span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>所以有時候會發現某些專案輸入<code>rails g</code>不會執行，要使用<code>bin/rails</code>才會執行。</li>
+<li>其實在做網址設計的時候，我們會把每一個網址或是 url 當作資源來看待</li>
+<li>早期的命名習慣 <code>/member_edit.php?id=2</code> 或 <code>/edit_member.php?id=2</code> 或 <code>/member.php?id=2</code></li>
 </ul>
 <hr>
-<p>讓我們開始認識Ruby on Rails，看看它有什麼厲害的地方吧！</p>
-<p>首先：cd 到我們要建立專案的目錄底下輸入指令:<code>rails new test-scaffold</code>再 cd 到 test-scaffold 目錄中。</p>
-<p>接著我們就開始在終端機輸入指令</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails g scaffold <span class="title class_">User</span> name email tel</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/LALBWQs.png"></p>
-<p>可以看到Rails已經幫我們生成好多檔案出來，雖然目前還不了解這些檔案的個別功用，之後在實體課程中會進一步了解。這些檔案就是網站架構起來的關鍵。</p>
-<p>看到指令中<code>scaffold</code>這個單字，中文翻譯「鷹架」，從這邊其實大概可以猜的出來這個指令應該是要產生類似腳架的結構出來，一般我們日常生活最常看到這種腳架或鷹架結構，就是建造房屋、大樓。所以看到這行指令會猜想應該是產生要架構出網站的「鷹架」。</p>
-<p>這個指令所產生一整串的檔案，其中db&#x2F;migrate&#x2F;這個目錄開頭的.rb檔，是一個描述檔。描述「資料庫的架構長什麼樣子」。在這邊可以先理解成描述我們剛剛輸入的指令，之後要建立一張資料表，表單名稱叫做User，且表單裡面會有一些欄位分別是要存放name、email、tellphone等資料。</p>
-<p>你會想問為什麼會有這個表單，它的作用如何？這就要說到Rails是由一種叫做 MVC 的軟體構模式來設計網站，主要目的是分化程式的權責，口語化來說，就是各司其職，比如一間餐廳，廚師負責烹飪出菜，服務人員負責接待客人、帶位，收銀櫃檯人員負責結帳，就是分工合作的概念。</p>
 <ul>
-<li><p>M(Model):模型，它主要負責跟資料庫溝通。該拿取什麼資料透過Model。</p>
-</li>
-<li><p>V(View):可以當作讓使用者看到的畫面，所以稱為「View」。主要是呈現畫面讓使用者看到。</p>
-</li>
-<li><p>C(Controller):控制器，可以想像成「指揮官」，contoller負責指揮model要去資料庫拿什麼資料，然後決定要用什麼樣的畫面讓view呈現給使用者看到。</p>
-</li>
+<li><h3 id="REST-風格"><a href="#REST-風格" class="headerlink" title="REST 風格"></a>REST 風格</h3><code>GET /members  =&gt; list.all  // 列出所有的會員資料</code><br><code>GET /members/2  //表示要看2號會員的資料</code><br><code>GET /members/edit  //表示要編輯2號會員的資料</code><br><code>GET /books  //表示要看所有的書</code><br><code>GET /books/2  //表示要看2號書的資料</code><br><code>GET /books/2/edit   //表示要編輯2號書</code></li>
 </ul>
 <hr>
-<p>所以剛剛前面提到的「描述檔」就是跟model有關係的，因為model才會知道要怎麼拿取資料。之後的實體課程會再進一步的學習。</p>
-<p>第二步：把 scaffold 的資料表設定具象化</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails <span class="symbol">db:</span>migrate</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/hXOlgae.png"></p>
-<p>這個步驟是把描述檔，生成User資料表。</p>
-<p>第三步：啟動伺服器</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails server 或是 減寫 rails s</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/gVRiWXF.png"></p>
-<p>然後，打開瀏覽器，輸入網址<br><code>http://localhost:3000/users</code><br><img src="https://i.imgur.com/Rt2Ohey.png"></p>
-<p>耶～～恭喜你，成功建立一個簡單的表單網頁了~~~</p>
-<p>按下<code>New user</code>會看到一個新增user的頁面</p>
-<p><img src="https://i.imgur.com/nsEcMsk.png"></p>
-<p>可以快速的產生一個簡單的user頁面。還能做到新增&#x2F;修改&#x2F;刪除。這邊就不放上修改及刪除的頁面了。</p>
-<p><img src="https://i.imgur.com/lMGDM7R.png"></p>
-<p><img src="https://i.imgur.com/CXVHCqt.png"></p>
-<p>第一次看到，哇!!!真是太神奇了，Rails。</p>
-<p>這就是第一次與Rails見面。也是第一次寫學習筆記的分享。</p>
-<p>或許有些觀念是沒有理解清楚，可以幫忙給予糾正。</p>
-<p>期許自己透過分享學習筆記的過程，課程中較模糊或沒有完全理解的觀念可以慢慢的整理清楚。</p>
+<ul>
+<li><h3 id="回到檔案中，輸入完resources-candidates後"><a href="#回到檔案中，輸入完resources-candidates後" class="headerlink" title="回到檔案中，輸入完resources candidates後"></a>回到檔案中，輸入完resources candidates後</h3>打開終端機輸入<code>rails routes</code><br>會看到一個路徑對照表(<strong>Routes</strong>)，看到 Rails 幫我們產生的8條路徑，7個方法(action)<br><img src="https://i.imgur.com/tEKNxIg.png"></li>
+</ul>
+<hr>
+<p>如果想要看到少一點的路徑，比如只要看到index，show。可以輸入<br><img src="https://i.imgur.com/jxyqHBr.png"></p>
+<hr>
+<p>再打開終端機輸入一次<code>rails routes</code>，明顯看到路徑變少了<br><img src="https://i.imgur.com/KCSkf8g.png"></p>
+<hr>
+<p>路徑都打開了，先啟動<code>rails server</code>，接著就打開瀏覽器來確認一下<br>在網址列輸入<code>https://localhost:3000/candidates</code><br>沒有意外的話，會看到紅色的錯誤訊息&lt;Routes沒有找到CandidatesController&gt;<br><img src="https://i.imgur.com/okm5Qex.png"></p>
+<hr>
+<p>這時候不用擔心，看到錯誤訊息出現表示是正確的。<br>竟然沒有找到CandidatesController，那我們就自己做給Routes。<br>打開終端機輸入<code>rails generate controller candidates</code> 或是 <code>rails g controller candidates</code><br>如果不用指令，我們就自己動手建立一個，找到專案裡面的<code>/app/controllers</code>按右鍵新增檔案<br>檔案名稱：<code>candidates_controller.rb</code> &#x2F;&#x2F; 這邊記得檔案名稱使用蛇式(snake_case)命名法。<br>而檔案裡面的<br>class名稱：CandidatesController &#x2F;&#x2F; 使用駝峰式(CamelCase)命名法。<br><img src="https://i.imgur.com/jmG09Zm.png"></p>
+<hr>
+<p>而這個 CandidatesController 繼承自已經寫好的ApplicationController<br>建立好之後，我們一樣回到瀏覽器，再次的進入 candidates 頁面，重新整理，登愣！還是一樣出現紅色的錯誤訊息頁面<br><img src="https://i.imgur.com/ty6BPcu.png"><br>看看錯誤訊息寫了什麼？ index 這個 action 找不到。<br>跟之前一樣，找不到 action？！我們做給你</p>
+<hr>
+<h2 id="在-controller-建立-index-action"><a href="#在-controller-建立-index-action" class="headerlink" title="在 controller 建立 index action"></a>在 controller 建立 index action</h2><p><img src="https://i.imgur.com/TdMUfVB.png"><br>建立完成後，打開瀏覽器，又出現新的錯誤訊息，沒有找到對應 index 的樣板(template)<br><img src="https://i.imgur.com/sI4e8AD.png"></p>
+<hr>
+<p>一樣的方式，少了什麼東西，我們就做給你。其實 template 就是view裡面的頁面。<br>來到 view 當中，直接新增一個資料夾並命名candidates。<br>會這樣命名，也是依照 Rails 的慣例 (CoC)。<br><img src="https://i.imgur.com/Vn4b7ES.png"></p>
+<hr>
+<p>新增一個index.html.erb檔案<br><img src="https://i.imgur.com/Kbpcfuq.png"></p>
+<hr>
+<blockquote>
+<h3 id="到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate"><a href="#到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate" class="headerlink" title="到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate"></a>到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate</h3></blockquote>
 
     </div>
 
@@ -337,12 +308,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/12/05/test/" rel="prev" title="">
-      <i class="fa fa-chevron-left"></i> 
+    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/" rel="prev" title="Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/" rel="next" title="Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)">
-      Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統) <i class="fa fa-chevron-right"></i>
+    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-003-%E6%96%B0%E5%A2%9E%E4%B8%80%E5%80%8B%E5%80%99%E9%81%B8%E4%BA%BAmodel/" rel="next" title="Ruby on Rails 網站開發 練習 - 003 (新增一個候選人model)">
+      Ruby on Rails 網站開發 練習 - 003 (新增一個候選人model) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -402,7 +373,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails"><span class="nav-number">1.</span> <span class="nav-text">Ruby on Rails 小試身手 (初識 Rails)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rails-%E6%9C%89%E5%85%A9%E5%A4%A7%E8%A8%AD%E8%A8%88%E5%93%B2%E5%AD%B8"><span class="nav-number">1.1.</span> <span class="nav-text">Rails 有兩大設計哲學</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Scaffold-%E5%89%B5%E5%BB%BA%E4%B8%80%E5%80%8B-table-%E5%87%BA%E4%BE%86"><span class="nav-number">1.2.</span> <span class="nav-text">使用 Scaffold 創建一個 table 出來</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rails-%E9%81%8B%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">Rails 運作模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E9%80%B2%E5%88%B0%E5%B0%88%E6%A1%88%E4%B8%AD%E7%9A%84routes-rb"><span class="nav-number">2.</span> <span class="nav-text">先進到專案中的routes.rb</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-Route"><span class="nav-number">2.1.</span> <span class="nav-text">建立 Route</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REST-%E9%A2%A8%E6%A0%BC"><span class="nav-number">2.2.</span> <span class="nav-text">REST 風格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E5%88%B0%E6%AA%94%E6%A1%88%E4%B8%AD%EF%BC%8C%E8%BC%B8%E5%85%A5%E5%AE%8Cresources-candidates%E5%BE%8C"><span class="nav-number">2.3.</span> <span class="nav-text">回到檔案中，輸入完resources candidates後</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-controller-%E5%BB%BA%E7%AB%8B-index-action"><span class="nav-number">3.</span> <span class="nav-text">在 controller 建立 index action</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B0%E9%80%99%E9%82%8A%E5%B0%B1%E7%AE%97%E5%BB%BA%E7%AB%8B%E5%AE%8C%E6%88%90%E4%B8%80%E5%80%8Bindex%EF%BC%8C%E4%B8%8B%E4%B8%80%E5%A0%82%E8%AA%B2%E7%A8%8B%E5%B0%B1%E8%A6%81%E9%96%8B%E5%A7%8B%E4%BE%86%E6%96%B0%E5%A2%9ECandidate"><span class="nav-number">3.1.</span> <span class="nav-text">到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
