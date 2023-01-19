@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="練習 - 015 (效能改善 N+1 Query)上一堂課，已經可以正確的顯示投票紀錄。但是透過rails console可以看到 server 的 log，每次投票都會計算一次。 (N+1 Query)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - 015 ( 效能改善 N+1 Query)">
+<meta property="og:url" content="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-015-%E6%95%88%E8%83%BD%E6%94%B9%E5%96%84-N-1-Query/index.html">
+<meta property="og:site_name" content="Cheng Ting&#39;s Blog">
+<meta property="og:description" content="練習 - 015 (效能改善 N+1 Query)上一堂課，已經可以正確的顯示投票紀錄。但是透過rails console可以看到 server 的 log，每次投票都會計算一次。 (N+1 Query)">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/5Dahc4w.png">
+<meta property="og:image" content="https://i.imgur.com/BcXt7om.png">
+<meta property="og:image" content="https://i.imgur.com/dz9NYaV.png">
+<meta property="og:image" content="https://i.imgur.com/OtkpDMy.png">
+<meta property="og:image" content="https://i.imgur.com/e8sHeEN.png">
+<meta property="og:image" content="https://i.imgur.com/uBCjsNO.png">
+<meta property="og:image" content="https://i.imgur.com/mHwN7g2.png">
+<meta property="og:image" content="https://i.imgur.com/FukqXwH.png">
+<meta property="og:image" content="https://i.imgur.com/fZLlk7H.png">
+<meta property="og:image" content="https://i.imgur.com/o12lQ3L.png">
+<meta property="og:image" content="https://i.imgur.com/Z6MW28a.png">
+<meta property="og:image" content="https://i.imgur.com/PICPIDk.png">
+<meta property="og:image" content="https://i.imgur.com/EThCpUb.png">
+<meta property="og:image" content="https://i.imgur.com/VRmJw9J.png">
+<meta property="og:image" content="https://i.imgur.com/bKRnCjU.png">
+<meta property="og:image" content="https://i.imgur.com/nlIAEwZ.png">
+<meta property="og:image" content="https://i.imgur.com/XUwuRwv.png">
+<meta property="og:image" content="https://i.imgur.com/NLnuZBE.png">
+<meta property="og:image" content="https://i.imgur.com/aGLTATA.png">
+<meta property="og:image" content="https://i.imgur.com/wyQEkeF.png">
+<meta property="og:image" content="https://i.imgur.com/dZba1TX.jpg">
+<meta property="og:image" content="https://i.imgur.com/qRvg4V8.png">
+<meta property="og:image" content="https://i.imgur.com/nZd6Xp1.png">
+<meta property="og:image" content="https://i.imgur.com/ylt6u7d.png">
+<meta property="og:image" content="https://i.imgur.com/6AOnyHf.png">
+<meta property="og:image" content="https://i.imgur.com/9JLBxwE.png">
+<meta property="article:published_time" content="2023-01-19T04:20:43.000Z">
+<meta property="article:modified_time" content="2023-01-19T04:30:02.279Z">
+<meta property="article:author" content="Cheng Ting">
+<meta property="article:tag" content="Ruby on Rails">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/5Dahc4w.png">
+
+<link rel="canonical" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-015-%E6%95%88%E8%83%BD%E6%94%B9%E5%96%84-N-1-Query/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Ruby on Rails 網站開發 練習 - 015 ( 效能改善 N+1 Query) | Cheng Ting's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cheng Ting's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cheng Ting's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">PATH To Engineer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-015-%E6%95%88%E8%83%BD%E6%94%B9%E5%96%84-N-1-Query/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self-image.jpg">
+      <meta itemprop="name" content="Cheng Ting">
+      <meta itemprop="description" content="轉職 ● 分享">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheng Ting's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ruby on Rails 網站開發 練習 - 015 ( 效能改善 N+1 Query)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2023-01-19 12:20:43 / 修改時間：12:30:02" itemprop="dateCreated datePublished" datetime="2023-01-19T12:20:43+08:00">2023-01-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url" rel="index"><span itemprop="name">ASTRO CAMP 線上課程學習筆記</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="練習-015-效能改善-N-1-Query"><a href="#練習-015-效能改善-N-1-Query" class="headerlink" title="練習 - 015 (效能改善 N+1 Query)"></a>練習 - 015 (效能改善 N+1 Query)</h1><p>上一堂課，已經可以正確的顯示投票紀錄。但是透過<code>rails console</code>可以看到 server 的 log，每次投票都會計算一次。 <strong>(N+1 Query)</strong></p>
+<span id="more"></span>
+<p><img src="https://i.imgur.com/5Dahc4w.png" alt="圖"></p>
+<hr>
+<p>為了改善效能問題，此時我們就需要使用<code>Counter Cache</code></p>
+<h3 id="Counter-Cache-概念"><a href="#Counter-Cache-概念" class="headerlink" title="Counter Cache 概念"></a>Counter Cache 概念</h3><ul>
+<li>當我們的票寫入到投票紀錄的當下，同時會更新一份候選人票數到「候選人表單」的欄位中。</li>
+<li>這樣我們在讀取候選人票數的時候，就可以不用再 count 票數的欄位。</li>
+<li>因為在候選人的<code>table</code>已經有專門的欄位記載票數。</li>
+<li>這個欄位的「數字」會在每次按下<code>vote</code>的時候更新欄位的數字。</li>
+</ul>
+<hr>
+<h3 id="所以我們現在需要幫原本的Candidate-Model增加欄位："><a href="#所以我們現在需要幫原本的Candidate-Model增加欄位：" class="headerlink" title="所以我們現在需要幫原本的Candidate Model增加欄位："></a>所以我們現在需要幫原本的<code>Candidate Model</code>增加欄位：</h3><ol>
+<li>欄位名稱(依照慣例&lt;關聯的table名字_count&gt;)：vote_logs_count</li>
+<li>欄位資料型態：integer</li>
+</ol>
+<p>打開終端機輸入指令產生一個migration，<code>rails g migration add_counter_cache_to_candidate</code><br><img src="https://i.imgur.com/BcXt7om.png"><br><img src="https://i.imgur.com/dz9NYaV.png"></p>
+<p>再到 <code>db/migrate/</code> 可以找到剛剛透過終端機指令產生的 migration 檔案，檔案裡長出來的<code>class</code>名稱<code>AddCounterCacheToCandidate</code>其實會對應上我們輸入的名字。<br><img src="https://i.imgur.com/OtkpDMy.png"></p>
+<hr>
+<p>上網找尋 Rails 新增欄位的方法<code>add_column</code></p>
+<ul>
+<li>add_column(要加入的表單名稱, 欄位名稱, 資料型態, option &#x3D; {})<br><img src="https://i.imgur.com/e8sHeEN.png" alt="圖"></li>
+</ul>
+<hr>
+<p>進到<code>AddCounterCacheToCandidate</code> migration檔案在<code>change</code>方法裡面增加一行程式碼。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_column <span class="symbol">:candidates</span>, <span class="symbol">:vote_logs_count</span>, <span class="symbol">:integer</span>, <span class="symbol">default:</span> <span class="number">0</span></span><br><span class="line"><span class="comment">#加入欄位:加進candidate表單, 欄位名稱vote_logs_count, 型態是integer, 預設值為0</span></span><br></pre></td></tr></table></figure>
+<p><strong>這裡要非常注意table名稱是複數(candidates)!</strong><br><strong>這裡要非常注意table名稱是複數(andidates)!</strong><br><strong>這裡要非常注意table名稱是複數(candidates)!</strong><br><img src="https://i.imgur.com/uBCjsNO.png"></p>
+<p>這裡已經確認migration檔案裡面的內容沒有問題，接下來就是要把這個migration「具現化」，使用終端機執行<code>rails db:migrate</code><br><img src="https://i.imgur.com/mHwN7g2.png"></p>
+<p>接著打開<code>db/migrate/schema.rb</code>來看看是否剛剛新增的欄位有加入成功。登愣!!!恭喜成功加入。<br><img src="https://i.imgur.com/FukqXwH.png"></p>
+<p>但是不是增欄位這樣就有效果，還要進到<code>VoteLog Model</code>裡面做一件很神奇的事情。要在原本的<code>belongs_to :candidate</code>後面加上<code>counter_cache: true</code>。<br><img src="https://i.imgur.com/fZLlk7H.png"></p>
+<p>增加<code>counter_cache: true</code>的用意，就是當我們把那張票寫入到資料庫的同時，也會執行「更新票數」的動作。把票數更新到哪裡呢？</p>
+<ul>
+<li>會把票數更新到<code>candidates</code>表單的<code>vote_logs_count</code>欄位<br><img src="https://i.imgur.com/o12lQ3L.png"></li>
+</ul>
+<hr>
+<p>來確認看看是否有成功寫入。重新整理瀏覽器。確認目前頁面資料。<br><img src="https://i.imgur.com/Z6MW28a.png"></p>
+<hr>
+<p>按下<code>vote</code>，投給<code>ddd</code>候選人8票。<br><img src="https://i.imgur.com/PICPIDk.png"><br>確定每次的票數都會同步更新到畫面上，目前<code>ddd</code>候選人有10票。</p>
+<p>觀察一下終端機上<code>rails server</code>顯示的紀錄，每次投票的時候有做了哪些事情，先截圖其中一筆資料。<br><img src="https://i.imgur.com/EThCpUb.png"></p>
+<p>確實在寫入票數資料的同時也去更新了<code>candidates</code>表單的<code>vote_logs_count</code>欄位。</p>
+<p>但是我們也會發現現在rails server 每次撈資料的時候，都會再去撈一次，是因為在<code>view/index.html.erb</code>的<code>&lt;%= candidate.vote_logs.count %&gt;</code> 它會去<code>vote_logs</code>這個表單<br>去撈count。</p>
+<p>不是從<code>candidates</code>表單裡面的<code>vote_logs_count</code>欄位撈資料。所以要更改為<code>&lt;%= candidate.vote_logs_count %&gt;</code><br><img src="https://i.imgur.com/VRmJw9J.png"></p>
+<p>這時候重新整理瀏覽器畫面，看到的票數資料才是正確的。對<code>eee</code>候選人按下<code>vote</code>。<br><img src="https://i.imgur.com/bKRnCjU.png"></p>
+<hr>
+<p>我們可以發現 rails server 的紀錄顯示只有撈一次而已。<br><img src="https://i.imgur.com/nlIAEwZ.png"></p>
+<p>是不是發現效能有變更好一點了。但其實還可以再更優化。就是在<code>view/index.html.erb</code>的<code>&lt;%= candidate.vote_logs_count %&gt;</code>去修改。</p>
+<p>我們現在是讓它直接讀取那個欄位的資料，但是其實還有一個更「漂亮」的寫法。我們一樣透過<code>vote_logs</code>，畢竟<code>candidate</code> 有 <code>has_many :vote_logs</code>。</p>
+<p>所以我們可以把<code>&lt;%= candidate.vote_logs_count %&gt;</code>改成<br><code>&lt;%= candidate.vote_logs.size %&gt;</code></p>
+<p>為什麼用這樣的寫法？目前重新整理頁面看到的結果兩種寫法顯示的結果是一樣的，可以為什麼要用<code>.size</code>而不是直接讀取<code>vote_logs_count</code>欄位。為什麼用<code>.size</code>的寫法？</p>
+<ul>
+<li>原因就是：以程式碼的可讀性，使用<code>&lt;%= candidate.vote_logs.size %&gt;</code> 比較可以看出關聯性。</li>
+</ul>
+<hr>
+<p>不曉得到這邊大家有沒有發現一個事情，現在顯示的票數，好像跟一開始的不太一樣。打開<code>rails console</code>來看一下目前總票數。總共投了24票。<br><img src="https://i.imgur.com/XUwuRwv.png"></p>
+<p>可是瀏覽器畫面顯示的票數似乎不太一樣。</p>
+<p>是因為後來才加入的<code>counter cache</code>，現在瀏覽器畫面顯示的票數是<code>counter cashe</code>紀錄的票數。</p>
+<p>我們可以google搜尋關鍵字：rails api reset counter_cache<br><img src="https://i.imgur.com/NLnuZBE.png"></p>
+<p>找到了可以使用的方法，但是我們要測試看看，可以用<code>rake</code>語法來寫一個<code>task</code>。要寫在哪個目錄底下呢？<br>我們到<code>db/lib/tasks</code>目錄裡面新增一個任務<code>rest_counter.rake</code>檔案。<br><img src="https://i.imgur.com/aGLTATA.png"></p>
+<p><img src="https://i.imgur.com/wyQEkeF.png"></p>
+<p>這樣以後在終端機輸入<code>rake -T</code>就可以在任務列表中找到我們今天新增的這個<code>reset_counter</code>這個 task。<br><img src="https://i.imgur.com/dZba1TX.jpg"></p>
+<hr>
+<p>接著我們就要來寫程式了，進到<code>reset_counter.rake</code>，在<code>tesk ...do...end</code>裡面來寫程式。<br><img src="https://i.imgur.com/qRvg4V8.png"></p>
+<p>再多增加一行<code>puts &quot;prepare to reset counter&quot;</code>，表示執行<code>reset_counter</code>前會先印出<code>prepare to reset counter</code><br><img src="https://i.imgur.com/nZd6Xp1.png"></p>
+<p>執行完畢印出<code>done!</code>，所以在最下面增加一行<code>puts &quot;done!&quot;</code><br><img src="https://i.imgur.com/ylt6u7d.png"></p>
+<p>終端機輸入<code>rails db:reset_counter</code><br><img src="https://i.imgur.com/6AOnyHf.png"></p>
+<p>這時候我們再回到瀏覽器重新整理畫面，會發現票數就更新了。<br>從原本的 0票 8票 1票 —&gt; 7票 10票 7票。這樣票數就正確了!!!<br><img src="https://i.imgur.com/9JLBxwE.png"></p>
+<hr>
+<p>目前我們已經有 新增&#x2F;修改&#x2F;刪除&#x2F;投票 都有成功寫出來了。但是現在我們的code長得樣子是滿雜亂的，需要再整理一下。把一些功能寫成方法，這樣整個專案的程式碼可讀性會更高。</p>
+<blockquote>
+<h3 id="下一堂課程，整理程式碼"><a href="#下一堂課程，整理程式碼" class="headerlink" title="下一堂課程，整理程式碼"></a>下一堂課程，整理程式碼</h3></blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ruby-on-Rails/" rel="tag"># Ruby on Rails</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-014-%E6%8A%95%E7%A5%A8%E7%B4%80%E9%8C%84%E8%A1%A8/" rel="prev" title="Ruby on Rails 網站開發 練習 - 014 ( 投票紀錄表 )">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - 014 ( 投票紀錄表 )
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-016-%E6%95%B4%E7%90%86code/" rel="next" title="Ruby on Rails 網站開發 練習 - 016 ( 整理code )">
+      Ruby on Rails 網站開發 練習 - 016 ( 整理code ) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B7%B4%E7%BF%92-015-%E6%95%88%E8%83%BD%E6%94%B9%E5%96%84-N-1-Query"><span class="nav-number">1.</span> <span class="nav-text">練習 - 015 (效能改善 N+1 Query)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Counter-Cache-%E6%A6%82%E5%BF%B5"><span class="nav-number">1.0.1.</span> <span class="nav-text">Counter Cache 概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E4%BB%A5%E6%88%91%E5%80%91%E7%8F%BE%E5%9C%A8%E9%9C%80%E8%A6%81%E5%B9%AB%E5%8E%9F%E6%9C%AC%E7%9A%84Candidate-Model%E5%A2%9E%E5%8A%A0%E6%AC%84%E4%BD%8D%EF%BC%9A"><span class="nav-number">1.0.2.</span> <span class="nav-text">所以我們現在需要幫原本的Candidate Model增加欄位：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E5%A0%82%E8%AA%B2%E7%A8%8B%EF%BC%8C%E6%95%B4%E7%90%86%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">1.0.3.</span> <span class="nav-text">下一堂課程，整理程式碼</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cheng Ting"
+      src="/images/self-image.jpg">
+  <p class="site-author-name" itemprop="name">Cheng Ting</p>
+  <div class="site-description" itemprop="description">轉職 ● 分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若要轉載文章，麻煩請保留原作者名稱與原始連結。</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

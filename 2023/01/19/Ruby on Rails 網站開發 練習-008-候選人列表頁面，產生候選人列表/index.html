@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料我們只要透過Model就可以幫我們去把資料拿出來。進到CandidatesController，接著要來寫index action。這樣才能知道，我們要把什麼東西放到view&#x2F;&#x2F;index.html.erb裡面讓使用者看到。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - 008 (候選人列表頁面，產生候選人列表)">
+<meta property="og:url" content="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-008-%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8%E9%A0%81%E9%9D%A2%EF%BC%8C%E7%94%A2%E7%94%9F%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8/index.html">
+<meta property="og:site_name" content="Cheng Ting&#39;s Blog">
+<meta property="og:description" content="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料我們只要透過Model就可以幫我們去把資料拿出來。進到CandidatesController，接著要來寫index action。這樣才能知道，我們要把什麼東西放到view&#x2F;&#x2F;index.html.erb裡面讓使用者看到。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/ygOWzp1.png">
+<meta property="og:image" content="https://i.imgur.com/8S5j1wh.png">
+<meta property="og:image" content="https://i.imgur.com/E9Pqjmh.png">
+<meta property="og:image" content="https://i.imgur.com/mD3xlxS.png">
+<meta property="og:image" content="https://i.imgur.com/Rm6jgfV.png">
+<meta property="og:image" content="https://i.imgur.com/Z7WrksF.png">
+<meta property="og:image" content="https://i.imgur.com/Z6k5Aby.png">
+<meta property="og:image" content="https://i.imgur.com/SfUZx2u.png">
+<meta property="og:image" content="https://i.imgur.com/Ua1H0c9.png">
+<meta property="og:image" content="https://i.imgur.com/HGsjQWP.png">
+<meta property="og:image" content="https://i.imgur.com/bz5QYYM.png">
+<meta property="og:image" content="https://i.imgur.com/vMs0zVy.png">
+<meta property="og:image" content="https://i.imgur.com/uGbXBV8.png">
+<meta property="og:image" content="https://i.imgur.com/ytgOghT.png">
+<meta property="og:image" content="https://i.imgur.com/5llYzLM.png">
+<meta property="og:image" content="https://i.imgur.com/HF0RlJl.png">
+<meta property="og:image" content="https://i.imgur.com/E0yrPQf.png">
+<meta property="article:published_time" content="2023-01-19T03:28:15.000Z">
+<meta property="article:modified_time" content="2023-01-19T03:34:03.578Z">
+<meta property="article:author" content="Cheng Ting">
+<meta property="article:tag" content="Ruby on Rails">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/ygOWzp1.png">
+
+<link rel="canonical" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-008-%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8%E9%A0%81%E9%9D%A2%EF%BC%8C%E7%94%A2%E7%94%9F%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Ruby on Rails 網站開發 練習 - 008 (候選人列表頁面，產生候選人列表) | Cheng Ting's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cheng Ting's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cheng Ting's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">PATH To Engineer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-008-%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8%E9%A0%81%E9%9D%A2%EF%BC%8C%E7%94%A2%E7%94%9F%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self-image.jpg">
+      <meta itemprop="name" content="Cheng Ting">
+      <meta itemprop="description" content="轉職 ● 分享">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheng Ting's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ruby on Rails 網站開發 練習 - 008 (候選人列表頁面，產生候選人列表)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2023-01-19 11:28:15 / 修改時間：11:34:03" itemprop="dateCreated datePublished" datetime="2023-01-19T11:28:15+08:00">2023-01-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url" rel="index"><span itemprop="name">ASTRO CAMP 線上課程學習筆記</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料"><a href="#要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料" class="headerlink" title="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料"></a>要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料</h2><h3 id="我們只要透過Model就可以幫我們去把資料拿出來。"><a href="#我們只要透過Model就可以幫我們去把資料拿出來。" class="headerlink" title="我們只要透過Model就可以幫我們去把資料拿出來。"></a>我們只要透過Model就可以幫我們去把資料拿出來。</h3><p>進到<code>CandidatesController</code>，接著要來寫<code>index action</code>。這樣才能知道，我們要把什麼東西放到<code>view//index.html.erb</code>裡面讓使用者看到。</p>
+<span id="more"></span>
+<p>在<code>index action</code> 裡面我們增加<code>@candidates = Candidate.all</code>。這裡我們把<code>candidate.rb</code>這個 Model 裡面的所有候選人都拿出來，放到實體變數@candidates。<br><img src="https://i.imgur.com/ygOWzp1.png"><br>為何將變數取名為複數型態，是因為因為如果知道我們現在拿到的資料看起來是一個集合、一個群體，會用複數的變數名稱來取名。</p>
+<hr>
+<h2 id="接著進入到view-index-html-erb，我們要來讓從-Model-拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個-lt-五個欄位的table-gt"><a href="#接著進入到view-index-html-erb，我們要來讓從-Model-拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個-lt-五個欄位的table-gt" class="headerlink" title="接著進入到view/index.html.erb，我們要來讓從 Model 拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個&lt;五個欄位的table&gt;"></a>接著進入到<code>view/index.html.erb</code>，我們要來讓從 Model 拿出來的候選人資料，可以在頁面上印出來。<br>★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML<br>在頁面上，先新增一個&lt;五個欄位的table&gt;<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;Name&lt;/td&gt;    #名稱</span><br><span class="line">        &lt;td&gt;Party&lt;/td&gt;    #政黨</span><br><span class="line">        &lt;td&gt;Age&lt;/td&gt;    #年齡</span><br><span class="line">        &lt;td&gt;Politics&lt;/td&gt;    #政見</span><br><span class="line">        &lt;td&gt;Action&lt;/td&gt;    #動作：可能是 新增 or 刪除</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure></h2><h2 id="那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的-table-複製一份放到迴圈裡面，同時將原本的欄位內容替換"><a href="#那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的-table-複製一份放到迴圈裡面，同時將原本的欄位內容替換" class="headerlink" title="那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的 table 複製一份放到迴圈裡面，同時將原本的欄位內容替換"></a>那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;% @candidates.each do |candidate| %&gt;</span><br><span class="line">&lt;% end %&gt;</span><br></pre></td></tr></table></figure><br>接著把剛剛建立的 table 複製一份放到迴圈裡面，同時將原本的欄位內容替換<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;% @candidates.each do |candidate| %&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.name %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.party %&gt;&lt;/td&gt;     </span><br><span class="line">    &lt;td&gt;&lt;%= candidate.age %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.politics %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;Action&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;% end %&gt;</span><br></pre></td></tr></table></figure></h2><p>最後寫成<br><img src="https://i.imgur.com/8S5j1wh.png"><br>接著打開瀏覽器看看畫面，有成功顯示前面我們增加的兩筆候選人資料<br><img src="https://i.imgur.com/E9Pqjmh.png"><br>這時候我們來新增一筆候選人叫<code>kk</code>的資料。按下送出按鈕，看看結果會發生什麼？<br><img src="https://i.imgur.com/mD3xlxS.png"></p>
+<hr>
+<p>哇!有成功新增資料，畫面也有出現提示<br><img src="https://i.imgur.com/Rm6jgfV.png"><br>這邊就要再思考另外一件事情，候選人頁面顯示的欄位有包含政見(politics)。如果候選人的政見，字數非常多，那畫面會很擁擠不好看。<br>一般使用者想要是click候選人名稱後，會跳到新的頁面，這個頁面只會顯示此候選人的個人資料，包含政見。我們就開始來修該一下吧。</p>
+<hr>
+<ol>
+<li>拿掉<code>view/index.html.erb</code>的<code>politics</code>欄位。<br><img src="https://i.imgur.com/Z7WrksF.png"></li>
+<li>幫<code>Name</code>欄位加上超連結功能，要超連結的網址先暫時以＃代替，因為要知道要去的路徑，需要請門口阿姨(Routes)告訴我們。<br><img src="https://i.imgur.com/Z6k5Aby.png"></li>
+<li>打開終端機輸入<code>rails routes</code>，我們要找的路徑需要跟<code>id</code>有相關。可以看到路徑<code>candidates/:id(.:format)</code>，有一個對應的<code>controller#action</code>。(<code>candidates#show</code>)<br><img src="https://i.imgur.com/SfUZx2u.png"><br>所以這時候回到<code>view/index.html.erb</code>我們來補上超連結的路徑。<br><img src="https://i.imgur.com/Ua1H0c9.png"><br>打開瀏覽器，直接來測試看看，點擊超連結會發生什麼事？<br>竟然出現錯誤訊息。<br><img src="https://i.imgur.com/HGsjQWP.png"></li>
+</ol>
+<hr>
+<p>在把錯誤訊息處理前，我們先來看看剛剛的超連結寫法，其實不是很好看，意思也不明確，這時候又可以請出一個小幫手<code>&lt;%= link_to &#39;要顯示的字樣&#39;, 要去的位址 %&gt;</code><br>先來修改一下<code>&lt;a href=&quot;/candidates/new&quot;&gt;Add Candidate&lt;/a&gt;</code><br>換成<code>&lt;%= link_to &#39;Add Candidate&#39;, &#39;/candidates/new&#39; %&gt;</code><br><img src="https://i.imgur.com/bz5QYYM.png"><br>我們打開瀏覽器，右鍵 &gt; 檢查頁面原始碼，這時候你會發現兩個長一樣。<br><img src="https://i.imgur.com/vMs0zVy.png"></p>
+<hr>
+<p>這時候我們可以使用終端機打開<code>rails routes</code>看一下<code>Prefix Verb</code>這邊的<code>new_candidate</code>我們手動幫它後面加上<code>_path</code> 它就會幫我們做出<code>/candidates/new</code>出來。<br>所以回到<code>view/index.html.erb</code> ，我們把剛剛的<code>&lt;%= link_to &#39;Add Candidate&#39;, &#39;/candidates/new&#39; %&gt;</code>後面的<code>/candidates/new</code> 換成<code>new_candidate_path</code><br><img src="https://i.imgur.com/uGbXBV8.png"><br>打開瀏覽器檢視網頁原始碼，發現其實兩個都是超連結到同一個網址。<br><img src="https://i.imgur.com/ytgOghT.png"><br>其實第二個超連結等於是Routes幫我們產生的。這樣的好處就是，如果以後有需要維護專案或是更改超連結的網頁，我們只要到進到<code>config/routes.rb</code>這個檔案去修改路徑，整個網站就修改好了。</p>
+<hr>
+<h3 id="link-to-方法的好處-搭配prefix路徑寫法"><a href="#link-to-方法的好處-搭配prefix路徑寫法" class="headerlink" title="link_to 方法的好處(搭配prefix路徑寫法)"></a>link_to 方法的好處(搭配prefix路徑寫法)</h3><ul>
+<li>好處就是，如果在連結的地方少打字或者打錯字，瀏覽器會噴訊息提醒你。</li>
+<li>因為 <code>link_to</code> 是一個方法，所以只要有打錯字，就會噴訊息出來。</li>
+</ul>
+<hr>
+<ul>
+<li>另外如果發現<code>rails routtes</code>有些<code>Prefix Verb</code>是空的就同上面的<code>Prefix Verb</code>。</li>
+</ul>
+<hr>
+<p>接著修改候選人名稱的超連結，改用 link_to 的寫法。<br><img src="https://i.imgur.com/5llYzLM.png"><br>但是這邊我們是要連到某個id的候選人頁面，所以candidate_path要給它一個id，他才能正確連結到對的候選人。<br><img src="https://i.imgur.com/HF0RlJl.png"><br>按下送出按鈕，網址後面就會有id，但是畫面上噴出訊息<code>the action &#39;show&#39; could not be found</code><br><img src="https://i.imgur.com/E0yrPQf.png"></p>
+<hr>
+<blockquote>
+<h3 id="接下來，下一堂課程，我們要建立一個-“show-action”-給它，當然同時也要給它一個-“show”-的-view。"><a href="#接下來，下一堂課程，我們要建立一個-“show-action”-給它，當然同時也要給它一個-“show”-的-view。" class="headerlink" title="接下來，下一堂課程，我們要建立一個 “show action” 給它，當然同時也要給它一個 “show” 的 view。"></a>接下來，下一堂課程，我們要建立一個 “show action” 給它，當然同時也要給它一個 “show” 的 view。</h3></blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ruby-on-Rails/" rel="tag"># Ruby on Rails</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-007-%E6%96%B0%E5%A2%9E%E5%80%99%E9%81%B8%E4%BA%BA%EF%BC%8C%E5%AD%98%E6%AA%94%E5%A4%B1%E6%95%97%E7%9A%84%E6%83%85%E6%B3%81/" rel="prev" title="Ruby on Rails 網站開發 練習 - 007 (新增候選人，存檔失敗的情況)">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - 007 (新增候選人，存檔失敗的情況)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-009-%E5%BB%BA%E7%AB%8Bshow-action-show-%E7%9A%84-view/" rel="next" title="Ruby on Rails 網站開發 練習 - 009 (建立show action & show 的 view)">
+      Ruby on Rails 網站開發 練習 - 009 (建立show action & show 的 view) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%81%E5%B0%87%E8%B3%87%E6%96%99%E5%BA%AB%E7%9A%84%E7%9A%84%E8%B3%87%E6%96%99%E5%91%88%E7%8F%BE%E5%88%B0%E7%95%AB%E9%9D%A2%EF%BC%8C%E9%A6%96%E5%85%88%E6%88%91%E5%80%91%E4%B8%8D%E9%9C%80%E8%A6%81%E8%87%AA%E5%B7%B1%E5%AF%ABSQL%E8%AA%9E%E6%B3%95%E5%8E%BB%E6%92%88%E8%B3%87%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text">要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%91%E5%80%91%E5%8F%AA%E8%A6%81%E9%80%8F%E9%81%8EModel%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%B9%AB%E6%88%91%E5%80%91%E5%8E%BB%E6%8A%8A%E8%B3%87%E6%96%99%E6%8B%BF%E5%87%BA%E4%BE%86%E3%80%82"><span class="nav-number">1.1.</span> <span class="nav-text">我們只要透過Model就可以幫我們去把資料拿出來。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E8%91%97%E9%80%B2%E5%85%A5%E5%88%B0view-index-html-erb%EF%BC%8C%E6%88%91%E5%80%91%E8%A6%81%E4%BE%86%E8%AE%93%E5%BE%9E-Model-%E6%8B%BF%E5%87%BA%E4%BE%86%E7%9A%84%E5%80%99%E9%81%B8%E4%BA%BA%E8%B3%87%E6%96%99%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%9C%A8%E9%A0%81%E9%9D%A2%E4%B8%8A%E5%8D%B0%E5%87%BA%E4%BE%86%E3%80%82%E2%98%85%E5%B0%8F%E6%92%87%E6%AD%A5%EF%BC%9A%E9%80%99%E9%82%8A%E5%8F%AF%E4%BB%A5%E5%85%88%E5%9C%A8VScode%E4%B8%8A%E8%A8%AD%E5%AE%9A%EF%BC%8C%E6%8A%8A%E6%AA%94%E6%A1%88%E7%9A%84%E6%A0%BC%E5%BC%8F%E6%94%B9%E7%82%BAHTML%E5%9C%A8%E9%A0%81%E9%9D%A2%E4%B8%8A%EF%BC%8C%E5%85%88%E6%96%B0%E5%A2%9E%E4%B8%80%E5%80%8B-lt-%E4%BA%94%E5%80%8B%E6%AC%84%E4%BD%8D%E7%9A%84table-gt"><span class="nav-number">2.</span> <span class="nav-text">接著進入到view&#x2F;index.html.erb，我們要來讓從 Model 拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個&lt;五個欄位的table&gt;123456789&lt;table&gt;    &lt;tr&gt;        &lt;td&gt;Name&lt;&#x2F;td&gt;    #名稱        &lt;td&gt;Party&lt;&#x2F;td&gt;    #政黨        &lt;td&gt;Age&lt;&#x2F;td&gt;    #年齡        &lt;td&gt;Politics&lt;&#x2F;td&gt;    #政見        &lt;td&gt;Action&lt;&#x2F;td&gt;    #動作：可能是 新增 or 刪除    &lt;&#x2F;tr&gt;&lt;&#x2F;table&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%A3%E6%88%91%E5%80%91%E8%A6%81%E5%A6%82%E4%BD%95%E6%8A%8A%E8%B3%87%E6%96%99%E5%8D%B0%E5%87%BA%E4%BE%86%EF%BC%8C%E6%88%91%E5%80%91%E5%8F%AF%E4%BB%A5%E9%80%8F%E9%81%8E%E3%80%8C%E8%BF%B4%E5%9C%88%E3%80%8D%E7%9A%84%E6%96%B9%E5%BC%8F%E3%80%82%E4%B8%80%E7%AD%86%E4%B8%80%E7%AD%86%E7%9A%84%E6%8A%8A%E8%B3%87%E6%96%99%E5%8D%B0%E5%87%BA%E4%BE%86%E3%80%82%E6%8E%A5%E8%91%97%E6%8A%8A%E5%89%9B%E5%89%9B%E5%BB%BA%E7%AB%8B%E7%9A%84-table-%E8%A4%87%E8%A3%BD%E4%B8%80%E4%BB%BD%E6%94%BE%E5%88%B0%E8%BF%B4%E5%9C%88%E8%A3%A1%E9%9D%A2%EF%BC%8C%E5%90%8C%E6%99%82%E5%B0%87%E5%8E%9F%E6%9C%AC%E7%9A%84%E6%AC%84%E4%BD%8D%E5%85%A7%E5%AE%B9%E6%9B%BF%E6%8F%9B"><span class="nav-number">3.</span> <span class="nav-text">那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。12&lt;% @candidates.each do |candidate| %&gt;&lt;% end %&gt;接著把剛剛建立的 table 複製一份放到迴圈裡面，同時將原本的欄位內容替換123456789&lt;% @candidates.each do |candidate| %&gt;&lt;tr&gt;    &lt;td&gt;&lt;%&#x3D; candidate.name %&gt;&lt;&#x2F;td&gt;    &lt;td&gt;&lt;%&#x3D; candidate.party %&gt;&lt;&#x2F;td&gt;         &lt;td&gt;&lt;%&#x3D; candidate.age %&gt;&lt;&#x2F;td&gt;    &lt;td&gt;&lt;%&#x3D; candidate.politics %&gt;&lt;&#x2F;td&gt;    &lt;td&gt;Action&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;&lt;% end %&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#link-to-%E6%96%B9%E6%B3%95%E7%9A%84%E5%A5%BD%E8%99%95-%E6%90%AD%E9%85%8Dprefix%E8%B7%AF%E5%BE%91%E5%AF%AB%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">link_to 方法的好處(搭配prefix路徑寫法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E4%B8%8B%E4%BE%86%EF%BC%8C%E4%B8%8B%E4%B8%80%E5%A0%82%E8%AA%B2%E7%A8%8B%EF%BC%8C%E6%88%91%E5%80%91%E8%A6%81%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B-%E2%80%9Cshow-action%E2%80%9D-%E7%B5%A6%E5%AE%83%EF%BC%8C%E7%95%B6%E7%84%B6%E5%90%8C%E6%99%82%E4%B9%9F%E8%A6%81%E7%B5%A6%E5%AE%83%E4%B8%80%E5%80%8B-%E2%80%9Cshow%E2%80%9D-%E7%9A%84-view%E3%80%82"><span class="nav-number">3.2.</span> <span class="nav-text">接下來，下一堂課程，我們要建立一個 “show action” 給它，當然同時也要給它一個 “show” 的 view。</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cheng Ting"
+      src="/images/self-image.jpg">
+  <p class="site-author-name" itemprop="name">Cheng Ting</p>
+  <div class="site-description" itemprop="description">轉職 ● 分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若要轉載文章，麻煩請保留原作者名稱與原始連結。</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="練習 - 014 (投票記錄表)利用 Rails 的 Model 產生器，產生一個資料表出來，並且幫我們做好 migration。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - 014 ( 投票紀錄表 )">
+<meta property="og:url" content="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-014-%E6%8A%95%E7%A5%A8%E7%B4%80%E9%8C%84%E8%A1%A8/index.html">
+<meta property="og:site_name" content="Cheng Ting&#39;s Blog">
+<meta property="og:description" content="練習 - 014 (投票記錄表)利用 Rails 的 Model 產生器，產生一個資料表出來，並且幫我們做好 migration。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/yv4eKSD.png">
+<meta property="og:image" content="https://i.imgur.com/umqcQK5.png">
+<meta property="og:image" content="https://i.imgur.com/5F25y8o.png">
+<meta property="og:image" content="https://i.imgur.com/JpiuRhX.png">
+<meta property="og:image" content="https://i.imgur.com/h83XGyE.png">
+<meta property="og:image" content="https://i.imgur.com/b7zzjNV.png">
+<meta property="og:image" content="https://i.imgur.com/sC7SeXC.png">
+<meta property="og:image" content="https://i.imgur.com/qMyx9dA.png">
+<meta property="og:image" content="https://i.imgur.com/eUkew1b.png">
+<meta property="og:image" content="https://i.imgur.com/MzezoyB.png">
+<meta property="og:image" content="https://i.imgur.com/fp0cBCy.png">
+<meta property="og:image" content="https://i.imgur.com/tR6V9ef.png">
+<meta property="og:image" content="https://i.imgur.com/UXAmOGZ.png">
+<meta property="og:image" content="https://i.imgur.com/fk3Sy7M.png">
+<meta property="og:image" content="https://i.imgur.com/5sSgxW4.png">
+<meta property="og:image" content="https://i.imgur.com/B8cQNIh.png">
+<meta property="og:image" content="https://i.imgur.com/LUs6UDK.png">
+<meta property="og:image" content="https://i.imgur.com/uE8rHdD.png">
+<meta property="og:image" content="https://i.imgur.com/4nMkGOJ.png">
+<meta property="og:image" content="https://i.imgur.com/Pv8DrFD.png">
+<meta property="og:image" content="https://i.imgur.com/r6tO1Ik.png">
+<meta property="og:image" content="https://i.imgur.com/GsOzmp3.png">
+<meta property="og:image" content="https://i.imgur.com/WojFYi4.png">
+<meta property="og:image" content="https://i.imgur.com/BZEnxrm.png">
+<meta property="og:image" content="https://i.imgur.com/B43Dr2U.png">
+<meta property="og:image" content="https://i.imgur.com/XTQ9L0r.png">
+<meta property="og:image" content="https://i.imgur.com/uS75NME.png">
+<meta property="og:image" content="https://i.imgur.com/6VhNhBM.png">
+<meta property="og:image" content="https://i.imgur.com/wIQFzxi.png">
+<meta property="og:image" content="https://i.imgur.com/UZD2SRl.png">
+<meta property="og:image" content="https://i.imgur.com/6DBIl1r.png">
+<meta property="article:published_time" content="2023-01-19T04:01:20.000Z">
+<meta property="article:modified_time" content="2023-01-19T04:19:06.487Z">
+<meta property="article:author" content="Cheng Ting">
+<meta property="article:tag" content="Ruby on Rails">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/yv4eKSD.png">
+
+<link rel="canonical" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-014-%E6%8A%95%E7%A5%A8%E7%B4%80%E9%8C%84%E8%A1%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Ruby on Rails 網站開發 練習 - 014 ( 投票紀錄表 ) | Cheng Ting's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cheng Ting's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cheng Ting's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">PATH To Engineer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-014-%E6%8A%95%E7%A5%A8%E7%B4%80%E9%8C%84%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self-image.jpg">
+      <meta itemprop="name" content="Cheng Ting">
+      <meta itemprop="description" content="轉職 ● 分享">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheng Ting's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ruby on Rails 網站開發 練習 - 014 ( 投票紀錄表 )
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2023-01-19 12:01:20 / 修改時間：12:19:06" itemprop="dateCreated datePublished" datetime="2023-01-19T12:01:20+08:00">2023-01-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url" rel="index"><span itemprop="name">ASTRO CAMP 線上課程學習筆記</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="練習-014-投票記錄表"><a href="#練習-014-投票記錄表" class="headerlink" title="練習 - 014 (投票記錄表)"></a>練習 - 014 (投票記錄表)</h1><p>利用 Rails 的 Model 產生器，產生一個資料表出來，並且幫我們做好 migration。</p>
+<span id="more"></span>
+<p>需要的欄位有 ↓</p>
+<ol>
+<li><p>candidate_id：因為是一個參照值，可以使用<code>candidate:references</code>這個指令，Rails會幫我們去撈candidate的流水編號(id)欄位。</p>
+</li>
+<li><p>ip_address：想要有記名投票的效果，所以我們需要投票人的ip位置。資料型態雖然是 string 但是這邊可以省略不寫:string。</p>
+</li>
+</ol>
+<hr>
+<p>在終端機輸入指令。<br><img src="https://i.imgur.com/yv4eKSD.png"></p>
+<p>可以看到終端機顯示的資訊，有產生migration檔案也同時有建立model。<br><img src="https://i.imgur.com/umqcQK5.png"></p>
+<p>確認model目錄底下有建議了 VoteLog 這個 model，並且幫我們設定好<code>belongs_to :candidate</code><br><img src="https://i.imgur.com/5F25y8o.png"></p>
+<p>再到db目錄底下看到有新增了 migration 檔案，確認檔案內容是否都正確。<br><img src="https://i.imgur.com/JpiuRhX.png"></p>
+<hr>
+<p>確認migration檔案內容都沒問題，接著我們就可以把它「具現化」。<br>終端機執行 <code>rials db:migrate</code> 指令，終端機畫面顯示有migrate成功。<br><img src="https://i.imgur.com/h83XGyE.png"></p>
+<hr>
+<p>那我們現在都有投票紀錄了，接著就是要把它寫進去，因此我們回到<code>CandidatesController</code> 在<code>vote action</code>裡面增加</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">VoteLog</span>.new(<span class="symbol">candidate:</span> <span class="variable">@candidate</span>, <span class="symbol">ip_address:</span> <span class="string">??</span><span class="string">?)</span></span><br></pre></td></tr></table></figure>
+<p>這遇到ip位置不知道該放什麼<code>value</code>給它，這時候我們可以請出google大神，輸入關鍵字<code>rails ip_address</code>，通常前幾篇就會找到需要的答案，很幸運的我們很快就找到了。<code>request.remote_ip</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">VoteLog</span>.new(<span class="symbol">candidate:</span> <span class="variable">@candidate</span>, <span class="symbol">ip_address:</span> request.remote_ip)</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/b7zzjNV.png"></p>
+<p>但是如果是用new方法的話，會需要給它一個變數承接，在執行<code>.save</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">v = <span class="title class_">VoteLog</span>.new(<span class="symbol">candidate:</span> <span class="variable">@candidate</span>, <span class="symbol">ip_address:</span> request.remote_ip)</span><br><span class="line">v.save</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/sC7SeXC.png"></p>
+<hr>
+<p>這裡我們可以換另外一種寫法，比較直接一點，不需要兩段式的方式寫入資料庫。<code>create</code>的方法可以直接存進去。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">VoteLog</span>.create(<span class="symbol">candidate:</span> <span class="variable">@candidate</span>, <span class="symbol">ip_address:</span> request.remote_ip)</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/qMyx9dA.png"></p>
+<p>打開瀏覽器，來投票試試看，先記下2號候選人ddd的目前票數2票。<br><img src="https://i.imgur.com/eUkew1b.png"></p>
+<hr>
+<p>接著按下左邊的<code>vote</code>，來觀察一下是否有變化。變成3票了!!ˊ而且畫面也有顯示「投票成功!!!」<br><img src="https://i.imgur.com/MzezoyB.png"></p>
+<hr>
+<p>確認有沒有確實寫入資料庫，透過<code>rails console</code>來確認。<br>輸入指令<code>VoteLog.all</code>就可以看到目前在<code>VoteLog</code> model裡面有多少的投票紀錄。<br><img src="https://i.imgur.com/fp0cBCy.png"></p>
+<p>這樣每個候選人(id)被點擊一次<code>vote</code>就會被記錄下來。<br><img src="https://i.imgur.com/tR6V9ef.png"></p>
+<hr>
+<p>此時我們可以換個角度從候選人角度來寫，候選人名字有被投票的就會被紀錄起來。<br><img src="https://i.imgur.com/UXAmOGZ.png"></p>
+<hr>
+<p>另外原本下面的第55-56行寫的程式碼，是針對候選人的某個欄位執行遞增，並且將結結果save到資料庫中。<br>因為我們現在已經寫了第53行的程式碼，所以55-56行的程式碼就可以拿掉。<br><img src="https://i.imgur.com/fk3Sy7M.png"></p>
+<hr>
+<p>打開瀏覽器，此時按下<code>vote</code>會顯示錯誤訊息「沒有定義<code>vote_logs</code>方法」<br><img src="https://i.imgur.com/5sSgxW4.png"></p>
+<p>為什麼會看到，是因為剛剛我們給每一位候選人都有很多「投票紀錄」model，透過這個「投票紀錄」model，直接建立一個投票紀錄出來。這樣我們就可以計算票數。</p>
+<p>雖然我們剛剛建立<code>VoteLog Model</code>時有使用<code>references:candidate</code>這個指令，會幫我們在<code>vote_log.rb</code>這個model檔案直接幫我們加上<code>belongs_to :candidate</code>。<br><img src="https://i.imgur.com/B8cQNIh.png"></p>
+<p>但是相對的<code>Candidate Model</code>卻沒有幫我們做這件事情。<br><img src="https://i.imgur.com/LUs6UDK.png"><br>因為Rails不曉得我們是要做「一對一」關聯？「一對多」關聯？它沒有辦法去猜，所以這邊就只能由我們自己手動來幫Model們來建立「關聯」。</p>
+<hr>
+<p>進到<code>Candidate Model</code>手動新增<code>has_many :vote_logs</code>，要記得log是負數型態(logs)。<br><img src="https://i.imgur.com/uE8rHdD.png"><br>關於<code>has_many</code>的黑魔法，之後會有另位的章節介紹它。目前先知道它其實默默地在背後建立一個叫做<code>vote_logs</code>的方法。</p>
+<hr>
+<p>這邊我們回到瀏覽器，回到前一頁，先確認目前每位候選人的票數。<br><img src="https://i.imgur.com/4nMkGOJ.png"></p>
+<hr>
+<p>對候選人<code>eee</code>按下<code>vote</code>，再看看是否會一樣出現錯誤訊息。<br><img src="https://i.imgur.com/Pv8DrFD.png"></p>
+<hr>
+<p>有顯示投票成功，可是票數還沒有改變一樣維持4票。這時候我們可以透過<code>rails console</code>來觀察一下是否真的有投票成功。</p>
+<p>輸入指令：<code>VoteLog.count</code>，看到顯示有7票。<br><img src="https://i.imgur.com/r6tO1Ik.png"></p>
+<p>再繼續對<code>eee</code>候選人多按3次<code>vote</code>，看看數字會不會變化：<br><img src="https://i.imgur.com/GsOzmp3.png"></p>
+<p>確實現在票數變成10票了。是有成功將票數寫進資料庫中。但是目前瀏覽器的畫面依然顯示票數是4票<br><img src="https://i.imgur.com/WojFYi4.png"></p>
+<hr>
+<p>會有這樣的原因是原本我們把票數的累進，寫在了<code>Candidate Model</code>的<code>votes</code>欄位累進票數。不是現在我們使用的<code>VoteLog Model</code>。</p>
+<p>所以我們進到<code>view/index.html.erb</code>檔案來修改一下<code>&lt;%= candidate.votes %&gt;</code>的內容，改成<code>&lt;%= candidate.vote_logs %&gt;</code>。<br><img src="https://i.imgur.com/BZEnxrm.png"><br>因為每個候選人都會有很多投票紀錄，所以<code>&lt;%= candidate.vote_logs %&gt;</code>會回傳一大包東西 (是一個陣列)。</p>
+<p>可以透過<code>rails console</code>來看一下回傳的資料內容，首先我們先宣告一個<code>c1</code>變數&#x3D;候選人的第一個<code>c1 = Candidate.first</code><br><img src="https://i.imgur.com/B43Dr2U.png"></p>
+<p>輸入<code>c1.vote_logs</code>説：「誒，聽說你有很多票。」會看到一長串長得像陣列的東西。<br><img src="https://i.imgur.com/XTQ9L0r.png"></p>
+<p>再輸入<code>c1.vote_logs.count</code>説：「那你到底有幾張票」。c1候選人告訴你：「我有2張票。」<br><img src="https://i.imgur.com/uS75NME.png"></p>
+<p>所以這時候我們可以回到<code>view/index.html.erb</code>再修改剛剛的那行程式碼<code>&lt;%= candidate.vote_logs.count %&gt;</code>。這樣應該就會拿到我們想要看到的票數。</p>
+<p>再回到瀏覽器重新整理，此時可以發現票數改變了。變成了<code>votelogs</code>紀錄的票數。<br><img src="https://i.imgur.com/6VhNhBM.png"></p>
+<hr>
+<p>這時候我們對<code>ccc</code>候選人再投5票。看看是否票數會增加變成7。<br><img src="https://i.imgur.com/wIQFzxi.png"><br>真的有成功投票，並且寫進資料庫。</p>
+<p>如果要確認投票紀錄，現在我們可以再透過<code>rails console</code>來觀察<br>一樣輸入：<code>c1 = Candidate.first</code>、<code>c1.vote_logs</code>。<br><img src="https://i.imgur.com/UZD2SRl.png"></p>
+<p>可以看到一號候選人的投票紀錄：<br><img src="https://i.imgur.com/6DBIl1r.png"></p>
+<p>雖然有顯示投票紀錄了。但是不知道有沒有發現一件事情，執行<code>rails console</code>如果要看去投票紀錄。輸入<code>c1.vote_logs</code>它是會撈後選人的資料，你有幾票它會去撈幾次。</p>
+<p>這個狀況是否似成相似？有沒有「N + 1」的感覺。如果候選人很多時，大家同時上線投票，會很佔用資源，有資源消耗的問題。</p>
+<hr>
+<p>目前已經看到每次投票的紀錄，但是其實有需要優化的地方，「效能」。</p>
+<blockquote>
+<h3 id="下一堂課程，改善效能。"><a href="#下一堂課程，改善效能。" class="headerlink" title="下一堂課程，改善效能。"></a>下一堂課程，改善效能。</h3></blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ruby-on-Rails/" rel="tag"># Ruby on Rails</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-013-%E6%8A%95%E7%A5%A8/" rel="prev" title="Ruby on Rails 網站開發 練習 - 013 ( 投票 )">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - 013 ( 投票 )
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-015-%E6%95%88%E8%83%BD%E6%94%B9%E5%96%84-N-1-Query/" rel="next" title="Ruby on Rails 網站開發 練習 - 015 ( 效能改善 N+1 Query)">
+      Ruby on Rails 網站開發 練習 - 015 ( 效能改善 N+1 Query) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B7%B4%E7%BF%92-014-%E6%8A%95%E7%A5%A8%E8%A8%98%E9%8C%84%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">練習 - 014 (投票記錄表)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E5%A0%82%E8%AA%B2%E7%A8%8B%EF%BC%8C%E6%94%B9%E5%96%84%E6%95%88%E8%83%BD%E3%80%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">下一堂課程，改善效能。</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cheng Ting"
+      src="/images/self-image.jpg">
+  <p class="site-author-name" itemprop="name">Cheng Ting</p>
+  <div class="site-description" itemprop="description">轉職 ● 分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若要轉載文章，麻煩請保留原作者名稱與原始連結。</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

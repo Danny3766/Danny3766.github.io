@@ -20,33 +20,33 @@
     var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="練習 - 006 (資料清洗 data cleaning)首先在CandidatesController的createaction，我們宣告一個變數clean_params承接清洗過的資料。">
+  <meta name="description" content="練習 - 012 ( 資料””刪除(delete) )CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ruby on Rails 網站開發 練習 - 006 (資料清洗 data cleaning)">
-<meta property="og:url" content="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-006-%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97-data-cleaning/index.html">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - 012 ( 資料””刪除(delete) )">
+<meta property="og:url" content="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-012-%E8%B3%87%E6%96%99%E2%80%9D%E2%80%9D%E5%88%AA%E9%99%A4-delete/index.html">
 <meta property="og:site_name" content="Cheng Ting&#39;s Blog">
-<meta property="og:description" content="練習 - 006 (資料清洗 data cleaning)首先在CandidatesController的createaction，我們宣告一個變數clean_params承接清洗過的資料。">
+<meta property="og:description" content="練習 - 012 ( 資料””刪除(delete) )CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://i.imgur.com/UinnykQ.png">
-<meta property="og:image" content="https://i.imgur.com/wWGPUoo.png">
-<meta property="og:image" content="https://i.imgur.com/Z5i5bI0.png">
-<meta property="og:image" content="https://i.imgur.com/pQK5pZu.png">
-<meta property="og:image" content="https://i.imgur.com/M1fkd52.png">
-<meta property="og:image" content="https://i.imgur.com/SyGNZpn.png">
-<meta property="og:image" content="https://i.imgur.com/7x9h1K4.png">
-<meta property="og:image" content="https://i.imgur.com/C9Ni0DE.png">
-<meta property="og:image" content="https://i.imgur.com/yAMXdfO.png">
-<meta property="og:image" content="https://i.imgur.com/Kp5EcFE.png">
-<meta property="og:image" content="https://i.imgur.com/MG7vewh.png">
-<meta property="og:image" content="https://i.imgur.com/kaH00kI.png">
-<meta property="article:published_time" content="2023-01-13T18:22:44.000Z">
-<meta property="article:modified_time" content="2023-01-19T03:33:10.969Z">
+<meta property="og:image" content="https://i.imgur.com/pnmoGm5.png">
+<meta property="og:image" content="https://i.imgur.com/YocIh5i.png">
+<meta property="og:image" content="https://i.imgur.com/LoStwWL.png">
+<meta property="og:image" content="https://i.imgur.com/OlQiFhL.png">
+<meta property="og:image" content="https://i.imgur.com/vrgpbCX.png">
+<meta property="og:image" content="https://i.imgur.com/piEOXfT.png">
+<meta property="og:image" content="https://i.imgur.com/q1aA65a.png">
+<meta property="og:image" content="https://i.imgur.com/68MTX5y.png">
+<meta property="og:image" content="https://i.imgur.com/Hclg3Wb.png">
+<meta property="og:image" content="https://i.imgur.com/kCXCvlC.png">
+<meta property="og:image" content="https://i.imgur.com/6vfESBr.png">
+<meta property="og:image" content="https://i.imgur.com/MFxwSK7.png">
+<meta property="article:published_time" content="2023-01-19T03:53:43.000Z">
+<meta property="article:modified_time" content="2023-01-19T03:55:38.757Z">
 <meta property="article:author" content="Cheng Ting">
 <meta property="article:tag" content="Ruby on Rails">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.imgur.com/UinnykQ.png">
+<meta name="twitter:image" content="https://i.imgur.com/pnmoGm5.png">
 
-<link rel="canonical" href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-006-%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97-data-cleaning/">
+<link rel="canonical" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-012-%E8%B3%87%E6%96%99%E2%80%9D%E2%80%9D%E5%88%AA%E9%99%A4-delete/">
 
 
 <script id="page-configurations">
@@ -59,7 +59,7 @@
   };
 </script>
 
-  <title>Ruby on Rails 網站開發 練習 - 006 (資料清洗 data cleaning) | Cheng Ting's Blog</title>
+  <title>Ruby on Rails 網站開發 練習 - 012 ( 資料””刪除(delete) ) | Cheng Ting's Blog</title>
   
 
 
@@ -205,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-006-%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97-data-cleaning/">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-012-%E8%B3%87%E6%96%99%E2%80%9D%E2%80%9D%E5%88%AA%E9%99%A4-delete/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/self-image.jpg">
@@ -218,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Ruby on Rails 網站開發 練習 - 006 (資料清洗 data cleaning)
+          Ruby on Rails 網站開發 練習 - 012 ( 資料””刪除(delete) )
         </h1>
 
         <div class="post-meta">
@@ -227,16 +227,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2023-01-14 02:22:44" itemprop="dateCreated datePublished" datetime="2023-01-14T02:22:44+08:00">2023-01-14</time>
+              <time title="創建時間：2023-01-19 11:53:43 / 修改時間：11:55:38" itemprop="dateCreated datePublished" datetime="2023-01-19T11:53:43+08:00">2023-01-19</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-01-19 11:33:10" itemprop="dateModified" datetime="2023-01-19T11:33:10+08:00">2023-01-19</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -258,37 +252,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="練習-006-資料清洗-data-cleaning"><a href="#練習-006-資料清洗-data-cleaning" class="headerlink" title="練習 - 006 (資料清洗 data cleaning)"></a>練習 - 006 (資料清洗 data cleaning)</h1><p>首先在<code>CandidatesController</code>的<code>create</code>action，我們宣告一個變數<code>clean_params</code>承接清洗過的資料。</p>
-<span id="more"></span>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">create</span></span><br><span class="line">    clean_params = params.<span class="keyword">require</span>(<span class="symbol">:candidate</span>).permit(<span class="symbol">:name</span>, <span class="symbol">:party</span>, <span class="symbol">:age</span>, <span class="symbol">:politics</span>)</span><br><span class="line">    <span class="comment"># require方法，表示只要params裡面的candidate資料</span></span><br><span class="line">    <span class="comment"># permit方法，只允許cadidate中的部分欄位可以過來</span></span><br><span class="line">    <span class="variable">@candidate</span> = <span class="title class_">Candidate</span>.new(clean_params)</span><br><span class="line">    <span class="comment"># 把清洗過的資料`clean_params`放到`Candidate.new(clean_params)`，作為Candidate.new()的參數</span></span><br><span class="line">    <span class="keyword">if</span> <span class="variable">@candidate</span>.save</span><br><span class="line">        redirect_to <span class="string">&#x27;/candidates&#x27;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="comment"># NG</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/UinnykQ.png"></p>
+        <h1 id="練習-012-資料””刪除-delete"><a href="#練習-012-資料””刪除-delete" class="headerlink" title="練習 - 012 ( 資料””刪除(delete) )"></a>練習 - 012 ( 資料””刪除(delete) )</h1><h2 id="CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能"><a href="#CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能" class="headerlink" title="CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能"></a>CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能</h2><span id="more"></span>
+<p>首先，在 <code>view/index.html.erb</code> 再多增加一個”刪除”超連結。一樣我們使用<code>link_to</code>方法。</p>
+<p>可是我們不知道<code>delete</code>的路徑要怎麼走，所以一樣需要請門口阿姨(Routes)來告訴我們。可以發現<code>DELETE</code>前面的<code>prefix</code>沒寫東西，只要是沒寫就表示同上。<br><img src="https://i.imgur.com/pnmoGm5.png"><br>所以我們可以確定路徑是<code>/candidate/candidates/:id(.:format)</code>。</p>
+<p>所以路徑該會是<code>&lt;%= link_to &#39;delete&#39;, candidate_path(candidate.id) %&gt;</code>。</p>
+<p>可是如果這樣寫的話，基本上你會看到跟<code>show</code>的頁面是一模一樣。因此我們要在路徑後面給它加上一個動詞：<br><code>&lt;%= link_to &#39;delete&#39;, candidate_path(candidate.id), method: &#39;delete&#39; %&gt;</code><br><img src="https://i.imgur.com/YocIh5i.png"><br>打開瀏覽器，就會看到畫面上的表單中呈現<br><img src="https://i.imgur.com/LoStwWL.png"><br>同時我們檢視頁面原始碼，可以發現在每個超連結中，都多出了一個<code>data-method=&quot;delete&quot;</code>的屬性。這個是Rails做的是手腳。<br><img src="https://i.imgur.com/OlQiFhL.png"></p>
 <hr>
-<p>打開瀏覽器來看看<br>首先各個欄位填入資料<br><img src="https://i.imgur.com/wWGPUoo.png"><br>按下送出，存檔。直接跳回後選人的列表頁。<br><img src="https://i.imgur.com/Z5i5bI0.png"></p>
+<p>所以我們應該也可以猜到，按下去<code>delete</code>，因該是會出現提示訊息的頁面，告訴我們說找不到<code>destroy action</code>。<br><img src="https://i.imgur.com/vrgpbCX.png"><br>而我們也是維持跟之前一樣的作法，如果找不到，那就做一個給你。</p>
 <hr>
-<p>這樣表示是有資料 <strong>寫入成功</strong> 了，才會跳回候選人列表頁面。<br>要如何確認呢？<br>我們可以透過終端機的中控台模式來查看<br>在終端機輸入<code>rails c --sandbox</code> 表示打開 rails console 沙盒模式<br><img src="https://i.imgur.com/pQK5pZu.png"><br><img src="https://i.imgur.com/M1fkd52.png"></p>
+<p>接著我們就要到<code>CandidatesController</code> 新增<code>destroy action</code>。<br><img src="https://i.imgur.com/piEOXfT.png"></p>
 <hr>
-<p>接著入輸入<code>Candidate.all</code>。這個指令可以show出，現在Candidate表單裡面所有的資料。<br>可以發現有一包陣列，包含了<code>id, name, party, politics, votes</code>等欄位。<br>就是剛剛我們在瀏覽器上輸入的那筆資料。<br><img src="https://i.imgur.com/SyGNZpn.png"></p>
+<p>如果今天我們要刪除一筆資料，那首先要做的就是先把那筆資料找出來。在前面的新增、編輯、更新，我們早就找過好幾次的資料了，所以直接把同樣的code給複製過來。<br><img src="https://i.imgur.com/q1aA65a.png"></p>
 <hr>
-<p>但是，到這邊可以發現好像缺少點什麼，資料是成功寫入資料庫，但直接跳回候選人列表的頁面，這樣的使用者體驗不太優。似乎少了點提示，讓使用者知道到底有沒有投票成功。所以我們就來增加這個功能吧!!!</p>
-<p>回到<code>CandidateController</code>的<code>create</code> action，我們來寫個提示(<code>flash[]</code>)。<br><img src="https://i.imgur.com/7x9h1K4.png"></p>
+<p>找到資料，那我們就可以直接把資料給刪除了，<code>@candidate.destroy</code><br><img src="https://i.imgur.com/68MTX5y.png"><br>另外我們一樣給它一個提示訊息<code>flash[notice] = &quot;候選人已刪除!!!&quot;</code>，並且將頁面跳轉回候選人列表頁面。<br><img src="https://i.imgur.com/Hclg3Wb.png"><br>打開瀏覽器，隨便點選一個候選人的刪除超連結<br><img src="https://i.imgur.com/kCXCvlC.png"><br>如果我們回到候選人表單頁面，真的點擊 delete 是會直接將整筆資料刪除，救不回來。</p>
 <hr>
-<p>接著我們在<code>index.html.erb</code> 把那<code>flash[]</code> 給印在頁面上。<br><code>flash[]</code>的特點就是，只要頁面有印過一次，頁面重新整理後，也不會再出現。<br><img src="https://i.imgur.com/C9Ni0DE.png"></p>
+<p>所以我們可以在 <code>index.html.erb</code> 中<code>delete</code>超連結多增加一個防呆機制<code>data: &#123;confirm: &quot;確定要刪除嗎？&quot;&#125;</code><br><img src="https://i.imgur.com/6vfESBr.png"><br>接著打開瀏覽器，來看看畫面。<br><img src="https://i.imgur.com/MFxwSK7.png"><br>這樣的設計，就是怕使用者不小心按到刪除，還會再做第2次的確認，這時候按下<code>確定</code>那就真的刪除那筆資料了。</p>
 <hr>
-<p>我們就在新增一位候選人看看，是否真的有出現<code>flash[]</code><br><img src="https://i.imgur.com/yAMXdfO.png"></p>
-<hr>
-<p>按下送出按鈕，真的有出現提示!!!<br><img src="https://i.imgur.com/Kp5EcFE.png"></p>
-<hr>
-<p>現在確定功能有正常顯示，接著我們來做程式碼的整理，讓程式碼可以更乾淨，可讀性更高。<br>首先，在<code>CandidatesController</code>中<code>create action</code>清洗資料的那行，等號右邊有點太長了。</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clarn_params = params.<span class="keyword">require</span>(<span class="symbol">:candidate</span>).permit(<span class="symbol">:name</span>, <span class="symbol">:party</span>, <span class="symbol">:age</span>, <span class="symbol">:politics</span>)</span><br></pre></td></tr></table></figure>
-<p>之後還會有其他的 aciton 會需要使用，所以我們可以用一個方法把它包起來。<br>這樣一來原本的</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clarn_params = params.<span class="keyword">require</span>(<span class="symbol">:candidate</span>).permit(<span class="symbol">:name</span>, <span class="symbol">:party</span>, <span class="symbol">:age</span>, <span class="symbol">:politics</span>)</span><br></pre></td></tr></table></figure>
-<p>就可以整行拿掉。<br><img src="https://i.imgur.com/MG7vewh.png"></p>
-<hr>
-<p>因為<code>candidate_params</code>只會在這個<code>class</code>底下內被呼叫，不會被其他的<code>class</code>取用。所以我們可以將它變成一個<code>private method</code>。因此我們給它一個註記<br><img src="https://i.imgur.com/kaH00kI.png"></p>
-<hr>
-<blockquote>
-<h3 id="下一堂課程，將學習，如果存檔失敗，要如何執行。"><a href="#下一堂課程，將學習，如果存檔失敗，要如何執行。" class="headerlink" title="下一堂課程，將學習，如果存檔失敗，要如何執行。"></a>下一堂課程，將學習，如果存檔失敗，要如何執行。</h3></blockquote>
-
+<h3 id="下一堂課程，就是要進入投票的部分。"><a href="#下一堂課程，就是要進入投票的部分。" class="headerlink" title="下一堂課程，就是要進入投票的部分。"></a>下一堂課程，就是要進入投票的部分。</h3>
     </div>
 
     
@@ -306,12 +286,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-005-Create-Action-%E7%9A%84%E5%BB%BA%E7%AB%8B-Forbidden-Attribute-Error/" rel="prev" title="Ruby on Rails 網站開發 練習 - 005 (Create Action 的建立 & Forbidden Attribute Error)">
-      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - 005 (Create Action 的建立 & Forbidden Attribute Error)
+    <a href="/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-011-%E8%B3%87%E6%96%99-%E7%B7%A8%E8%BC%AF-update/" rel="prev" title="Ruby on Rails 網站開發 練習 - 011 ( 資料"編輯"(update) )">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - 011 ( 資料"編輯"(update) )
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-007-%E6%96%B0%E5%A2%9E%E5%80%99%E9%81%B8%E4%BA%BA%EF%BC%8C%E5%AD%98%E6%AA%94%E5%A4%B1%E6%95%97%E7%9A%84%E6%83%85%E6%B3%81/" rel="next" title="Ruby on Rails 網站開發 練習 - 007 (新增候選人，存檔失敗的情況)">
-      Ruby on Rails 網站開發 練習 - 007 (新增候選人，存檔失敗的情況) <i class="fa fa-chevron-right"></i>
+    <a href="/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-013-%E6%8A%95%E7%A5%A8/" rel="next" title="Ruby on Rails 網站開發 練習 - 013 ( 投票 )">
+      Ruby on Rails 網站開發 練習 - 013 ( 投票 ) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -371,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B7%B4%E7%BF%92-006-%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97-data-cleaning"><span class="nav-number">1.</span> <span class="nav-text">練習 - 006 (資料清洗 data cleaning)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E5%A0%82%E8%AA%B2%E7%A8%8B%EF%BC%8C%E5%B0%87%E5%AD%B8%E7%BF%92%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%AD%98%E6%AA%94%E5%A4%B1%E6%95%97%EF%BC%8C%E8%A6%81%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C%E3%80%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">下一堂課程，將學習，如果存檔失敗，要如何執行。</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B7%B4%E7%BF%92-012-%E8%B3%87%E6%96%99%E2%80%9D%E2%80%9D%E5%88%AA%E9%99%A4-delete"><span class="nav-number">1.</span> <span class="nav-text">練習 - 012 ( 資料””刪除(delete) )</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CRUD%E5%89%8D%E9%9D%A2%E5%B7%B2%E7%B6%93%E4%BB%8B%E7%B4%B9%E4%BA%86%E6%96%B0%E5%A2%9E%E3%80%81%E4%BF%AE%E6%94%B9%E3%80%81%E7%B7%A8%E8%BC%AF%EF%BC%8C%E7%8F%BE%E5%9C%A8%E5%89%A9%E4%B8%8B%E5%88%AA%E9%99%A4%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E4%B8%80%E5%A0%82%E8%AA%B2%E7%A8%8B%EF%BC%8C%E5%B0%B1%E6%98%AF%E8%A6%81%E9%80%B2%E5%85%A5%E6%8A%95%E7%A5%A8%E7%9A%84%E9%83%A8%E5%88%86%E3%80%82"><span class="nav-number">1.1.1.</span> <span class="nav-text">下一堂課程，就是要進入投票的部分。</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
