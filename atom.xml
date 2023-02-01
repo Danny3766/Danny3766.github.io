@@ -6,7 +6,7 @@
   <link href="https://danny3766.github.io/atom.xml" rel="self"/>
   
   <link href="https://danny3766.github.io/"/>
-  <updated>2023-02-01T05:25:36.681Z</updated>
+  <updated>2023-02-01T05:36:26.503Z</updated>
   <id>https://danny3766.github.io/</id>
   
   <author>
@@ -17,11 +17,53 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Ruby on Rails 網站開發 練習 - ActiveJob 背景工作</title>
+    <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveJob-%E8%83%8C%E6%99%AF%E5%B7%A5%E4%BD%9C/"/>
+    <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveJob-%E8%83%8C%E6%99%AF%E5%B7%A5%E4%BD%9C/</id>
+    <published>2023-02-01T05:34:10.000Z</published>
+    <updated>2023-02-01T05:36:26.503Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ActiveJob-背景工作"><a href="#ActiveJob-背景工作" class="headerlink" title="ActiveJob 背景工作"></a>ActiveJob 背景工作</h1><span id="more"></span><p>可以進到終端機輸入<code>rails g</code>看看有什麼指令可以使用。發現有一個<code>job</code>。可以透過它產生一個背景工作來做些事情。<br>那我們就來產生一個背景工作，並給它命名<code>VoteMail</code><br><img src="https://i.imgur.com/EaEwupX.png"><br>打開VScode，來確認看看是否jobs的地方有新增一個背景工作。<br><img src="https://i.imgur.com/qjGNaI1.png"><br>再回到<code>candidate_controller.rb</code>投票的function裡面，把原本那行寄信工作的code搬家，搬到個剛建立的背景工作<code>vote_mail_job.rb</code>裡面。<br><img src="https://i.imgur.com/cI2eyMr.png"><br>回到 <code>candidate_controller.rb</code><br>增加一行<code>VoteMailJob.perform_later</code><br><img src="https://i.imgur.com/j9zNMC2.png"><br>這時候重新啟動rails server。發現現在點擊 <code>vote</code> 之後，馬上就顯示 <code>Voted!!!</code>。<br>這個做法就是讓那個較花時間的工作先存放到背景去，等有空的時候再來執行它。</p><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ActiveJob-背景工作&quot;&gt;&lt;a href=&quot;#ActiveJob-背景工作&quot; class=&quot;headerlink&quot; title=&quot;ActiveJob 背景工作&quot;&gt;&lt;/a&gt;ActiveJob 背景工作&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
+    
+    
+    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - ActionMailer 寄發信件</title>
+    <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActionMailer-%E5%AF%84%E7%99%BC%E4%BF%A1%E4%BB%B6/"/>
+    <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActionMailer-%E5%AF%84%E7%99%BC%E4%BF%A1%E4%BB%B6/</id>
+    <published>2023-02-01T05:31:01.000Z</published>
+    <updated>2023-02-01T05:33:33.235Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ActionMailer-寄發信件"><a href="#ActionMailer-寄發信件" class="headerlink" title="ActionMailer 寄發信件"></a>ActionMailer 寄發信件</h1><span id="more"></span><p>首先使用終端機輸入指令<code>rails g mailer Vote</code>，Rails會幫我們產生對應的<code>mailer.rb</code>跟<code>view/vote_mailer</code><br><img src="https://i.imgur.com/xH5GJcN.png"><br>打開VSCode<br><img src="https://i.imgur.com/zqxPNQO.png"><br><img src="https://i.imgur.com/ShAWgXZ.png"><br><img src="https://i.imgur.com/klf7uBu.png"><br><img src="https://i.imgur.com/hbX2i6O.png"><br><img src="https://i.imgur.com/EPXOQkJ.png"><br><img src="https://i.imgur.com/esd0p8I.png"><br>接著我們就打開<code>rails server</code> 連到網頁測試看看，可以當我們點擊Vote後卻出現錯誤的畫面。<br><img src="https://i.imgur.com/xiZh5Hq.png"><br>因為它還是依循著MVC的架構在運行，所以mailer是相當於controller的角色，那我們就必須幫它新增一個對應的view的角色。<br><img src="https://i.imgur.com/kYYZkeM.png"><br>重新整理，再試一次。看起來是有正常運作。<br>不過我們可以到Rails Guide搜尋<br><img src="https://i.imgur.com/Pt44DNZ.png"><br><img src="https://i.imgur.com/oVlPHL4.png"><br>把剛剛找到的那段貼到<code>development</code>檔案中<br><img src="https://i.imgur.com/0dBPQzv.png"><br>但其實這樣做有風險，就是你自己的<br>e-mail會被別人看光光。<br>此時有一個收費的網站很方便 mailgun。註冊完後，進到Domains裡面找到SMTP伺服器<br><img src="https://i.imgur.com/UZ8bEwE.png"><br><img src="https://i.imgur.com/vyUK5Fv.png"><br>把上面這些對應的設定，複製貼上到VScode裡面的<code>development.rb</code> 檔案中。<br><img src="https://i.imgur.com/uQuoPjK.png"><br>設定好後，從新啟動<code>rails server</code><br>這時候重新點選<code>Vote</code> 會發現網頁的標籤頁開始轉圈圈之後顯示<code>Voted!!!</code>，接著我們打開自己的信箱發現有一封標題是hi的郵件<br><img src="https://i.imgur.com/QRgRmWL.png"><br>確實有收到了！！！但同時也發現一件事情，就是當我們點擊 vote 之後頁面要轉圈圈快5秒才成功。<br>假如今天我們有人比較沒有耐心一直連點 vote，會發生什麼事呢？<br>沒錯！！！就是系統會一直寄信一直寄信。所以下面一堂課程，我們要來透過「背景工作」解決這個情況。</p><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ActionMailer-寄發信件&quot;&gt;&lt;a href=&quot;#ActionMailer-寄發信件&quot; class=&quot;headerlink&quot; title=&quot;ActionMailer 寄發信件&quot;&gt;&lt;/a&gt;ActionMailer 寄發信件&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
+    
+    
+    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 4 (ORM基本操作)</title>
     <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4(ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)/"/>
     <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4(ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)/</id>
     <published>2023-02-01T05:24:04.000Z</published>
-    <updated>2023-02-01T05:25:36.681Z</updated>
+    <updated>2023-02-01T05:27:51.978Z</updated>
     
     <content type="html"><![CDATA[<h1 id="ActiveRecord-資料表關連-part-4-ORM基本操作"><a href="#ActiveRecord-資料表關連-part-4-ORM基本操作" class="headerlink" title="ActiveRecord - 資料表關連 part 4 (ORM基本操作)"></a>ActiveRecord - 資料表關連 part 4 (ORM基本操作)</h1><span id="more"></span><p><img src="https://i.imgur.com/s1fUOuq.png"></p><h3 id="ORM-基本操作之-Create"><a href="#ORM-基本操作之-Create" class="headerlink" title="ORM 基本操作之 Create"></a>ORM 基本操作之 Create</h3><ul><li>new 方法會建立一筆資料，但還不會將資料存到資料庫裡。</li><li>create 或 create! 會建立一筆資料，並直接寫入資料庫裡。</li><li>create 跟 create!這兩個方法有什麼不同?<br>答案：<br>create → 寫入失敗的時候，會默默地rollback回來，會默默地取消這次交易(transaction)。<br>create! → 寫入失敗時，會立刻噴出Exception(發生例外)。之後可以用 begin、rescue的方法來處理這些Exception</li></ul><hr><p><img src="https://i.imgur.com/vnBzxhK.png"></p><hr><h3 id="ORM基本操作之-Read"><a href="#ORM基本操作之-Read" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul><li>first 與 last</li><li>fing_by(id: 1) 與 find(1)</li><li>find_by_sql</li><li>find_each</li></ul><hr><p><img src="https://i.imgur.com/KOjs0Nq.png"></p><h4 id="find-與find-by差別"><a href="#find-與find-by差別" class="headerlink" title="find()與find_by差別"></a>find()與find_by差別</h4><p>就像 <code>cteate</code> 跟 <code>create!</code>的差別一樣<br><code>find(1)</code>：是比較激進派的做法，當找不到資料的時候，會跳出錯誤訊息(<code>exception</code>)。</p><p><code>find_by(id: 1)</code>：當找不到資料的時候，會回傳一個 <code>nill</code> 給你，屬於比較溫和派的作法。</p><p>find_each：利用跑回圈的方式，預設是一千次，當今天是在用大型資料查詢的時候，<code>find_each</code>可以有效地減少電腦記憶體的使用。<br><img src="https://i.imgur.com/AQHAb06.png"><br>答案：<br><img src="https://i.imgur.com/gngA6vi.png"></p><hr><h3 id="ORM基本操作之-Read-1"><a href="#ORM基本操作之-Read-1" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul><li>all</li><li>select</li><li>where</li><li>order</li><li>limit<br><img src="https://i.imgur.com/brYhRsx.png"><br>where 跟前面提到的 find_by(id: 1)差別是，where 會回傳「一包長得像陣列」的資料回來。</li></ul><hr><h3 id="ORM基本操作之-Read-2"><a href="#ORM基本操作之-Read-2" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul><li>count</li><li>average</li><li>sum</li><li>maximum &amp; minimum<br><img src="https://i.imgur.com/ybQBceL.png"></li><li><em><strong>不要傻傻的用ORM抓出來轉迴圈再來計算!!!</strong></em></li></ul><hr><h3 id="ORM基本操作之-Update"><a href="#ORM基本操作之-Update" class="headerlink" title="ORM基本操作之 Update"></a>ORM基本操作之 Update</h3><ul><li>save</li><li>update</li><li>update_attributes</li><li>update_all<br><img src="https://i.imgur.com/hjM4bKg.png"><br><img src="https://i.imgur.com/N6Big9r.png"><br>答案：<br>這兩個方法本質上是一樣的。</li></ul><hr><h3 id="ORM基本操作之-Update-1"><a href="#ORM基本操作之-Update-1" class="headerlink" title="ORM基本操作之 Update"></a>ORM基本操作之 Update</h3><ul><li>increment 與 decrement</li><li>toggle<br><img src="https://i.imgur.com/7iufLy2.png"></li><li>上面2項用到的方法，都沒有存檔的功能，所以記得要執行<code>.save</code>。</li></ul><hr><h3 id="ORM基本操作之-Delete"><a href="#ORM基本操作之-Delete" class="headerlink" title="ORM基本操作之 Delete"></a>ORM基本操作之 Delete</h3><ul><li>delete</li><li>destroy</li><li>detroy_all(condition &#x3D; nil)<br><img src="https://i.imgur.com/FbJSvFD.png"><br><img src="https://i.imgur.com/0YU0OrG.png"><br>答案：<br>(1)<code>delete</code>是直接把資料刪除就結束了，<code>dedtroy</code>是會經過一連串的callback。<br>(2)<code>destroy</code>是真的把資料刪掉，從資料表上整個刪除，所以也救不回來。</li></ul><hr><h3 id="Scope-範圍"><a href="#Scope-範圍" class="headerlink" title="Scope(範圍)"></a>Scope(範圍)</h3><ul><li>把一群條件整理成一個Scope</li><li>簡化使用時的邏輯</li><li>減少在Controller裡寫一堆Where組合</li><li>用起來跟類別方法一樣<br><img src="https://i.imgur.com/sqzEpzC.png"><br>已投摽系統舉例，要依照候選人年紀來篩選資料。先到<code>candidate_controller.rb</code><br><img src="https://i.imgur.com/owx5JQf.jpg"><br>再到<code>candidate.rb</code><br><img src="https://i.imgur.com/HvCjT2S.jpg"></li></ul><hr><h3 id="Scope-範圍-1"><a href="#Scope-範圍-1" class="headerlink" title="Scope(範圍)"></a>Scope(範圍)</h3><ul><li>default_scope 可幫所有的查詢預設套用 scope</li><li>default_scope 的副作用？<br>答案：<br>default_scope的副作用就是它會一直跟著你。<br><img src="https://i.imgur.com/ZMkkIaD.png"><br>要擺脫它必須做undcope把它拔掉。</li></ul><hr><h3 id="類別方法"><a href="#類別方法" class="headerlink" title="類別方法"></a>類別方法</h3><p><img src="https://i.imgur.com/qeNQZVl.png"><br>【練習題】</p><ul><li>scope 跟類別方法有什麼不一樣？</li><li>什麼時候該用什麼寫法？<br>答案：<br>如果是相對簡單的查詢，只要寫一行就可以解決，可以優先考慮使用scope的寫法。<br>遇到比較複雜的時候，會使用類別方法。<br>沒有絕對答案，看每個人的習慣。</li></ul><hr><h3 id="資料驗證"><a href="#資料驗證" class="headerlink" title="資料驗證"></a>資料驗證</h3><ul><li><p>presence<br><img src="https://i.imgur.com/BG3rHP6.png"><br>還有另外一種早期寫法<br><img src="https://i.imgur.com/q92rr8V.png"></p></li><li><p>format</p></li><li><p>uniqueness</p></li><li><p>numericality</p></li><li><p>length</p></li><li><p>condition</p></li></ul><hr><h3 id="資料驗證過程"><a href="#資料驗證過程" class="headerlink" title="資料驗證過程"></a>資料驗證過程</h3><p><img src="https://i.imgur.com/YhUktlu.png"><br><img src="https://i.imgur.com/VxVsYoV.png"><br>【練習題】</p><ul><li>硬是要繞過驗證可以嗎？</li><li>只要以驗證就可以保證資料正確嗎？<br>答案：<br>(1)如果硬要繞果驗證，其實是可以的。但基本這樣做沒有任何意義。<br><img src="https://i.imgur.com/SXkZaKg.jpg"></li></ul><p>(2)如果說整個系統都是用Rails寫，然後Model都有做驗證的話，基本上可以保證資料都是正確的。<br>但是如果說今天你的系統或是資料庫有跟別的系統共用的話，那就很難說了。</p><hr><h3 id="Callback"><a href="#Callback" class="headerlink" title="Callback"></a>Callback</h3><p><img src="https://i.imgur.com/3jQZxkI.png"><br>舉例<br><img src="https://i.imgur.com/xH5Q3U1.png"><br>【練習題】</p><ul><li>在前面的範例中，用before_save會造成什麼問題？</li><li>before_save跟before_create有什麼差別？<br>答案：<br><code>before_save</code>：是資料寫入及資料更新的時候都會被執行。<br><code>before_create</code>：是只有在資料被建立的時候執行。</li></ul><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
     
@@ -386,54 +428,6 @@
     
     
     <summary type="html">&lt;h1 id=&quot;練習-003-新增一個候選人model&quot;&gt;&lt;a href=&quot;#練習-003-新增一個候選人model&quot; class=&quot;headerlink&quot; title=&quot;練習 - 003 (新增一個候選人model)&quot;&gt;&lt;/a&gt;練習 - 003 (新增一個候選人model)&lt;/h1&gt;</summary>
-    
-    
-    
-    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
-    
-    
-    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 002 (Rails 運作模式)</title>
-    <link href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-002-Rails-%E9%81%8B%E4%BD%9C%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-002-Rails-%E9%81%8B%E4%BD%9C%E6%A8%A1%E5%BC%8F/</id>
-    <published>2023-01-13T17:11:22.000Z</published>
-    <updated>2023-02-01T04:58:06.766Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Rails-運作模式"><a href="#Rails-運作模式" class="headerlink" title="Rails 運作模式"></a>Rails 運作模式</h2><ul><li>Route + MVC<span id="more"></span></li></ul><hr><h2 id="先進到專案中的routes-rb"><a href="#先進到專案中的routes-rb" class="headerlink" title="先進到專案中的routes.rb"></a>先進到專案中的routes.rb</h2><p><img src="https://i.imgur.com/9ZYEuqU.png"></p><h3 id="建立-Route"><a href="#建立-Route" class="headerlink" title="建立 Route"></a>建立 Route</h3><p>輸入</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resources candidates /<span class="regexp">/ 這行表示要建立 candidates 相關的資源出來</span></span><br></pre></td></tr></table></figure><ul><li>其實在做網址設計的時候，我們會把每一個網址或是 url 當作資源來看待</li><li>早期的命名習慣 <code>/member_edit.php?id=2</code> 或 <code>/edit_member.php?id=2</code> 或 <code>/member.php?id=2</code></li></ul><hr><ul><li><h3 id="REST-風格"><a href="#REST-風格" class="headerlink" title="REST 風格"></a>REST 風格</h3><code>GET /members  =&gt; list.all  // 列出所有的會員資料</code><br><code>GET /members/2  //表示要看2號會員的資料</code><br><code>GET /members/edit  //表示要編輯2號會員的資料</code><br><code>GET /books  //表示要看所有的書</code><br><code>GET /books/2  //表示要看2號書的資料</code><br><code>GET /books/2/edit   //表示要編輯2號書</code></li></ul><hr><ul><li><h3 id="回到檔案中，輸入完resources-candidates後"><a href="#回到檔案中，輸入完resources-candidates後" class="headerlink" title="回到檔案中，輸入完resources candidates後"></a>回到檔案中，輸入完resources candidates後</h3>打開終端機輸入<code>rails routes</code><br>會看到一個路徑對照表(<strong>Routes</strong>)，看到 Rails 幫我們產生的8條路徑，7個方法(action)<br><img src="https://i.imgur.com/tEKNxIg.png"></li></ul><hr><p>如果想要看到少一點的路徑，比如只要看到index，show。可以輸入<br><img src="https://i.imgur.com/jxyqHBr.png"></p><hr><p>再打開終端機輸入一次<code>rails routes</code>，明顯看到路徑變少了<br><img src="https://i.imgur.com/KCSkf8g.png"></p><hr><p>路徑都打開了，先啟動<code>rails server</code>，接著就打開瀏覽器來確認一下<br>在網址列輸入<code>https://localhost:3000/candidates</code><br>沒有意外的話，會看到紅色的錯誤訊息&lt;Routes沒有找到CandidatesController&gt;<br><img src="https://i.imgur.com/okm5Qex.png"></p><hr><p>這時候不用擔心，看到錯誤訊息出現表示是正確的。<br>竟然沒有找到CandidatesController，那我們就自己做給Routes。<br>打開終端機輸入<code>rails generate controller candidates</code> 或是 <code>rails g controller candidates</code><br>如果不用指令，我們就自己動手建立一個，找到專案裡面的<code>/app/controllers</code>按右鍵新增檔案<br>檔案名稱：<code>candidates_controller.rb</code> &#x2F;&#x2F; 這邊記得檔案名稱使用蛇式(snake_case)命名法。<br>而檔案裡面的<br>class名稱：CandidatesController &#x2F;&#x2F; 使用駝峰式(CamelCase)命名法。<br><img src="https://i.imgur.com/jmG09Zm.png"></p><hr><p>而這個 CandidatesController 繼承自已經寫好的ApplicationController<br>建立好之後，我們一樣回到瀏覽器，再次的進入 candidates 頁面，重新整理，登愣！還是一樣出現紅色的錯誤訊息頁面<br><img src="https://i.imgur.com/ty6BPcu.png"><br>看看錯誤訊息寫了什麼？ index 這個 action 找不到。<br>跟之前一樣，找不到 action？！我們做給你</p><hr><h2 id="在-controller-建立-index-action"><a href="#在-controller-建立-index-action" class="headerlink" title="在 controller 建立 index action"></a>在 controller 建立 index action</h2><p><img src="https://i.imgur.com/TdMUfVB.png"><br>建立完成後，打開瀏覽器，又出現新的錯誤訊息，沒有找到對應 index 的樣板(template)<br><img src="https://i.imgur.com/sI4e8AD.png"></p><hr><p>一樣的方式，少了什麼東西，我們就做給你。其實 template 就是view裡面的頁面。<br>來到 view 當中，直接新增一個資料夾並命名candidates。<br>會這樣命名，也是依照 Rails 的慣例 (CoC)。<br><img src="https://i.imgur.com/Vn4b7ES.png"></p><hr><p>新增一個index.html.erb檔案<br><img src="https://i.imgur.com/Kbpcfuq.png"></p><hr><blockquote><h3 id="到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate"><a href="#到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate" class="headerlink" title="到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate"></a>到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate</h3></blockquote><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;Rails-運作模式&quot;&gt;&lt;a href=&quot;#Rails-運作模式&quot; class=&quot;headerlink&quot; title=&quot;Rails 運作模式&quot;&gt;&lt;/a&gt;Rails 運作模式&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;Route + MVC</summary>
-    
-    
-    
-    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
-    
-    
-    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)</title>
-    <link href="https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/"/>
-    <id>https://danny3766.github.io/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/</id>
-    <published>2023-01-13T17:02:02.000Z</published>
-    <updated>2023-02-01T04:58:08.741Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="不使用-scaffold-目的？"><a href="#不使用-scaffold-目的？" class="headerlink" title="不使用 scaffold 目的？"></a>不使用 scaffold 目的？</h2><ol><li>scaffold 到底幫我們做了什麼事情？</li><li>MVC 架構的運作原理</li></ol><ul><li>透過 rails 建立一個投票系統來了解上述1、2項目<span id="more"></span></li></ul><hr><h2 id="投票系統"><a href="#投票系統" class="headerlink" title="投票系統"></a>投票系統</h2><ul><li>新增、修改、刪除、投票是一個怎樣的感覺</li></ul><hr><h2 id="new-一個新的專案"><a href="#new-一個新的專案" class="headerlink" title="new 一個新的專案"></a>new 一個新的專案</h2><p>在想要新增專案的目錄輸入指令</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails _6.<span class="number">1</span>.7_ new 專案名稱 /<span class="regexp">/ 指定使用 6.1.7版本的 Rails</span></span><br></pre></td></tr></table></figure><p>接著在輸入指令進入新增的專案目錄中</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd 專案名稱</span><br><span class="line">code .    /<span class="regexp">/ 使用 VScode 開啟專案目錄</span></span><br></pre></td></tr></table></figure><p>因為現在 Rails 會自動先幫你執行 git 初始化 ➤ <code>git init</code><br>所以我們打開 VScode 第一件做的事情就是打開 Terminal 輸入</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;init commit&quot;  // 這裡的描述不一定要使用 init</span><br></pre></td></tr></table></figure><p>接下來確認環境有建立正確，故輸入</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails s <span class="keyword">or</span> rails server  /<span class="regexp">/ 兩種方式都一樣</span></span><br></pre></td></tr></table></figure><p>打開瀏覽器輸入<a href="https://localhost:3000/">https://localhost:3000</a><br><img src="https://i.imgur.com/IxMFZSj.jpg"></p><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;不使用-scaffold-目的？&quot;&gt;&lt;a href=&quot;#不使用-scaffold-目的？&quot; class=&quot;headerlink&quot; title=&quot;不使用 scaffold 目的？&quot;&gt;&lt;/a&gt;不使用 scaffold 目的？&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;scaffold 到底幫我們做了什麼事情？&lt;/li&gt;
-&lt;li&gt;MVC 架構的運作原理&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;透過 rails 建立一個投票系統來了解上述1、2項目</summary>
     
     
     
