@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ActiveRecord - 資料表關連 part 4 (ORM基本操作)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 4 (ORM基本操作)">
+<meta property="og:url" content="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4(ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)/index.html">
+<meta property="og:site_name" content="Cheng Ting&#39;s Blog">
+<meta property="og:description" content="ActiveRecord - 資料表關連 part 4 (ORM基本操作)">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/s1fUOuq.png">
+<meta property="og:image" content="https://i.imgur.com/vnBzxhK.png">
+<meta property="og:image" content="https://i.imgur.com/KOjs0Nq.png">
+<meta property="og:image" content="https://i.imgur.com/AQHAb06.png">
+<meta property="og:image" content="https://i.imgur.com/gngA6vi.png">
+<meta property="og:image" content="https://i.imgur.com/brYhRsx.png">
+<meta property="og:image" content="https://i.imgur.com/ybQBceL.png">
+<meta property="og:image" content="https://i.imgur.com/hjM4bKg.png">
+<meta property="og:image" content="https://i.imgur.com/N6Big9r.png">
+<meta property="og:image" content="https://i.imgur.com/7iufLy2.png">
+<meta property="og:image" content="https://i.imgur.com/FbJSvFD.png">
+<meta property="og:image" content="https://i.imgur.com/0YU0OrG.png">
+<meta property="og:image" content="https://i.imgur.com/sqzEpzC.png">
+<meta property="og:image" content="https://i.imgur.com/owx5JQf.jpg">
+<meta property="og:image" content="https://i.imgur.com/HvCjT2S.jpg">
+<meta property="og:image" content="https://i.imgur.com/ZMkkIaD.png">
+<meta property="og:image" content="https://i.imgur.com/qeNQZVl.png">
+<meta property="og:image" content="https://i.imgur.com/BG3rHP6.png">
+<meta property="og:image" content="https://i.imgur.com/q92rr8V.png">
+<meta property="og:image" content="https://i.imgur.com/YhUktlu.png">
+<meta property="og:image" content="https://i.imgur.com/VxVsYoV.png">
+<meta property="og:image" content="https://i.imgur.com/SXkZaKg.jpg">
+<meta property="og:image" content="https://i.imgur.com/3jQZxkI.png">
+<meta property="og:image" content="https://i.imgur.com/xH5Q3U1.png">
+<meta property="article:published_time" content="2023-02-01T05:24:04.000Z">
+<meta property="article:modified_time" content="2023-02-01T05:25:36.681Z">
+<meta property="article:author" content="Cheng Ting">
+<meta property="article:tag" content="Ruby on Rails">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/s1fUOuq.png">
+
+<link rel="canonical" href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4(ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 4 (ORM基本操作) | Cheng Ting's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cheng Ting's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cheng Ting's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">PATH To Engineer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4(ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self-image.jpg">
+      <meta itemprop="name" content="Cheng Ting">
+      <meta itemprop="description" content="轉職 ● 分享">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheng Ting's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 4 (ORM基本操作)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2023-02-01 13:24:04 / 修改時間：13:25:36" itemprop="dateCreated datePublished" datetime="2023-02-01T13:24:04+08:00">2023-02-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url" rel="index"><span itemprop="name">ASTRO CAMP 線上課程學習筆記</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ActiveRecord-資料表關連-part-4-ORM基本操作"><a href="#ActiveRecord-資料表關連-part-4-ORM基本操作" class="headerlink" title="ActiveRecord - 資料表關連 part 4 (ORM基本操作)"></a>ActiveRecord - 資料表關連 part 4 (ORM基本操作)</h1><span id="more"></span>
+<p><img src="https://i.imgur.com/s1fUOuq.png"></p>
+<h3 id="ORM-基本操作之-Create"><a href="#ORM-基本操作之-Create" class="headerlink" title="ORM 基本操作之 Create"></a>ORM 基本操作之 Create</h3><ul>
+<li>new 方法會建立一筆資料，但還不會將資料存到資料庫裡。</li>
+<li>create 或 create! 會建立一筆資料，並直接寫入資料庫裡。</li>
+<li>create 跟 create!這兩個方法有什麼不同?<br>答案：<br>create → 寫入失敗的時候，會默默地rollback回來，會默默地取消這次交易(transaction)。<br>create! → 寫入失敗時，會立刻噴出Exception(發生例外)。之後可以用 begin、rescue的方法來處理這些Exception</li>
+</ul>
+<hr>
+<p><img src="https://i.imgur.com/vnBzxhK.png"></p>
+<hr>
+<h3 id="ORM基本操作之-Read"><a href="#ORM基本操作之-Read" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul>
+<li>first 與 last</li>
+<li>fing_by(id: 1) 與 find(1)</li>
+<li>find_by_sql</li>
+<li>find_each</li>
+</ul>
+<hr>
+<p><img src="https://i.imgur.com/KOjs0Nq.png"></p>
+<h4 id="find-與find-by差別"><a href="#find-與find-by差別" class="headerlink" title="find()與find_by差別"></a>find()與find_by差別</h4><p>就像 <code>cteate</code> 跟 <code>create!</code>的差別一樣<br><code>find(1)</code>：是比較激進派的做法，當找不到資料的時候，會跳出錯誤訊息(<code>exception</code>)。</p>
+<p><code>find_by(id: 1)</code>：當找不到資料的時候，會回傳一個 <code>nill</code> 給你，屬於比較溫和派的作法。</p>
+<p>find_each：利用跑回圈的方式，預設是一千次，當今天是在用大型資料查詢的時候，<code>find_each</code>可以有效地減少電腦記憶體的使用。<br><img src="https://i.imgur.com/AQHAb06.png"><br>答案：<br><img src="https://i.imgur.com/gngA6vi.png"></p>
+<hr>
+<h3 id="ORM基本操作之-Read-1"><a href="#ORM基本操作之-Read-1" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul>
+<li>all</li>
+<li>select</li>
+<li>where</li>
+<li>order</li>
+<li>limit<br><img src="https://i.imgur.com/brYhRsx.png"><br>where 跟前面提到的 find_by(id: 1)差別是，where 會回傳「一包長得像陣列」的資料回來。</li>
+</ul>
+<hr>
+<h3 id="ORM基本操作之-Read-2"><a href="#ORM基本操作之-Read-2" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul>
+<li>count</li>
+<li>average</li>
+<li>sum</li>
+<li>maximum &amp; minimum<br><img src="https://i.imgur.com/ybQBceL.png"></li>
+<li><em><strong>不要傻傻的用ORM抓出來轉迴圈再來計算!!!</strong></em></li>
+</ul>
+<hr>
+<h3 id="ORM基本操作之-Update"><a href="#ORM基本操作之-Update" class="headerlink" title="ORM基本操作之 Update"></a>ORM基本操作之 Update</h3><ul>
+<li>save</li>
+<li>update</li>
+<li>update_attributes</li>
+<li>update_all<br><img src="https://i.imgur.com/hjM4bKg.png"><br><img src="https://i.imgur.com/N6Big9r.png"><br>答案：<br>這兩個方法本質上是一樣的。</li>
+</ul>
+<hr>
+<h3 id="ORM基本操作之-Update-1"><a href="#ORM基本操作之-Update-1" class="headerlink" title="ORM基本操作之 Update"></a>ORM基本操作之 Update</h3><ul>
+<li>increment 與 decrement</li>
+<li>toggle<br><img src="https://i.imgur.com/7iufLy2.png"></li>
+<li>上面2項用到的方法，都沒有存檔的功能，所以記得要執行<code>.save</code>。</li>
+</ul>
+<hr>
+<h3 id="ORM基本操作之-Delete"><a href="#ORM基本操作之-Delete" class="headerlink" title="ORM基本操作之 Delete"></a>ORM基本操作之 Delete</h3><ul>
+<li>delete</li>
+<li>destroy</li>
+<li>detroy_all(condition &#x3D; nil)<br><img src="https://i.imgur.com/FbJSvFD.png"><br><img src="https://i.imgur.com/0YU0OrG.png"><br>答案：<br>(1)<code>delete</code>是直接把資料刪除就結束了，<code>dedtroy</code>是會經過一連串的callback。<br>(2)<code>destroy</code>是真的把資料刪掉，從資料表上整個刪除，所以也救不回來。</li>
+</ul>
+<hr>
+<h3 id="Scope-範圍"><a href="#Scope-範圍" class="headerlink" title="Scope(範圍)"></a>Scope(範圍)</h3><ul>
+<li>把一群條件整理成一個Scope</li>
+<li>簡化使用時的邏輯</li>
+<li>減少在Controller裡寫一堆Where組合</li>
+<li>用起來跟類別方法一樣<br><img src="https://i.imgur.com/sqzEpzC.png"><br>已投摽系統舉例，要依照候選人年紀來篩選資料。先到<code>candidate_controller.rb</code><br><img src="https://i.imgur.com/owx5JQf.jpg"><br>再到<code>candidate.rb</code><br><img src="https://i.imgur.com/HvCjT2S.jpg"></li>
+</ul>
+<hr>
+<h3 id="Scope-範圍-1"><a href="#Scope-範圍-1" class="headerlink" title="Scope(範圍)"></a>Scope(範圍)</h3><ul>
+<li>default_scope 可幫所有的查詢預設套用 scope</li>
+<li>default_scope 的副作用？<br>答案：<br>default_scope的副作用就是它會一直跟著你。<br><img src="https://i.imgur.com/ZMkkIaD.png"><br>要擺脫它必須做undcope把它拔掉。</li>
+</ul>
+<hr>
+<h3 id="類別方法"><a href="#類別方法" class="headerlink" title="類別方法"></a>類別方法</h3><p><img src="https://i.imgur.com/qeNQZVl.png"><br>【練習題】</p>
+<ul>
+<li>scope 跟類別方法有什麼不一樣？</li>
+<li>什麼時候該用什麼寫法？<br>答案：<br>如果是相對簡單的查詢，只要寫一行就可以解決，可以優先考慮使用scope的寫法。<br>遇到比較複雜的時候，會使用類別方法。<br>沒有絕對答案，看每個人的習慣。</li>
+</ul>
+<hr>
+<h3 id="資料驗證"><a href="#資料驗證" class="headerlink" title="資料驗證"></a>資料驗證</h3><ul>
+<li><p>presence<br><img src="https://i.imgur.com/BG3rHP6.png"><br>還有另外一種早期寫法<br><img src="https://i.imgur.com/q92rr8V.png"></p>
+</li>
+<li><p>format</p>
+</li>
+<li><p>uniqueness</p>
+</li>
+<li><p>numericality</p>
+</li>
+<li><p>length</p>
+</li>
+<li><p>condition</p>
+</li>
+</ul>
+<hr>
+<h3 id="資料驗證過程"><a href="#資料驗證過程" class="headerlink" title="資料驗證過程"></a>資料驗證過程</h3><p><img src="https://i.imgur.com/YhUktlu.png"><br><img src="https://i.imgur.com/VxVsYoV.png"><br>【練習題】</p>
+<ul>
+<li>硬是要繞過驗證可以嗎？</li>
+<li>只要以驗證就可以保證資料正確嗎？<br>答案：<br>(1)如果硬要繞果驗證，其實是可以的。但基本這樣做沒有任何意義。<br><img src="https://i.imgur.com/SXkZaKg.jpg"></li>
+</ul>
+<p>(2)如果說整個系統都是用Rails寫，然後Model都有做驗證的話，基本上可以保證資料都是正確的。<br>但是如果說今天你的系統或是資料庫有跟別的系統共用的話，那就很難說了。</p>
+<hr>
+<h3 id="Callback"><a href="#Callback" class="headerlink" title="Callback"></a>Callback</h3><p><img src="https://i.imgur.com/3jQZxkI.png"><br>舉例<br><img src="https://i.imgur.com/xH5Q3U1.png"><br>【練習題】</p>
+<ul>
+<li>在前面的範例中，用before_save會造成什麼問題？</li>
+<li>before_save跟before_create有什麼差別？<br>答案：<br><code>before_save</code>：是資料寫入及資料更新的時候都會被執行。<br><code>before_create</code>：是只有在資料被建立的時候執行。</li>
+</ul>
+<p>參考來源：為你自己學 Ruby on Rails (<a target="_blank" rel="noopener" href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ruby-on-Rails/" rel="tag"># Ruby on Rails</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-3(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E5%A4%9A/" rel="prev" title="Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4-ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">ActiveRecord - 資料表關連 part 4 (ORM基本操作)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ORM-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B9%8B-Create"><span class="nav-number">1.0.1.</span> <span class="nav-text">ORM 基本操作之 Create</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B9%8B-Read"><span class="nav-number">1.0.2.</span> <span class="nav-text">ORM基本操作之 Read</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#find-%E8%88%87find-by%E5%B7%AE%E5%88%A5"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">find()與find_by差別</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B9%8B-Read-1"><span class="nav-number">1.0.3.</span> <span class="nav-text">ORM基本操作之 Read</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B9%8B-Read-2"><span class="nav-number">1.0.4.</span> <span class="nav-text">ORM基本操作之 Read</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B9%8B-Update"><span class="nav-number">1.0.5.</span> <span class="nav-text">ORM基本操作之 Update</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B9%8B-Update-1"><span class="nav-number">1.0.6.</span> <span class="nav-text">ORM基本操作之 Update</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B9%8B-Delete"><span class="nav-number">1.0.7.</span> <span class="nav-text">ORM基本操作之 Delete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope-%E7%AF%84%E5%9C%8D"><span class="nav-number">1.0.8.</span> <span class="nav-text">Scope(範圍)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope-%E7%AF%84%E5%9C%8D-1"><span class="nav-number">1.0.9.</span> <span class="nav-text">Scope(範圍)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%9E%E5%88%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.10.</span> <span class="nav-text">類別方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E9%A9%97%E8%AD%89"><span class="nav-number">1.0.11.</span> <span class="nav-text">資料驗證</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E9%A9%97%E8%AD%89%E9%81%8E%E7%A8%8B"><span class="nav-number">1.0.12.</span> <span class="nav-text">資料驗證過程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Callback"><span class="nav-number">1.0.13.</span> <span class="nav-text">Callback</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cheng Ting"
+      src="/images/self-image.jpg">
+  <p class="site-author-name" itemprop="name">Cheng Ting</p>
+  <div class="site-description" itemprop="description">轉職 ● 分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若要轉載文章，麻煩請保留原作者名稱與原始連結。</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

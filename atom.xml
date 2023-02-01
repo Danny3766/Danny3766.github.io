@@ -6,7 +6,7 @@
   <link href="https://danny3766.github.io/atom.xml" rel="self"/>
   
   <link href="https://danny3766.github.io/"/>
-  <updated>2023-02-01T04:59:09.648Z</updated>
+  <updated>2023-02-01T05:25:36.681Z</updated>
   <id>https://danny3766.github.io/</id>
   
   <author>
@@ -17,11 +17,74 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Ruby on Rails 網站開發 練習 - ActiveRocord - 資料表關連 part 1</title>
-    <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRocord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-1/"/>
-    <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRocord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-1/</id>
+    <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 4 (ORM基本操作)</title>
+    <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4(ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)/"/>
+    <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-4(ORM%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C)/</id>
+    <published>2023-02-01T05:24:04.000Z</published>
+    <updated>2023-02-01T05:25:36.681Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ActiveRecord-資料表關連-part-4-ORM基本操作"><a href="#ActiveRecord-資料表關連-part-4-ORM基本操作" class="headerlink" title="ActiveRecord - 資料表關連 part 4 (ORM基本操作)"></a>ActiveRecord - 資料表關連 part 4 (ORM基本操作)</h1><span id="more"></span><p><img src="https://i.imgur.com/s1fUOuq.png"></p><h3 id="ORM-基本操作之-Create"><a href="#ORM-基本操作之-Create" class="headerlink" title="ORM 基本操作之 Create"></a>ORM 基本操作之 Create</h3><ul><li>new 方法會建立一筆資料，但還不會將資料存到資料庫裡。</li><li>create 或 create! 會建立一筆資料，並直接寫入資料庫裡。</li><li>create 跟 create!這兩個方法有什麼不同?<br>答案：<br>create → 寫入失敗的時候，會默默地rollback回來，會默默地取消這次交易(transaction)。<br>create! → 寫入失敗時，會立刻噴出Exception(發生例外)。之後可以用 begin、rescue的方法來處理這些Exception</li></ul><hr><p><img src="https://i.imgur.com/vnBzxhK.png"></p><hr><h3 id="ORM基本操作之-Read"><a href="#ORM基本操作之-Read" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul><li>first 與 last</li><li>fing_by(id: 1) 與 find(1)</li><li>find_by_sql</li><li>find_each</li></ul><hr><p><img src="https://i.imgur.com/KOjs0Nq.png"></p><h4 id="find-與find-by差別"><a href="#find-與find-by差別" class="headerlink" title="find()與find_by差別"></a>find()與find_by差別</h4><p>就像 <code>cteate</code> 跟 <code>create!</code>的差別一樣<br><code>find(1)</code>：是比較激進派的做法，當找不到資料的時候，會跳出錯誤訊息(<code>exception</code>)。</p><p><code>find_by(id: 1)</code>：當找不到資料的時候，會回傳一個 <code>nill</code> 給你，屬於比較溫和派的作法。</p><p>find_each：利用跑回圈的方式，預設是一千次，當今天是在用大型資料查詢的時候，<code>find_each</code>可以有效地減少電腦記憶體的使用。<br><img src="https://i.imgur.com/AQHAb06.png"><br>答案：<br><img src="https://i.imgur.com/gngA6vi.png"></p><hr><h3 id="ORM基本操作之-Read-1"><a href="#ORM基本操作之-Read-1" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul><li>all</li><li>select</li><li>where</li><li>order</li><li>limit<br><img src="https://i.imgur.com/brYhRsx.png"><br>where 跟前面提到的 find_by(id: 1)差別是，where 會回傳「一包長得像陣列」的資料回來。</li></ul><hr><h3 id="ORM基本操作之-Read-2"><a href="#ORM基本操作之-Read-2" class="headerlink" title="ORM基本操作之 Read"></a>ORM基本操作之 Read</h3><ul><li>count</li><li>average</li><li>sum</li><li>maximum &amp; minimum<br><img src="https://i.imgur.com/ybQBceL.png"></li><li><em><strong>不要傻傻的用ORM抓出來轉迴圈再來計算!!!</strong></em></li></ul><hr><h3 id="ORM基本操作之-Update"><a href="#ORM基本操作之-Update" class="headerlink" title="ORM基本操作之 Update"></a>ORM基本操作之 Update</h3><ul><li>save</li><li>update</li><li>update_attributes</li><li>update_all<br><img src="https://i.imgur.com/hjM4bKg.png"><br><img src="https://i.imgur.com/N6Big9r.png"><br>答案：<br>這兩個方法本質上是一樣的。</li></ul><hr><h3 id="ORM基本操作之-Update-1"><a href="#ORM基本操作之-Update-1" class="headerlink" title="ORM基本操作之 Update"></a>ORM基本操作之 Update</h3><ul><li>increment 與 decrement</li><li>toggle<br><img src="https://i.imgur.com/7iufLy2.png"></li><li>上面2項用到的方法，都沒有存檔的功能，所以記得要執行<code>.save</code>。</li></ul><hr><h3 id="ORM基本操作之-Delete"><a href="#ORM基本操作之-Delete" class="headerlink" title="ORM基本操作之 Delete"></a>ORM基本操作之 Delete</h3><ul><li>delete</li><li>destroy</li><li>detroy_all(condition &#x3D; nil)<br><img src="https://i.imgur.com/FbJSvFD.png"><br><img src="https://i.imgur.com/0YU0OrG.png"><br>答案：<br>(1)<code>delete</code>是直接把資料刪除就結束了，<code>dedtroy</code>是會經過一連串的callback。<br>(2)<code>destroy</code>是真的把資料刪掉，從資料表上整個刪除，所以也救不回來。</li></ul><hr><h3 id="Scope-範圍"><a href="#Scope-範圍" class="headerlink" title="Scope(範圍)"></a>Scope(範圍)</h3><ul><li>把一群條件整理成一個Scope</li><li>簡化使用時的邏輯</li><li>減少在Controller裡寫一堆Where組合</li><li>用起來跟類別方法一樣<br><img src="https://i.imgur.com/sqzEpzC.png"><br>已投摽系統舉例，要依照候選人年紀來篩選資料。先到<code>candidate_controller.rb</code><br><img src="https://i.imgur.com/owx5JQf.jpg"><br>再到<code>candidate.rb</code><br><img src="https://i.imgur.com/HvCjT2S.jpg"></li></ul><hr><h3 id="Scope-範圍-1"><a href="#Scope-範圍-1" class="headerlink" title="Scope(範圍)"></a>Scope(範圍)</h3><ul><li>default_scope 可幫所有的查詢預設套用 scope</li><li>default_scope 的副作用？<br>答案：<br>default_scope的副作用就是它會一直跟著你。<br><img src="https://i.imgur.com/ZMkkIaD.png"><br>要擺脫它必須做undcope把它拔掉。</li></ul><hr><h3 id="類別方法"><a href="#類別方法" class="headerlink" title="類別方法"></a>類別方法</h3><p><img src="https://i.imgur.com/qeNQZVl.png"><br>【練習題】</p><ul><li>scope 跟類別方法有什麼不一樣？</li><li>什麼時候該用什麼寫法？<br>答案：<br>如果是相對簡單的查詢，只要寫一行就可以解決，可以優先考慮使用scope的寫法。<br>遇到比較複雜的時候，會使用類別方法。<br>沒有絕對答案，看每個人的習慣。</li></ul><hr><h3 id="資料驗證"><a href="#資料驗證" class="headerlink" title="資料驗證"></a>資料驗證</h3><ul><li><p>presence<br><img src="https://i.imgur.com/BG3rHP6.png"><br>還有另外一種早期寫法<br><img src="https://i.imgur.com/q92rr8V.png"></p></li><li><p>format</p></li><li><p>uniqueness</p></li><li><p>numericality</p></li><li><p>length</p></li><li><p>condition</p></li></ul><hr><h3 id="資料驗證過程"><a href="#資料驗證過程" class="headerlink" title="資料驗證過程"></a>資料驗證過程</h3><p><img src="https://i.imgur.com/YhUktlu.png"><br><img src="https://i.imgur.com/VxVsYoV.png"><br>【練習題】</p><ul><li>硬是要繞過驗證可以嗎？</li><li>只要以驗證就可以保證資料正確嗎？<br>答案：<br>(1)如果硬要繞果驗證，其實是可以的。但基本這樣做沒有任何意義。<br><img src="https://i.imgur.com/SXkZaKg.jpg"></li></ul><p>(2)如果說整個系統都是用Rails寫，然後Model都有做驗證的話，基本上可以保證資料都是正確的。<br>但是如果說今天你的系統或是資料庫有跟別的系統共用的話，那就很難說了。</p><hr><h3 id="Callback"><a href="#Callback" class="headerlink" title="Callback"></a>Callback</h3><p><img src="https://i.imgur.com/3jQZxkI.png"><br>舉例<br><img src="https://i.imgur.com/xH5Q3U1.png"><br>【練習題】</p><ul><li>在前面的範例中，用before_save會造成什麼問題？</li><li>before_save跟before_create有什麼差別？<br>答案：<br><code>before_save</code>：是資料寫入及資料更新的時候都會被執行。<br><code>before_create</code>：是只有在資料被建立的時候執行。</li></ul><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ActiveRecord-資料表關連-part-4-ORM基本操作&quot;&gt;&lt;a href=&quot;#ActiveRecord-資料表關連-part-4-ORM基本操作&quot; class=&quot;headerlink&quot; title=&quot;ActiveRecord - 資料表關連 part 4 (ORM基本操作)&quot;&gt;&lt;/a&gt;ActiveRecord - 資料表關連 part 4 (ORM基本操作)&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
+    
+    
+    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)</title>
+    <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-3(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E5%A4%9A/"/>
+    <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-3(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E5%A4%9A/</id>
+    <published>2023-02-01T05:19:01.000Z</published>
+    <updated>2023-02-01T05:21:05.531Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ActiveRecord-資料表關連-part-3-關聯性-一對多"><a href="#ActiveRecord-資料表關連-part-3-關聯性-一對多" class="headerlink" title="ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)"></a>ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)</h1><span id="more"></span><h3 id="has-many-through"><a href="#has-many-through" class="headerlink" title="has_many:through"></a>has_many:through</h3><p><img src="https://i.imgur.com/JjcKE7r.png"><br><img src="https://i.imgur.com/9ngoMXJ.png"><br><img src="https://i.imgur.com/OxAehwn.png"><br><img src="https://i.imgur.com/gCFLqms.png"></p><hr><p>所以我們需要一個第三方的資料表儲存資料<br>首先打開終端機建立一個新的Model Warehouse<br><img src="https://i.imgur.com/BqlqgNh.png"><br><img src="https://i.imgur.com/hRQsJjT.png"><br>打開VScode 可以看到warehouse屬於store也屬於products。<br><img src="https://i.imgur.com/Lgev2KT.png"><br>此時打開 <code>product.rb</code> 增加一行 <code>has_many :warehouses</code><br><img src="https://i.imgur.com/tsVdahr.png"><br>另外 <code>store.rb</code> 也要做一樣的步驟<br><img src="https://i.imgur.com/WAvGMZC.png"><br>回到 <code>product.rb</code> 要再多增加一行<br><img src="https://i.imgur.com/VmNuRoX.png"></p><p>表示我有哪些商品要鋪貨到那些商店，都透過warehouses來拿到相關的資料。<br>所以 <code>store.rb</code> 也要相同寫法<br><img src="https://i.imgur.com/z95KUns.png"><br>表示<code>store.rb</code> 本身不會知道我有哪些商品<br>必須透過<code>warehouses</code>才能知道相關資訊。<br>接著打開rails console，輸入s1,s2看看<br><img src="https://i.imgur.com/534GAEl.png"><br>此時也可以看看資料庫裡面是否有商品<code>Product.all</code><br><img src="https://i.imgur.com/lE5RR6v.png"><br>確認目前都是沒有商品的，那就來建立商品吧!<br><img src="https://i.imgur.com/5HZQkop.png"><br>接著我們在第一間店上架3個商品<br><img src="https://i.imgur.com/9kZbuk2.png"><br>輸入 <code>s1 = products.count</code> 可以看到目前第一間店有的商品數量<br><img src="https://i.imgur.com/cOt5hfZ.png"><br>依此類推第二間店。<br>也可以用商品的角度來查詢有在那些店上架<br><img src="https://i.imgur.com/D2PJemh.png"></p><hr><p>除了剛剛的寫法以外還有另外一種早期使用的多對多寫法(HABTM)<br><img src="https://i.imgur.com/3SkSltl.png"><br><img src="https://i.imgur.com/bhlpQwx.png"><br><img src="https://i.imgur.com/gZm9IeV.png"><br>答案：<br>沒有一定的寫法，只要自己喜歡的方式就好。</p><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ActiveRecord-資料表關連-part-3-關聯性-一對多&quot;&gt;&lt;a href=&quot;#ActiveRecord-資料表關連-part-3-關聯性-一對多&quot; class=&quot;headerlink&quot; title=&quot;ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)&quot;&gt;&lt;/a&gt;ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
+    
+    
+    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)</title>
+    <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-2(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E4%B8%80/"/>
+    <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-2(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E4%B8%80/</id>
+    <published>2023-02-01T05:08:30.000Z</published>
+    <updated>2023-02-01T05:17:13.047Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ActiveRecord-資料表關連-part-2-關聯性-一對一"><a href="#ActiveRecord-資料表關連-part-2-關聯性-一對一" class="headerlink" title="ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)"></a>ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)</h1><span id="more"></span><h2 id="假設我們現在有一個書店系統"><a href="#假設我們現在有一個書店系統" class="headerlink" title="假設我們現在有一個書店系統"></a>假設我們現在有一個書店系統</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://i.imgur.com/Re9x5VR.png"></h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.imgur.com/kbAmqec.png"></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.imgur.com/libvwen.png"></h2><h2 id="-3"><a href="#-3" class="headerlink" title=""></a><img src="https://i.imgur.com/Q9iwJ64.png"></h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a><img src="https://i.imgur.com/5HZ1FUZ.png"></h2><h2 id="-5"><a href="#-5" class="headerlink" title=""></a><img src="https://i.imgur.com/D49Idxx.png"></h2><p><img src="https://i.imgur.com/eIDw2OI.png"><br><img src="https://i.imgur.com/deK2HwX.png"></p><hr><p>另外開一個新專案MyStore<br>先使用終端機輸入相關的rails 指令產生對應的model<br><img src="https://i.imgur.com/n3BOVBX.png"></p><hr><p><img src="https://i.imgur.com/4AKPsUu.png"></p><hr><h3 id="has-one-它其實是類別方法"><a href="#has-one-它其實是類別方法" class="headerlink" title="has_one(它其實是類別方法)"></a>has_one(它其實是類別方法)</h3><p>打開文字編輯器VScode，進到<code>app/models/owner.rb</code> 編輯裡面內容<br><img src="https://i.imgur.com/ef4h1O7.png"><br>接著打開 <code>reails console</code> 來建議一個變數 o1(歐一)並給它一個名字 O1(大寫歐一)<br><img src="https://i.imgur.com/YCAlBrt.png"><br>這裡也新增一個商店命名s1，但是會發現錯誤，是正常的。<br><img src="https://i.imgur.com/vlLn7VO.png"><br>可以透過查看錯誤訊息知道，它必須有一個owner，我們還沒有指定給它<br><img src="https://i.imgur.com/VFaQxXS.png"><br>所以我們可以換個方式<br><img src="https://i.imgur.com/mltY7RH.png"><br><img src="https://i.imgur.com/hAZBI1K.png"><br><img src="https://i.imgur.com/DC7japR.png"><br><img src="https://i.imgur.com/4O5xXX1.png"><br><img src="https://i.imgur.com/qYLW4VS.png"></p><hr><p><img src="https://i.imgur.com/Hg1IUo0.png"><br>答案：</p><ul><li>build → 會直接寫到記憶體裡面，但是要透過<code>.save</code>才會存進去資料庫</li><li>create → 會直接寫進去資料庫</li></ul><hr><h3 id="belons-to-它其實是類別方法"><a href="#belons-to-它其實是類別方法" class="headerlink" title="belons_to(它其實是類別方法)"></a>belons_to(它其實是類別方法)</h3><p><img src="https://i.imgur.com/DvQfEJO.png"><br><img src="https://i.imgur.com/UVbaxkw.png"><br><img src="https://i.imgur.com/KSKJqeO.png"><br>答案：</p><ul><li>沒有同時設定不會怎麼樣，只是只能從 <code>owner.rb</code> 查詢 <code>store.rb</code>。但是不能從 <code>store.rb</code>反查 <code>owner.rb</code>。</li><li>xxx_id不一定要叫這個名字，這只是個慣例。<br>完整名稱：</li></ul><p><img src="https://i.imgur.com/y6RqP9V.png"><br>如果今天是別人寫的資料庫，但不是用Ruby寫的我們就會需要使用這樣的寫法去讀取外部id。</p><hr><h3 id="has-many-它其實是類別方法"><a href="#has-many-它其實是類別方法" class="headerlink" title="has_many(它其實是類別方法)"></a>has_many(它其實是類別方法)</h3><p><img src="https://i.imgur.com/za5xwJy.png"><br><img src="https://i.imgur.com/qBHpbZ9.png"><br><img src="https://i.imgur.com/1zAjEEg.png"><br><img src="https://i.imgur.com/iqxllB5.png"><br><img src="https://i.imgur.com/2Px6n6B.png"></p><p>答案：</p><ul><li>has_many方法後面不用符號改用字串不會發什麼事。</li><li>就來建立一個看看<br><img src="https://i.imgur.com/6c2Ee7h.png"><br>打開VScode<br><img src="https://i.imgur.com/1cVDtTN.png"><br>在<code>store.rb</code> 新增 <code>has_many :products</code><br><img src="https://i.imgur.com/GyNictS.png"><br>打開 <code>rails console</code> 來看看<br><img src="https://i.imgur.com/TXDiXNO.png"><br>回到VScode <code>store.rb</code> 將products改成單數product<br><img src="https://i.imgur.com/c1lB9HY.png"><br>然後再開啟 <code>rails console</code>來看看，會發現這時候找不到對應的商品。<br><img src="https://i.imgur.com/cyRxN6n.png"></li></ul><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;ActiveRecord-資料表關連-part-2-關聯性-一對一&quot;&gt;&lt;a href=&quot;#ActiveRecord-資料表關連-part-2-關聯性-一對一&quot; class=&quot;headerlink&quot; title=&quot;ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)&quot;&gt;&lt;/a&gt;ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
+    
+    
+    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 1</title>
+    <link href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-1/"/>
+    <id>https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-1/</id>
     <published>2023-02-01T04:39:40.000Z</published>
-    <updated>2023-02-01T04:59:09.648Z</updated>
+    <updated>2023-02-01T05:09:50.693Z</updated>
     
     <content type="html"><![CDATA[<h1 id="ActiveRecord-資料表關連-part-1"><a href="#ActiveRecord-資料表關連-part-1" class="headerlink" title="ActiveRecord - 資料表關連 part 1"></a>ActiveRecord - 資料表關連 part 1</h1><span id="more"></span><p><img src="https://i.imgur.com/18t3uNV.png"></p><h2 id="把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。"><a href="#把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。" class="headerlink" title="把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。"></a><strong>把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。</strong></h2><hr><p><img src="https://i.imgur.com/zQMDWB7.png"><br><img src="https://i.imgur.com/4ht96p7.png"></p><hr><h3 id="到這裡就會有問題：那-Model-到底是什麼"><a href="#到這裡就會有問題：那-Model-到底是什麼" class="headerlink" title="到這裡就會有問題：那 Model 到底是什麼?"></a>到這裡就會有問題：那 Model 到底是什麼?</h3><h3 id="Model-x3D-依照-Active-Record-模式設計的產物"><a href="#Model-x3D-依照-Active-Record-模式設計的產物" class="headerlink" title="Model &#x3D; 依照 Active Record 模式設計的產物"></a><em><strong>Model &#x3D; 依照 Active Record 模式設計的產物</strong></em></h3><p><img src="https://i.imgur.com/ZIXS4ya.png"></p><p>這邊就要提到一個觀念：</p><ul><li>ORM &#x3D; Object Relational Mapping (物件關聯對映)</li><li>目的：簡化資料庫操作語法<br>那又會有一個問題：<br>用 ORM 就不需要學 SQL 了?</li></ul><h3 id="當然不是"><a href="#當然不是" class="headerlink" title="當然不是!!!"></a>當然不是!!!</h3><hr><p><img src="https://i.imgur.com/n3YYS5k.png"><br>答案：</p><blockquote><p>ActiveRecord 是一種 ORM 的設計框架，目的是希望透過物件的方式來簡化操作資料庫的語法。</p></blockquote><hr><h3 id="慣例優於設定："><a href="#慣例優於設定：" class="headerlink" title="慣例優於設定："></a>慣例優於設定：</h3><blockquote><p>Convention over Configuration(CoC)</p></blockquote><ul><li>慣例 &#x3D; 可以少寫不必要的程式碼</li></ul><hr><h3 id="換句話說：學習Rails，等於是在學習Rails的慣例"><a href="#換句話說：學習Rails，等於是在學習Rails的慣例" class="headerlink" title="換句話說：學習Rails，等於是在學習Rails的慣例"></a>換句話說：學習Rails，等於是在學習Rails的慣例</h3><p>慣例一：</p><ul><li>Model：大寫、單數</li><li>Table：小寫、複數<br><img src="https://i.imgur.com/Iehm27f.png"></li></ul><hr><p>慣例二：</p><ul><li>每個表格預設有一個叫做 id 的流水編號欄位</li><li>在 migration 裡預設會有個 timestamps：<br>timestamps 會轉變成 <code>created_at</code> 跟 <code>update_at</code> 這兩個時間欄位<br>在資料新增或更新的時候會自動寫入當下時間<br><img src="https://i.imgur.com/7USCurR.png"></li></ul><hr><p><img src="https://i.imgur.com/UwBjFi9.png"><br>答案：<br>流水編號(id)：當資料在新增的時候，它會自動跳號去「累加」。<br>如果自己手動增加：會有個風險，假設你要手動把某筆 id 是最大的資料取出，手動+1後再存回去資料庫，但是你取出的同時有另外的人也剛好取出同一筆資料，這樣你們兩者回傳回去資料庫的 id 會產生一樣的情況。<br>為了避免發生這種情況，盡量不要自己手動去做，都交給資料庫系統本身處理就好。</p><hr><p><img src="https://i.imgur.com/cXy9zmL.png"><br>答案：<br>其實是在 Rails 專案裡面有個檔案 <code>config/initializers/inflection.rb</code><br>第6、9、11行解開註解<br>在第9行去修改它<br><img src="https://i.imgur.com/1vhcbvE.png"><br>打開 rails console畫面檢查結果<br><img src="https://i.imgur.com/Kju8hid.png"><br>檔名更類別可以對應：<br><img src="https://i.imgur.com/mYT7zOL.png"></p><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
     
@@ -378,49 +441,6 @@
     
     
     <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ruby on Rails 小試身手 (初識 Rails)</title>
-    <link href="https://danny3766.github.io/2022/12/13/Ruby%20on%20Rails%20%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/"/>
-    <id>https://danny3766.github.io/2022/12/13/Ruby%20on%20Rails%20%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/</id>
-    <published>2022-12-12T18:34:47.000Z</published>
-    <updated>2023-02-01T04:58:11.071Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span><ol><li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p></li><li><p>發明人:David Heinemeier Hansson(DHH)</p></li><li><p>首次公開發表:西元2004年</p></li><li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p></li></ol><h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol><li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p></li><li><p>CoC &#x3D; 慣例優於設定 (Covention Over Configuration)</p></li></ol><h2 id="使用-Scaffold-創建一個-table-出來"><a href="#使用-Scaffold-創建一個-table-出來" class="headerlink" title="使用 Scaffold 創建一個 table 出來"></a>使用 Scaffold 創建一個 table 出來</h2><p>第一步 輸入指令:</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">generate scaffold <span class="title class_">User</span> <span class="symbol">name:</span>string <span class="symbol">email:</span>string <span class="symbol">tel:</span>string</span><br></pre></td></tr></table></figure><ul><li>可以偷懶一下少敲打一些字 ：<br>generate &#x3D; g<br>String 型態可省略不打<br>bin&#x2F;rails 可以輸入 rails 就好</li></ul><hr><p>至於什麼時候用<code>bin/rails</code>這個指令，是因為在本機有安裝不同版本的rails，每個專案開發時使用的版本不同，<code>bin/rails</code>會只針對專案本身使用的rails版本去執行。</p><p>而<code>rails</code>預設會使用目前本機端內最新版本的rails來執行。</p><ul><li>所以有時候會發現某些專案輸入<code>rails g</code>不會執行，要使用<code>bin/rails</code>才會執行。</li></ul><hr><p>讓我們開始認識Ruby on Rails，看看它有什麼厲害的地方吧！</p><p>首先：cd 到我們要建立專案的目錄底下輸入指令:<code>rails new test-scaffold</code>再 cd 到 test-scaffold 目錄中。</p><p>接著我們就開始在終端機輸入指令</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails g scaffold <span class="title class_">User</span> name email tel</span><br></pre></td></tr></table></figure><p><img src="https://i.imgur.com/LALBWQs.png"></p><p>可以看到Rails已經幫我們生成好多檔案出來，雖然目前還不了解這些檔案的個別功用，之後在實體課程中會進一步了解。這些檔案就是網站架構起來的關鍵。</p><p>看到指令中<code>scaffold</code>這個單字，中文翻譯「鷹架」，從這邊其實大概可以猜的出來這個指令應該是要產生類似腳架的結構出來，一般我們日常生活最常看到這種腳架或鷹架結構，就是建造房屋、大樓。所以看到這行指令會猜想應該是產生要架構出網站的「鷹架」。</p><p>這個指令所產生一整串的檔案，其中db&#x2F;migrate&#x2F;這個目錄開頭的.rb檔，是一個描述檔。描述「資料庫的架構長什麼樣子」。在這邊可以先理解成描述我們剛剛輸入的指令，之後要建立一張資料表，表單名稱叫做User，且表單裡面會有一些欄位分別是要存放name、email、tellphone等資料。</p><p>你會想問為什麼會有這個表單，它的作用如何？這就要說到Rails是由一種叫做 MVC 的軟體構模式來設計網站，主要目的是分化程式的權責，口語化來說，就是各司其職，比如一間餐廳，廚師負責烹飪出菜，服務人員負責接待客人、帶位，收銀櫃檯人員負責結帳，就是分工合作的概念。</p><ul><li><p>M(Model):模型，它主要負責跟資料庫溝通。該拿取什麼資料透過Model。</p></li><li><p>V(View):可以當作讓使用者看到的畫面，所以稱為「View」。主要是呈現畫面讓使用者看到。</p></li><li><p>C(Controller):控制器，可以想像成「指揮官」，contoller負責指揮model要去資料庫拿什麼資料，然後決定要用什麼樣的畫面讓view呈現給使用者看到。</p></li></ul><hr><p>所以剛剛前面提到的「描述檔」就是跟model有關係的，因為model才會知道要怎麼拿取資料。之後的實體課程會再進一步的學習。</p><p>第二步：把 scaffold 的資料表設定具象化</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails <span class="symbol">db:</span>migrate</span><br></pre></td></tr></table></figure><p><img src="https://i.imgur.com/hXOlgae.png"></p><p>這個步驟是把描述檔，生成User資料表。</p><p>第三步：啟動伺服器</p><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails server 或是 減寫 rails s</span><br></pre></td></tr></table></figure><p><img src="https://i.imgur.com/gVRiWXF.png"></p><p>然後，打開瀏覽器，輸入網址<br><code>http://localhost:3000/users</code><br><img src="https://i.imgur.com/Rt2Ohey.png"></p><p>耶～～恭喜你，成功建立一個簡單的表單網頁了~~~</p><p>按下<code>New user</code>會看到一個新增user的頁面</p><p><img src="https://i.imgur.com/nsEcMsk.png"></p><p>可以快速的產生一個簡單的user頁面。還能做到新增&#x2F;修改&#x2F;刪除。這邊就不放上修改及刪除的頁面了。</p><p><img src="https://i.imgur.com/lMGDM7R.png"></p><p><img src="https://i.imgur.com/CXVHCqt.png"></p><p>第一次看到，哇!!!真是太神奇了，Rails。</p><p>這就是第一次與Rails見面。也是第一次寫學習筆記的分享。</p><p>或許有些觀念是沒有理解清楚，可以幫忙給予糾正。</p><p>期許自己透過分享學習筆記的過程，課程中較模糊或沒有完全理解的觀念可以慢慢的整理清楚。</p><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;Ruby-on-Rails-小試身手-初識-Rails&quot;&gt;&lt;a href=&quot;#Ruby-on-Rails-小試身手-初識-Rails&quot; class=&quot;headerlink&quot; title=&quot;Ruby on Rails 小試身手 (初識 Rails)&quot;&gt;&lt;/a&gt;Ruby on Rails 小試身手 (初識 Rails)&lt;/h1&gt;</summary>
-    
-    
-    
-    <category term="ASTRO CAMP 線上課程學習筆記" scheme="https://danny3766.github.io/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/"/>
-    
-    
-    <category term="Ruby on Rails" scheme="https://danny3766.github.io/tags/Ruby-on-Rails/"/>
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://danny3766.github.io/2022/12/05/test/"/>
-    <id>https://danny3766.github.io/2022/12/05/test/</id>
-    <published>2022-12-05T10:59:18.199Z</published>
-    <updated>2022-12-05T10:59:39.857Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>title: test<br>date: 2022-12-05 18:59:18<br>tags:<br>這是測試用文章</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;hr&gt;
-&lt;p&gt;title: test&lt;br&gt;date: 2022-12-05 18:59:18&lt;br&gt;tags:&lt;br&gt;這是測試用文章&lt;/p&gt;
-</summary>
-      
-    
-    
-    
     
   </entry>
   

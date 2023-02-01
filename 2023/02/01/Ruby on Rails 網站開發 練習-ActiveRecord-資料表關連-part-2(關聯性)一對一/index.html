@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"danny3766.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)">
+<meta property="og:url" content="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-2(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E4%B8%80/index.html">
+<meta property="og:site_name" content="Cheng Ting&#39;s Blog">
+<meta property="og:description" content="ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.imgur.com/Re9x5VR.png">
+<meta property="og:image" content="https://i.imgur.com/kbAmqec.png">
+<meta property="og:image" content="https://i.imgur.com/libvwen.png">
+<meta property="og:image" content="https://i.imgur.com/Q9iwJ64.png">
+<meta property="og:image" content="https://i.imgur.com/5HZ1FUZ.png">
+<meta property="og:image" content="https://i.imgur.com/D49Idxx.png">
+<meta property="og:image" content="https://i.imgur.com/eIDw2OI.png">
+<meta property="og:image" content="https://i.imgur.com/deK2HwX.png">
+<meta property="og:image" content="https://i.imgur.com/n3BOVBX.png">
+<meta property="og:image" content="https://i.imgur.com/4AKPsUu.png">
+<meta property="og:image" content="https://i.imgur.com/ef4h1O7.png">
+<meta property="og:image" content="https://i.imgur.com/YCAlBrt.png">
+<meta property="og:image" content="https://i.imgur.com/vlLn7VO.png">
+<meta property="og:image" content="https://i.imgur.com/VFaQxXS.png">
+<meta property="og:image" content="https://i.imgur.com/mltY7RH.png">
+<meta property="og:image" content="https://i.imgur.com/hAZBI1K.png">
+<meta property="og:image" content="https://i.imgur.com/DC7japR.png">
+<meta property="og:image" content="https://i.imgur.com/4O5xXX1.png">
+<meta property="og:image" content="https://i.imgur.com/qYLW4VS.png">
+<meta property="og:image" content="https://i.imgur.com/Hg1IUo0.png">
+<meta property="og:image" content="https://i.imgur.com/DvQfEJO.png">
+<meta property="og:image" content="https://i.imgur.com/UVbaxkw.png">
+<meta property="og:image" content="https://i.imgur.com/KSKJqeO.png">
+<meta property="og:image" content="https://i.imgur.com/y6RqP9V.png">
+<meta property="og:image" content="https://i.imgur.com/za5xwJy.png">
+<meta property="og:image" content="https://i.imgur.com/qBHpbZ9.png">
+<meta property="og:image" content="https://i.imgur.com/1zAjEEg.png">
+<meta property="og:image" content="https://i.imgur.com/iqxllB5.png">
+<meta property="og:image" content="https://i.imgur.com/2Px6n6B.png">
+<meta property="og:image" content="https://i.imgur.com/6c2Ee7h.png">
+<meta property="og:image" content="https://i.imgur.com/1cVDtTN.png">
+<meta property="og:image" content="https://i.imgur.com/GyNictS.png">
+<meta property="og:image" content="https://i.imgur.com/TXDiXNO.png">
+<meta property="og:image" content="https://i.imgur.com/c1lB9HY.png">
+<meta property="og:image" content="https://i.imgur.com/cyRxN6n.png">
+<meta property="article:published_time" content="2023-02-01T05:08:30.000Z">
+<meta property="article:modified_time" content="2023-02-01T05:17:13.047Z">
+<meta property="article:author" content="Cheng Ting">
+<meta property="article:tag" content="Ruby on Rails">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Re9x5VR.png">
+
+<link rel="canonical" href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-2(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E4%B8%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 2 (關聯性)(一對一) | Cheng Ting's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Cheng Ting's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cheng Ting's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">PATH To Engineer</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://danny3766.github.io/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-2(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/self-image.jpg">
+      <meta itemprop="name" content="Cheng Ting">
+      <meta itemprop="description" content="轉職 ● 分享">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cheng Ting's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2023-02-01 13:08:30 / 修改時間：13:17:13" itemprop="dateCreated datePublished" datetime="2023-02-01T13:08:30+08:00">2023-02-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASTRO-CAMP-%E7%B7%9A%E4%B8%8A%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url" rel="index"><span itemprop="name">ASTRO CAMP 線上課程學習筆記</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ActiveRecord-資料表關連-part-2-關聯性-一對一"><a href="#ActiveRecord-資料表關連-part-2-關聯性-一對一" class="headerlink" title="ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)"></a>ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)</h1><span id="more"></span>
+<h2 id="假設我們現在有一個書店系統"><a href="#假設我們現在有一個書店系統" class="headerlink" title="假設我們現在有一個書店系統"></a>假設我們現在有一個書店系統</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://i.imgur.com/Re9x5VR.png"></h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.imgur.com/kbAmqec.png"></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.imgur.com/libvwen.png"></h2><h2 id="-3"><a href="#-3" class="headerlink" title=""></a><img src="https://i.imgur.com/Q9iwJ64.png"></h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a><img src="https://i.imgur.com/5HZ1FUZ.png"></h2><h2 id="-5"><a href="#-5" class="headerlink" title=""></a><img src="https://i.imgur.com/D49Idxx.png"></h2><p><img src="https://i.imgur.com/eIDw2OI.png"><br><img src="https://i.imgur.com/deK2HwX.png"></p>
+<hr>
+<p>另外開一個新專案MyStore<br>先使用終端機輸入相關的rails 指令產生對應的model<br><img src="https://i.imgur.com/n3BOVBX.png"></p>
+<hr>
+<p><img src="https://i.imgur.com/4AKPsUu.png"></p>
+<hr>
+<h3 id="has-one-它其實是類別方法"><a href="#has-one-它其實是類別方法" class="headerlink" title="has_one(它其實是類別方法)"></a>has_one(它其實是類別方法)</h3><p>打開文字編輯器VScode，進到<code>app/models/owner.rb</code> 編輯裡面內容<br><img src="https://i.imgur.com/ef4h1O7.png"><br>接著打開 <code>reails console</code> 來建議一個變數 o1(歐一)並給它一個名字 O1(大寫歐一)<br><img src="https://i.imgur.com/YCAlBrt.png"><br>這裡也新增一個商店命名s1，但是會發現錯誤，是正常的。<br><img src="https://i.imgur.com/vlLn7VO.png"><br>可以透過查看錯誤訊息知道，它必須有一個owner，我們還沒有指定給它<br><img src="https://i.imgur.com/VFaQxXS.png"><br>所以我們可以換個方式<br><img src="https://i.imgur.com/mltY7RH.png"><br><img src="https://i.imgur.com/hAZBI1K.png"><br><img src="https://i.imgur.com/DC7japR.png"><br><img src="https://i.imgur.com/4O5xXX1.png"><br><img src="https://i.imgur.com/qYLW4VS.png"></p>
+<hr>
+<p><img src="https://i.imgur.com/Hg1IUo0.png"><br>答案：</p>
+<ul>
+<li>build → 會直接寫到記憶體裡面，但是要透過<code>.save</code>才會存進去資料庫</li>
+<li>create → 會直接寫進去資料庫</li>
+</ul>
+<hr>
+<h3 id="belons-to-它其實是類別方法"><a href="#belons-to-它其實是類別方法" class="headerlink" title="belons_to(它其實是類別方法)"></a>belons_to(它其實是類別方法)</h3><p><img src="https://i.imgur.com/DvQfEJO.png"><br><img src="https://i.imgur.com/UVbaxkw.png"><br><img src="https://i.imgur.com/KSKJqeO.png"><br>答案：</p>
+<ul>
+<li>沒有同時設定不會怎麼樣，只是只能從 <code>owner.rb</code> 查詢 <code>store.rb</code>。但是不能從 <code>store.rb</code>反查 <code>owner.rb</code>。</li>
+<li>xxx_id不一定要叫這個名字，這只是個慣例。<br>完整名稱：</li>
+</ul>
+<p><img src="https://i.imgur.com/y6RqP9V.png"><br>如果今天是別人寫的資料庫，但不是用Ruby寫的我們就會需要使用這樣的寫法去讀取外部id。</p>
+<hr>
+<h3 id="has-many-它其實是類別方法"><a href="#has-many-它其實是類別方法" class="headerlink" title="has_many(它其實是類別方法)"></a>has_many(它其實是類別方法)</h3><p><img src="https://i.imgur.com/za5xwJy.png"><br><img src="https://i.imgur.com/qBHpbZ9.png"><br><img src="https://i.imgur.com/1zAjEEg.png"><br><img src="https://i.imgur.com/iqxllB5.png"><br><img src="https://i.imgur.com/2Px6n6B.png"></p>
+<p>答案：</p>
+<ul>
+<li>has_many方法後面不用符號改用字串不會發什麼事。</li>
+<li>就來建立一個看看<br><img src="https://i.imgur.com/6c2Ee7h.png"><br>打開VScode<br><img src="https://i.imgur.com/1cVDtTN.png"><br>在<code>store.rb</code> 新增 <code>has_many :products</code><br><img src="https://i.imgur.com/GyNictS.png"><br>打開 <code>rails console</code> 來看看<br><img src="https://i.imgur.com/TXDiXNO.png"><br>回到VScode <code>store.rb</code> 將products改成單數product<br><img src="https://i.imgur.com/c1lB9HY.png"><br>然後再開啟 <code>rails console</code>來看看，會發現這時候找不到對應的商品。<br><img src="https://i.imgur.com/cyRxN6n.png"></li>
+</ul>
+<p>參考來源：為你自己學 Ruby on Rails (<a target="_blank" rel="noopener" href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Ruby-on-Rails/" rel="tag"># Ruby on Rails</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-1/" rel="prev" title="Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 1">
+      <i class="fa fa-chevron-left"></i> Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-3(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E5%A4%9A/" rel="next" title="Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)">
+      Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 3 (關聯性)(一對多) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-2-%E9%97%9C%E8%81%AF%E6%80%A7-%E4%B8%80%E5%B0%8D%E4%B8%80"><span class="nav-number">1.</span> <span class="nav-text">ActiveRecord - 資料表關連 part 2 (關聯性)(一對一)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%87%E8%A8%AD%E6%88%91%E5%80%91%E7%8F%BE%E5%9C%A8%E6%9C%89%E4%B8%80%E5%80%8B%E6%9B%B8%E5%BA%97%E7%B3%BB%E7%B5%B1"><span class="nav-number">1.1.</span> <span class="nav-text">假設我們現在有一個書店系統</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-1"><span class="nav-number">1.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-2"><span class="nav-number">1.4.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-3"><span class="nav-number">1.5.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-4"><span class="nav-number">1.6.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-5"><span class="nav-number">1.7.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#has-one-%E5%AE%83%E5%85%B6%E5%AF%A6%E6%98%AF%E9%A1%9E%E5%88%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.7.1.</span> <span class="nav-text">has_one(它其實是類別方法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#belons-to-%E5%AE%83%E5%85%B6%E5%AF%A6%E6%98%AF%E9%A1%9E%E5%88%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.7.2.</span> <span class="nav-text">belons_to(它其實是類別方法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#has-many-%E5%AE%83%E5%85%B6%E5%AF%A6%E6%98%AF%E9%A1%9E%E5%88%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.7.3.</span> <span class="nav-text">has_many(它其實是類別方法)</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cheng Ting"
+      src="/images/self-image.jpg">
+  <p class="site-author-name" itemprop="name">Cheng Ting</p>
+  <div class="site-description" itemprop="description">轉職 ● 分享</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">若要轉載文章，麻煩請保留原作者名稱與原始連結。</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
