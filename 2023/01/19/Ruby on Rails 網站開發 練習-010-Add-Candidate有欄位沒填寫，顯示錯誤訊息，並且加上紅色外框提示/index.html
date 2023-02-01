@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://i.imgur.com/k2JkKLI.png">
 <meta property="og:image" content="https://i.imgur.com/pFuzVR3.png">
 <meta property="article:published_time" content="2023-01-19T03:41:55.000Z">
-<meta property="article:modified_time" content="2023-01-19T03:47:52.830Z">
+<meta property="article:modified_time" content="2023-02-01T04:57:50.475Z">
 <meta property="article:author" content="Cheng Ting">
 <meta property="article:tag" content="Ruby on Rails">
 <meta name="twitter:card" content="summary">
@@ -234,10 +234,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
-              
 
-              <time title="創建時間：2023-01-19 11:41:55 / 修改時間：11:47:52" itemprop="dateCreated datePublished" datetime="2023-01-19T11:41:55+08:00">2023-01-19</time>
+              <time title="創建時間：2023-01-19 11:41:55" itemprop="dateCreated datePublished" datetime="2023-01-19T11:41:55+08:00">2023-01-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-02-01 12:57:50" itemprop="dateModified" datetime="2023-02-01T12:57:50+08:00">2023-02-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -288,6 +294,7 @@
 <p>那我們來找出哪邊要修改，所以一樣讓新增候選人頁面出現錯誤訊息，但我們打開<code>檢查</code>來看看是哪裡跑版。發現有個<code>&lt;div class=&quot;field_with_errors&quot;&gt;</code>，這裡是有問題的。<br><img src="https://i.imgur.com/hxYbPLU.png"><br>我們期望的頁面顯示是兩個欄位對齊排在同一行，不要輸入匡欄位被往下面壓下去，所以我們可以對剛剛找到的那個<code>&lt;div class=&quot;field_with_errors&quot;&gt;</code>設定它的style。<br><img src="https://i.imgur.com/9HXZ89E.png"><br>我們再回到瀏覽器來看看，真的有對齊了沒有跑版。<br><img src="https://i.imgur.com/bfd1xC3.png"><br>如果社時候我們想再多給它一些畫面上的美化，譬如提醒使用者欄位記得填寫，欄位框是紅色框框。那我們就可以在<code>candidate.scss</code>這邊再給<code>field_with_errors</code>這個class其他的 CSS style。</p>
 <p>此時<code>SCSS</code> 它厲害的厲害的地方，就可以展現出來了。SCSS可以寫巢狀CSS。</p>
 <p>這邊設定<code>input</code> type 是<code>text</code>的元件，讓它的外框是紅色，然後外框的寬度是1px。表示在<code>field_with_errors</code>這個class裡面有<code>input</code>且型態是<code>text</code>的話，都套用一樣的CSS style 設定。<br><img src="https://i.imgur.com/nsnnQha.png"><br>打開瀏覽器看看畫面效果如何，確實有出現紅色邊框。<br><img src="https://i.imgur.com/AIPSeUq.png"><br>如果像要旁邊的<code>Name</code>也一起顯示紅色。那我們可以再SCSS裡面多增加一個CSS選取器。要針對<code>label</code>才可以。所以我們可以這樣寫CSS sytle。<br><img src="https://i.imgur.com/k2JkKLI.png"><br>再打開瀏覽器看看，是否呈現我們想要的效果。確定有<br><img src="https://i.imgur.com/pFuzVR3.png"></p>
+<p>參考來源：為你自己學 Ruby on Rails (<a target="_blank" rel="noopener" href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 
     </div>
 
@@ -387,7 +394,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>

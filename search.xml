@@ -1,29 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)</title>
-    <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/</url>
-    <content><![CDATA[<h2 id="不使用-scaffold-目的？"><a href="#不使用-scaffold-目的？" class="headerlink" title="不使用 scaffold 目的？"></a>不使用 scaffold 目的？</h2><ol>
-<li>scaffold 到底幫我們做了什麼事情？</li>
-<li>MVC 架構的運作原理</li>
+    <title>Ruby on Rails 小試身手 (初識 Rails)</title>
+    <url>/2022/12/13/Ruby%20on%20Rails%20%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/</url>
+    <content><![CDATA[<h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span>
+<ol>
+<li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p>
+</li>
+<li><p>發明人:David Heinemeier Hansson(DHH)</p>
+</li>
+<li><p>首次公開發表:西元2004年</p>
+</li>
+<li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
+</li>
 </ol>
+<h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
+<li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
+</li>
+<li><p>CoC &#x3D; 慣例優於設定 (Covention Over Configuration)</p>
+</li>
+</ol>
+<h2 id="使用-Scaffold-創建一個-table-出來"><a href="#使用-Scaffold-創建一個-table-出來" class="headerlink" title="使用 Scaffold 創建一個 table 出來"></a>使用 Scaffold 創建一個 table 出來</h2><p>第一步 輸入指令:</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">generate scaffold <span class="title class_">User</span> <span class="symbol">name:</span>string <span class="symbol">email:</span>string <span class="symbol">tel:</span>string</span><br></pre></td></tr></table></figure>
 <ul>
-<li>透過 rails 建立一個投票系統來了解上述1、2項目<span id="more"></span></li>
+<li>可以偷懶一下少敲打一些字 ：<br>generate &#x3D; g<br>String 型態可省略不打<br>bin&#x2F;rails 可以輸入 rails 就好</li>
 </ul>
 <hr>
-<h2 id="投票系統"><a href="#投票系統" class="headerlink" title="投票系統"></a>投票系統</h2><ul>
-<li>新增、修改、刪除、投票是一個怎樣的感覺</li>
+<p>至於什麼時候用<code>bin/rails</code>這個指令，是因為在本機有安裝不同版本的rails，每個專案開發時使用的版本不同，<code>bin/rails</code>會只針對專案本身使用的rails版本去執行。</p>
+<p>而<code>rails</code>預設會使用目前本機端內最新版本的rails來執行。</p>
+<ul>
+<li>所以有時候會發現某些專案輸入<code>rails g</code>不會執行，要使用<code>bin/rails</code>才會執行。</li>
 </ul>
 <hr>
-<h2 id="new-一個新的專案"><a href="#new-一個新的專案" class="headerlink" title="new 一個新的專案"></a>new 一個新的專案</h2><p>在想要新增專案的目錄輸入指令</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails _6.<span class="number">1</span>.7_ new 專案名稱 /<span class="regexp">/ 指定使用 6.1.7版本的 Rails</span></span><br></pre></td></tr></table></figure>
-<p>接著在輸入指令進入新增的專案目錄中</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">cd 專案名稱</span><br><span class="line">code .    /<span class="regexp">/ 使用 VScode 開啟專案目錄</span></span><br></pre></td></tr></table></figure>
-<p>因為現在 Rails 會自動先幫你執行 git 初始化 ➤ <code>git init</code><br>所以我們打開 VScode 第一件做的事情就是打開 Terminal 輸入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;init commit&quot;  // 這裡的描述不一定要使用 init</span><br></pre></td></tr></table></figure>
-<p>接下來確認環境有建立正確，故輸入</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails s <span class="keyword">or</span> rails server  /<span class="regexp">/ 兩種方式都一樣</span></span><br></pre></td></tr></table></figure>
-<p>打開瀏覽器輸入<a href="https://localhost:3000/">https://localhost:3000</a><br><img src="https://i.imgur.com/IxMFZSj.jpg"></p>
+<p>讓我們開始認識Ruby on Rails，看看它有什麼厲害的地方吧！</p>
+<p>首先：cd 到我們要建立專案的目錄底下輸入指令:<code>rails new test-scaffold</code>再 cd 到 test-scaffold 目錄中。</p>
+<p>接著我們就開始在終端機輸入指令</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails g scaffold <span class="title class_">User</span> name email tel</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/LALBWQs.png"></p>
+<p>可以看到Rails已經幫我們生成好多檔案出來，雖然目前還不了解這些檔案的個別功用，之後在實體課程中會進一步了解。這些檔案就是網站架構起來的關鍵。</p>
+<p>看到指令中<code>scaffold</code>這個單字，中文翻譯「鷹架」，從這邊其實大概可以猜的出來這個指令應該是要產生類似腳架的結構出來，一般我們日常生活最常看到這種腳架或鷹架結構，就是建造房屋、大樓。所以看到這行指令會猜想應該是產生要架構出網站的「鷹架」。</p>
+<p>這個指令所產生一整串的檔案，其中db&#x2F;migrate&#x2F;這個目錄開頭的.rb檔，是一個描述檔。描述「資料庫的架構長什麼樣子」。在這邊可以先理解成描述我們剛剛輸入的指令，之後要建立一張資料表，表單名稱叫做User，且表單裡面會有一些欄位分別是要存放name、email、tellphone等資料。</p>
+<p>你會想問為什麼會有這個表單，它的作用如何？這就要說到Rails是由一種叫做 MVC 的軟體構模式來設計網站，主要目的是分化程式的權責，口語化來說，就是各司其職，比如一間餐廳，廚師負責烹飪出菜，服務人員負責接待客人、帶位，收銀櫃檯人員負責結帳，就是分工合作的概念。</p>
+<ul>
+<li><p>M(Model):模型，它主要負責跟資料庫溝通。該拿取什麼資料透過Model。</p>
+</li>
+<li><p>V(View):可以當作讓使用者看到的畫面，所以稱為「View」。主要是呈現畫面讓使用者看到。</p>
+</li>
+<li><p>C(Controller):控制器，可以想像成「指揮官」，contoller負責指揮model要去資料庫拿什麼資料，然後決定要用什麼樣的畫面讓view呈現給使用者看到。</p>
+</li>
+</ul>
+<hr>
+<p>所以剛剛前面提到的「描述檔」就是跟model有關係的，因為model才會知道要怎麼拿取資料。之後的實體課程會再進一步的學習。</p>
+<p>第二步：把 scaffold 的資料表設定具象化</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails <span class="symbol">db:</span>migrate</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/hXOlgae.png"></p>
+<p>這個步驟是把描述檔，生成User資料表。</p>
+<p>第三步：啟動伺服器</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails server 或是 減寫 rails s</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/gVRiWXF.png"></p>
+<p>然後，打開瀏覽器，輸入網址<br><code>http://localhost:3000/users</code><br><img src="https://i.imgur.com/Rt2Ohey.png"></p>
+<p>耶～～恭喜你，成功建立一個簡單的表單網頁了~~~</p>
+<p>按下<code>New user</code>會看到一個新增user的頁面</p>
+<p><img src="https://i.imgur.com/nsEcMsk.png"></p>
+<p>可以快速的產生一個簡單的user頁面。還能做到新增&#x2F;修改&#x2F;刪除。這邊就不放上修改及刪除的頁面了。</p>
+<p><img src="https://i.imgur.com/lMGDM7R.png"></p>
+<p><img src="https://i.imgur.com/CXVHCqt.png"></p>
+<p>第一次看到，哇!!!真是太神奇了，Rails。</p>
+<p>這就是第一次與Rails見面。也是第一次寫學習筆記的分享。</p>
+<p>或許有些觀念是沒有理解清楚，可以幫忙給予糾正。</p>
+<p>期許自己透過分享學習筆記的過程，課程中較模糊或沒有完全理解的觀念可以慢慢的整理清楚。</p>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -74,6 +120,7 @@
 <hr>
 <blockquote>
 <h3 id="到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate"><a href="#到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate" class="headerlink" title="到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate"></a>到這邊就算建立完成一個index，下一堂課程就要開始來新增Candidate</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -120,6 +167,85 @@
 <h3 id="對應的是-db-裡面的檔案，名稱開頭是大寫，且資料表名稱英文複數型"><a href="#對應的是-db-裡面的檔案，名稱開頭是大寫，且資料表名稱英文複數型" class="headerlink" title="對應的是 db 裡面的檔案，名稱開頭是大寫，且資料表名稱英文複數型"></a>對應的是 db 裡面的檔案，名稱開頭是大寫，且資料表名稱英文複數型</h3><h4 id="ex-class-Candidates-lt-ActiveRecord-Migration"><a href="#ex-class-Candidates-lt-ActiveRecord-Migration" class="headerlink" title="ex: class Candidates &lt; ActiveRecord::Migration"></a>ex: class Candidates &lt; ActiveRecord::Migration</h4></blockquote>
 <blockquote>
 <h3 id="這就是-Rails-慣例"><a href="#這就是-Rails-慣例" class="headerlink" title="這就是 Rails 慣例"></a><em><strong>這就是 Rails 慣例</strong></em></h3><h3 id="慣例優於設定"><a href="#慣例優於設定" class="headerlink" title="慣例優於設定"></a><em>慣例優於設定</em></h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - 001 (如何建立新 Rails 專案 - 投票系統)</title>
+    <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-001-%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8B%E6%96%B0-Rails-%E5%B0%88%E6%A1%88/</url>
+    <content><![CDATA[<h2 id="不使用-scaffold-目的？"><a href="#不使用-scaffold-目的？" class="headerlink" title="不使用 scaffold 目的？"></a>不使用 scaffold 目的？</h2><ol>
+<li>scaffold 到底幫我們做了什麼事情？</li>
+<li>MVC 架構的運作原理</li>
+</ol>
+<ul>
+<li>透過 rails 建立一個投票系統來了解上述1、2項目<span id="more"></span></li>
+</ul>
+<hr>
+<h2 id="投票系統"><a href="#投票系統" class="headerlink" title="投票系統"></a>投票系統</h2><ul>
+<li>新增、修改、刪除、投票是一個怎樣的感覺</li>
+</ul>
+<hr>
+<h2 id="new-一個新的專案"><a href="#new-一個新的專案" class="headerlink" title="new 一個新的專案"></a>new 一個新的專案</h2><p>在想要新增專案的目錄輸入指令</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails _6.<span class="number">1</span>.7_ new 專案名稱 /<span class="regexp">/ 指定使用 6.1.7版本的 Rails</span></span><br></pre></td></tr></table></figure>
+<p>接著在輸入指令進入新增的專案目錄中</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">cd 專案名稱</span><br><span class="line">code .    /<span class="regexp">/ 使用 VScode 開啟專案目錄</span></span><br></pre></td></tr></table></figure>
+<p>因為現在 Rails 會自動先幫你執行 git 初始化 ➤ <code>git init</code><br>所以我們打開 VScode 第一件做的事情就是打開 Terminal 輸入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;init commit&quot;  // 這裡的描述不一定要使用 init</span><br></pre></td></tr></table></figure>
+<p>接下來確認環境有建立正確，故輸入</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails s <span class="keyword">or</span> rails server  /<span class="regexp">/ 兩種方式都一樣</span></span><br></pre></td></tr></table></figure>
+<p>打開瀏覽器輸入<a href="https://localhost:3000/">https://localhost:3000</a><br><img src="https://i.imgur.com/IxMFZSj.jpg"></p>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - 004 (完成新增候選人頁面)</title>
+    <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-004-%E5%AE%8C%E6%88%90%E6%96%B0%E5%A2%9E%E5%80%99%E9%81%B8%E4%BA%BA%E9%A0%81%E9%9D%A2/</url>
+    <content><![CDATA[<h2 id="出現錯誤訊息，遇到無效的Token"><a href="#出現錯誤訊息，遇到無效的Token" class="headerlink" title="出現錯誤訊息，遇到無效的Token"></a>出現錯誤訊息，遇到無效的Token</h2><span id="more"></span>
+<p><img src="https://i.imgur.com/NmyjGVp.png"></p>
+<ul>
+<li>會出現這個錯誤訊息，是因為Rails要將資料送進資料庫前會做一些驗證的動作。因為只要檢視原始碼，你的路徑都是公開的。</li>
+<li>有心人士就可以在要傳送的資料裡面加料，如果你沒有這些驗證的步驟，那不就很危險了嗎？</li>
+</ul>
+<hr>
+<p>回到<code>new.html.erb</code>，來增加驗證功能。這行code格式有規定，須依照規定寫。<br><img src="https://i.imgur.com/XTfyxIl.png"></p>
+<hr>
+<p>瀏覽器畫面<br><img src="https://i.imgur.com/O9YgkgX.png"></p>
+<hr>
+<h2 id="但是這樣寫太長也太麻煩了，所以-Rails-有提供小幫手form-helper-form-for-表示要幫某個model做一個表單出來-所以form-for-Candidate-new-表示做一個新的候選人表單出來"><a href="#但是這樣寫太長也太麻煩了，所以-Rails-有提供小幫手form-helper-form-for-表示要幫某個model做一個表單出來-所以form-for-Candidate-new-表示做一個新的候選人表單出來" class="headerlink" title="但是這樣寫太長也太麻煩了，所以 Rails 有提供小幫手form helper* form_for()表示要幫某個model做一個表單出來* 所以form_for(Candidate.new) 表示做一個新的候選人表單出來"></a>但是這樣寫太長也太麻煩了，所以 Rails 有提供小幫手<code>form helper</code><br>* form_for()表示要幫某個model做一個表單出來<br>* 所以<code>form_for(Candidate.new)</code> 表示做一個新的候選人表單出來</h2><h3 id="來看看form-for-跟我們自己寫的差別"><a href="#來看看form-for-跟我們自己寫的差別" class="headerlink" title="來看看form_for() 跟我們自己寫的差別"></a>來看看form_for() 跟我們自己寫的差別</h3><ul>
+<li>進到瀏覽器 new 頁面，重新整理，檢視原始碼<br>紅色匡：我們自己寫的 ; 綠色匡：form_for()做的<br><img src="https://i.imgur.com/iyNJJ69.png"></li>
+</ul>
+<hr>
+<p>for_for知道action要往哪裡去，也知道用post方法。也幫你產生好了token。是不是非常快速方便！！！<br>所以可以把我們剛剛自己寫的給刪掉了，直接使用form_for()就可以了。<br><img src="https://i.imgur.com/xkw4xJ4.png"></p>
+<hr>
+<p>打開瀏覽器看看畫面長怎樣<br><img src="https://i.imgur.com/coDqO6w.png"></p>
+<hr>
+<p>一樣有輸入匡，這個就是<code>form.text_field :name</code>產生的。<br>那我們就可以來增加其他欄位<br><img src="https://i.imgur.com/UYd7VXR.png"></p>
+<hr>
+<p>是不是神奇的做好了欄位？<br><img src="https://i.imgur.com/cKkTxfn.png"></p>
+<hr>
+<p>來看看頁面原始碼吧<br><img src="https://i.imgur.com/rQCHCtk.png"></p>
+<hr>
+<p>這邊有一個欄位需要做些調整，有猜到了嗎？沒錯就是政見的欄位，應該使用<code>form.text_area</code>，因為政見發表應該會需要輸入更多內容。<br><img src="https://i.imgur.com/vNdFrMF.png"></p>
+<hr>
+<p>做點畫面上的美化，並加個標籤給每個欄位吧<br><img src="https://i.imgur.com/a02JzHZ.png"></p>
+<hr>
+<p>打開瀏覽器<br><img src="https://i.imgur.com/f8unkjJ.png"></p>
+<hr>
+<blockquote>
+<h3 id="到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的-create-action-要如何來處理這筆資料。"><a href="#到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的-create-action-要如何來處理這筆資料。" class="headerlink" title="到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的 create action 要如何來處理這筆資料。"></a>到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的 create action 要如何來處理這筆資料。</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -178,6 +304,7 @@
 <hr>
 <blockquote>
 <h3 id="下一堂課程，將學習到如何做資料清洗。"><a href="#下一堂課程，將學習到如何做資料清洗。" class="headerlink" title="下一堂課程，將學習到如何做資料清洗。"></a>下一堂課程，將學習到如何做資料清洗。</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -219,6 +346,7 @@
 <hr>
 <blockquote>
 <h3 id="下一堂課程，將學習，如果存檔失敗，要如何執行。"><a href="#下一堂課程，將學習，如果存檔失敗，要如何執行。" class="headerlink" title="下一堂課程，將學習，如果存檔失敗，要如何執行。"></a>下一堂課程，將學習，如果存檔失敗，要如何執行。</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -228,41 +356,79 @@
       </tags>
   </entry>
   <entry>
-    <title>Ruby on Rails 網站開發 練習 - 004 (完成新增候選人頁面)</title>
-    <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-004-%E5%AE%8C%E6%88%90%E6%96%B0%E5%A2%9E%E5%80%99%E9%81%B8%E4%BA%BA%E9%A0%81%E9%9D%A2/</url>
-    <content><![CDATA[<h2 id="出現錯誤訊息，遇到無效的Token"><a href="#出現錯誤訊息，遇到無效的Token" class="headerlink" title="出現錯誤訊息，遇到無效的Token"></a>出現錯誤訊息，遇到無效的Token</h2><span id="more"></span>
-<p><img src="https://i.imgur.com/NmyjGVp.png"></p>
+    <title>Ruby on Rails 網站開發 練習 - 008 (候選人列表頁面，產生候選人列表)</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-008-%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8%E9%A0%81%E9%9D%A2%EF%BC%8C%E7%94%A2%E7%94%9F%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料"><a href="#要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料" class="headerlink" title="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料"></a>要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料</h2><h3 id="我們只要透過Model就可以幫我們去把資料拿出來。"><a href="#我們只要透過Model就可以幫我們去把資料拿出來。" class="headerlink" title="我們只要透過Model就可以幫我們去把資料拿出來。"></a>我們只要透過Model就可以幫我們去把資料拿出來。</h3><p>進到<code>CandidatesController</code>，接著要來寫<code>index action</code>。這樣才能知道，我們要把什麼東西放到<code>view//index.html.erb</code>裡面讓使用者看到。</p>
+<span id="more"></span>
+<p>在<code>index action</code> 裡面我們增加<code>@candidates = Candidate.all</code>。這裡我們把<code>candidate.rb</code>這個 Model 裡面的所有候選人都拿出來，放到實體變數@candidates。<br><img src="https://i.imgur.com/ygOWzp1.png"><br>為何將變數取名為複數型態，是因為因為如果知道我們現在拿到的資料看起來是一個集合、一個群體，會用複數的變數名稱來取名。</p>
+<hr>
+<h2 id="接著進入到view-index-html-erb，我們要來讓從-Model-拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個-lt-五個欄位的table-gt"><a href="#接著進入到view-index-html-erb，我們要來讓從-Model-拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個-lt-五個欄位的table-gt" class="headerlink" title="接著進入到view/index.html.erb，我們要來讓從 Model 拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個&lt;五個欄位的table&gt;"></a>接著進入到<code>view/index.html.erb</code>，我們要來讓從 Model 拿出來的候選人資料，可以在頁面上印出來。<br>★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML<br>在頁面上，先新增一個&lt;五個欄位的table&gt;<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;Name&lt;/td&gt;    #名稱</span><br><span class="line">        &lt;td&gt;Party&lt;/td&gt;    #政黨</span><br><span class="line">        &lt;td&gt;Age&lt;/td&gt;    #年齡</span><br><span class="line">        &lt;td&gt;Politics&lt;/td&gt;    #政見</span><br><span class="line">        &lt;td&gt;Action&lt;/td&gt;    #動作：可能是 新增 or 刪除</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure></h2><h2 id="那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的-table-複製一份放到迴圈裡面，同時將原本的欄位內容替換"><a href="#那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的-table-複製一份放到迴圈裡面，同時將原本的欄位內容替換" class="headerlink" title="那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的 table 複製一份放到迴圈裡面，同時將原本的欄位內容替換"></a>那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;% @candidates.each do |candidate| %&gt;</span><br><span class="line">&lt;% end %&gt;</span><br></pre></td></tr></table></figure><br>接著把剛剛建立的 table 複製一份放到迴圈裡面，同時將原本的欄位內容替換<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;% @candidates.each do |candidate| %&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.name %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.party %&gt;&lt;/td&gt;     </span><br><span class="line">    &lt;td&gt;&lt;%= candidate.age %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.politics %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;Action&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;% end %&gt;</span><br></pre></td></tr></table></figure></h2><p>最後寫成<br><img src="https://i.imgur.com/8S5j1wh.png"><br>接著打開瀏覽器看看畫面，有成功顯示前面我們增加的兩筆候選人資料<br><img src="https://i.imgur.com/E9Pqjmh.png"><br>這時候我們來新增一筆候選人叫<code>kk</code>的資料。按下送出按鈕，看看結果會發生什麼？<br><img src="https://i.imgur.com/mD3xlxS.png"></p>
+<hr>
+<p>哇!有成功新增資料，畫面也有出現提示<br><img src="https://i.imgur.com/Rm6jgfV.png"><br>這邊就要再思考另外一件事情，候選人頁面顯示的欄位有包含政見(politics)。如果候選人的政見，字數非常多，那畫面會很擁擠不好看。<br>一般使用者想要是click候選人名稱後，會跳到新的頁面，這個頁面只會顯示此候選人的個人資料，包含政見。我們就開始來修該一下吧。</p>
+<hr>
+<ol>
+<li>拿掉<code>view/index.html.erb</code>的<code>politics</code>欄位。<br><img src="https://i.imgur.com/Z7WrksF.png"></li>
+<li>幫<code>Name</code>欄位加上超連結功能，要超連結的網址先暫時以＃代替，因為要知道要去的路徑，需要請門口阿姨(Routes)告訴我們。<br><img src="https://i.imgur.com/Z6k5Aby.png"></li>
+<li>打開終端機輸入<code>rails routes</code>，我們要找的路徑需要跟<code>id</code>有相關。可以看到路徑<code>candidates/:id(.:format)</code>，有一個對應的<code>controller#action</code>。(<code>candidates#show</code>)<br><img src="https://i.imgur.com/SfUZx2u.png"><br>所以這時候回到<code>view/index.html.erb</code>我們來補上超連結的路徑。<br><img src="https://i.imgur.com/Ua1H0c9.png"><br>打開瀏覽器，直接來測試看看，點擊超連結會發生什麼事？<br>竟然出現錯誤訊息。<br><img src="https://i.imgur.com/HGsjQWP.png"></li>
+</ol>
+<hr>
+<p>在把錯誤訊息處理前，我們先來看看剛剛的超連結寫法，其實不是很好看，意思也不明確，這時候又可以請出一個小幫手<code>&lt;%= link_to &#39;要顯示的字樣&#39;, 要去的位址 %&gt;</code><br>先來修改一下<code>&lt;a href=&quot;/candidates/new&quot;&gt;Add Candidate&lt;/a&gt;</code><br>換成<code>&lt;%= link_to &#39;Add Candidate&#39;, &#39;/candidates/new&#39; %&gt;</code><br><img src="https://i.imgur.com/bz5QYYM.png"><br>我們打開瀏覽器，右鍵 &gt; 檢查頁面原始碼，這時候你會發現兩個長一樣。<br><img src="https://i.imgur.com/vMs0zVy.png"></p>
+<hr>
+<p>這時候我們可以使用終端機打開<code>rails routes</code>看一下<code>Prefix Verb</code>這邊的<code>new_candidate</code>我們手動幫它後面加上<code>_path</code> 它就會幫我們做出<code>/candidates/new</code>出來。<br>所以回到<code>view/index.html.erb</code> ，我們把剛剛的<code>&lt;%= link_to &#39;Add Candidate&#39;, &#39;/candidates/new&#39; %&gt;</code>後面的<code>/candidates/new</code> 換成<code>new_candidate_path</code><br><img src="https://i.imgur.com/uGbXBV8.png"><br>打開瀏覽器檢視網頁原始碼，發現其實兩個都是超連結到同一個網址。<br><img src="https://i.imgur.com/ytgOghT.png"><br>其實第二個超連結等於是Routes幫我們產生的。這樣的好處就是，如果以後有需要維護專案或是更改超連結的網頁，我們只要到進到<code>config/routes.rb</code>這個檔案去修改路徑，整個網站就修改好了。</p>
+<hr>
+<h3 id="link-to-方法的好處-搭配prefix路徑寫法"><a href="#link-to-方法的好處-搭配prefix路徑寫法" class="headerlink" title="link_to 方法的好處(搭配prefix路徑寫法)"></a>link_to 方法的好處(搭配prefix路徑寫法)</h3><ul>
+<li>好處就是，如果在連結的地方少打字或者打錯字，瀏覽器會噴訊息提醒你。</li>
+<li>因為 <code>link_to</code> 是一個方法，所以只要有打錯字，就會噴訊息出來。</li>
+</ul>
+<hr>
 <ul>
-<li>會出現這個錯誤訊息，是因為Rails要將資料送進資料庫前會做一些驗證的動作。因為只要檢視原始碼，你的路徑都是公開的。</li>
-<li>有心人士就可以在要傳送的資料裡面加料，如果你沒有這些驗證的步驟，那不就很危險了嗎？</li>
+<li>另外如果發現<code>rails routtes</code>有些<code>Prefix Verb</code>是空的就同上面的<code>Prefix Verb</code>。</li>
 </ul>
 <hr>
-<p>回到<code>new.html.erb</code>，來增加驗證功能。這行code格式有規定，須依照規定寫。<br><img src="https://i.imgur.com/XTfyxIl.png"></p>
-<hr>
-<p>瀏覽器畫面<br><img src="https://i.imgur.com/O9YgkgX.png"></p>
-<hr>
-<h2 id="但是這樣寫太長也太麻煩了，所以-Rails-有提供小幫手form-helper-form-for-表示要幫某個model做一個表單出來-所以form-for-Candidate-new-表示做一個新的候選人表單出來"><a href="#但是這樣寫太長也太麻煩了，所以-Rails-有提供小幫手form-helper-form-for-表示要幫某個model做一個表單出來-所以form-for-Candidate-new-表示做一個新的候選人表單出來" class="headerlink" title="但是這樣寫太長也太麻煩了，所以 Rails 有提供小幫手form helper* form_for()表示要幫某個model做一個表單出來* 所以form_for(Candidate.new) 表示做一個新的候選人表單出來"></a>但是這樣寫太長也太麻煩了，所以 Rails 有提供小幫手<code>form helper</code><br>* form_for()表示要幫某個model做一個表單出來<br>* 所以<code>form_for(Candidate.new)</code> 表示做一個新的候選人表單出來</h2><h3 id="來看看form-for-跟我們自己寫的差別"><a href="#來看看form-for-跟我們自己寫的差別" class="headerlink" title="來看看form_for() 跟我們自己寫的差別"></a>來看看form_for() 跟我們自己寫的差別</h3><ul>
-<li>進到瀏覽器 new 頁面，重新整理，檢視原始碼<br>紅色匡：我們自己寫的 ; 綠色匡：form_for()做的<br><img src="https://i.imgur.com/iyNJJ69.png"></li>
-</ul>
-<hr>
-<p>for_for知道action要往哪裡去，也知道用post方法。也幫你產生好了token。是不是非常快速方便！！！<br>所以可以把我們剛剛自己寫的給刪掉了，直接使用form_for()就可以了。<br><img src="https://i.imgur.com/xkw4xJ4.png"></p>
-<hr>
-<p>打開瀏覽器看看畫面長怎樣<br><img src="https://i.imgur.com/coDqO6w.png"></p>
-<hr>
-<p>一樣有輸入匡，這個就是<code>form.text_field :name</code>產生的。<br>那我們就可以來增加其他欄位<br><img src="https://i.imgur.com/UYd7VXR.png"></p>
-<hr>
-<p>是不是神奇的做好了欄位？<br><img src="https://i.imgur.com/cKkTxfn.png"></p>
-<hr>
-<p>來看看頁面原始碼吧<br><img src="https://i.imgur.com/rQCHCtk.png"></p>
-<hr>
-<p>這邊有一個欄位需要做些調整，有猜到了嗎？沒錯就是政見的欄位，應該使用<code>form.text_area</code>，因為政見發表應該會需要輸入更多內容。<br><img src="https://i.imgur.com/vNdFrMF.png"></p>
-<hr>
-<p>做點畫面上的美化，並加個標籤給每個欄位吧<br><img src="https://i.imgur.com/a02JzHZ.png"></p>
-<hr>
-<p>打開瀏覽器<br><img src="https://i.imgur.com/f8unkjJ.png"></p>
+<p>接著修改候選人名稱的超連結，改用 link_to 的寫法。<br><img src="https://i.imgur.com/5llYzLM.png"><br>但是這邊我們是要連到某個id的候選人頁面，所以candidate_path要給它一個id，他才能正確連結到對的候選人。<br><img src="https://i.imgur.com/HF0RlJl.png"><br>按下送出按鈕，網址後面就會有id，但是畫面上噴出訊息<code>the action &#39;show&#39; could not be found</code><br><img src="https://i.imgur.com/E0yrPQf.png"></p>
 <hr>
 <blockquote>
-<h3 id="到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的-create-action-要如何來處理這筆資料。"><a href="#到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的-create-action-要如何來處理這筆資料。" class="headerlink" title="到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的 create action 要如何來處理這筆資料。"></a>到這裡目前新增候選人的頁面就算完成了，下堂課講解，按下送出按鈕後，找到對應的 create action 要如何來處理這筆資料。</h3></blockquote>
+<h3 id="接下來，下一堂課程，我們要建立一個-“show-action”-給它，當然同時也要給它一個-“show”-的-view。"><a href="#接下來，下一堂課程，我們要建立一個-“show-action”-給它，當然同時也要給它一個-“show”-的-view。" class="headerlink" title="接下來，下一堂課程，我們要建立一個 “show action” 給它，當然同時也要給它一個 “show” 的 view。"></a>接下來，下一堂課程，我們要建立一個 “show action” 給它，當然同時也要給它一個 “show” 的 view。</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - 009 (建立show action &amp; show 的 view)</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-009-%E5%BB%BA%E7%AB%8Bshow-action-show-%E7%9A%84-view/</url>
+    <content><![CDATA[<p>回到<code>CandidatesController</code>裡面，來新增<code>show action</code>。至於要放在哪個地方都可以，只要不要放到<code>private method</code>下面就行。<br>這邊我們就把<code>show action</code>新增在<code>index action</code>的下面。</p>
+<span id="more"></span>
+<p><img src="https://i.imgur.com/tONr3kh.png"></p>
+<p>存檔完，回到瀏覽器點擊任何一位候選人，看看頁面會出現什麼訊息。沒意外的話，應該會看到沒有樣板(no template)的訊息。果真出現了!!!<br><img src="https://i.imgur.com/cDzChwM.png"></p>
+<hr>
+<p>所以這個時候，我們就來做一個 show 的頁面給它。進入到<code>view/candidates/</code>新增檔案<code>show.html.erb</code><br><img src="https://i.imgur.com/nVTuNJw.png"><br>我們測試一下，點擊第一個(id&#x3D;1)候選人’ccc’，看看會呈現什麼樣的畫面。<br><img src="https://i.imgur.com/KDw0W9B.png"><br>從上面的圖片可以看見，我們在<code>show.html.erb</code>檔案新增的<code>&lt;h1&gt;Candidate Information&lt;/h1&gt;</code>有確實的顯示在瀏覽器頁面，且觀察網址列可以確定現在是在<code>id是一號</code>的候選人的頁面了。</p>
+<hr>
+<p>回到<code>CandidatesController</code>的<code>show action</code>這裡，它應該要做的事情，就是把某一個候選人的資料調出來。但是它要怎麼去調呢？</p>
+<ul>
+<li>根據<code>id</code>去把對應的候選人資料調出來。</li>
+</ul>
+<p>我們切換到終端機，來看看<code>rails server</code>再跑的時候顯示的一些資訊，可以看到有一包<code>Parameters: &#123;&quot;id&quot;=&gt;&quot;1&quot;&#125;</code>。</p>
+<p>表示點擊候選人之後，會有一個對應的<code>id</code>被捕捉到<code>Parameters</code>這個變數裡面。<br>所以我們得知可以透過<code>params</code>裡面<code>id</code>這個值拿回來用，把這個值放到<code>show action</code> 裡面。<br><img src="https://i.imgur.com/2sGIt3k.png"></p>
+<hr>
+<p>假設今天我們要拿2號候選人的資料，這個時候我們就試著請<code>Candidate</code>Model 去抓2號候選人的資料。<br>這邊就可以使用find_by(key: value)的方法去抓我們要的id的資料。<br><img src="https://i.imgur.com/1yXFlXB.png"></p>
+<hr>
+<p>這時候給它一個變數來承接它<code>@candidate = Candidate.find_by(id: params[:id])</code>。至於為什麼要給它一個變數，是因為等下在view的部分會使用到。<br><img src="https://i.imgur.com/v1KtCp3.png"></p>
+<hr>
+<p>此時我們進到<code>view/show.html.erb</code>來把<code>&lt;h1&gt;</code>標籤更改為<code>&lt;h1&gt;&lt;%= @candidate.name %&gt;&lt;/h1&gt;</code>，表示我們要印出候選人的名稱。<br><img src="https://i.imgur.com/RNQ6w6P.png"><br>打開瀏覽器看看畫面，真的有印出每個<code>id</code>對應的候選人名稱。<br><img src="https://i.imgur.com/dYQmolH.png"><br><img src="https://i.imgur.com/tUmlRsO.png"><br><img src="https://i.imgur.com/wTs8bnE.png"></p>
+<hr>
+<p>既然如此，我們也可以印出其他的欄位資料，包含政黨、年紀、政見等等。<br>這邊我們用<code>&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;</code>的方式呈現這些欄位資料。<br><img src="https://i.imgur.com/eszVGpL.png"><br>那接著就可以打開瀏覽器來驗證一下，是否會出現一個列表有我們要的欄位資料。<br>在瀏覽器執行重新整理後，果真畫面上出現了我們想看到的列表清單。<br><img src="https://i.imgur.com/XOvOti0.png"><br>上圖顯示的欄位資料也確實是我們想要抓到的資料。</p>
+<hr>
+<h2 id="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false"><a href="#可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false" class="headerlink" title="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show.html.erb檔案裡面，增加一個if...else...的判斷式。&gt;因為在Ruby的世界，只有兩個東西會是false1. false 本身 &#x3D;&#x3D;&gt; false2. nil &#x3D;&#x3D;&gt; false"></a>可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入<code>id</code>的位置，不小心打錯打成100，這時候會看到錯誤訊息<br><img src="https://i.imgur.com/SEJGrNq.png"><br>說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到<code>show.html.erb</code>檔案裡面，增加一個<code>if...else...</code>的判斷式。<br>&gt;因為在Ruby的世界，只有兩個東西會是false<br><strong>1. false 本身 &#x3D;&#x3D;&gt; false</strong><br><strong>2. nil &#x3D;&#x3D;&gt; false</strong></h2><p>所以我們可以使用這樣的寫法<br><img src="https://i.imgur.com/S8tZ0U3.png"><br>如果 <code>@candidate</code> 是有東西，就執行下面第2-8行code<br>其他的話就在畫面上印出<code>No Record found!!!</code><br>重新整理瀏覽器頁面，一樣是讓網址列的 id 輸入 100，這時候顯示的就不是錯誤訊息的畫面，而是<code>No Record found!!!</code>。<br><img src="https://i.imgur.com/8LNBaSJ.png"></p>
+<hr>
+<h3 id="目前這樣我們的-show-action-amp-show-html-erb算是完成了"><a href="#目前這樣我們的-show-action-amp-show-html-erb算是完成了" class="headerlink" title="目前這樣我們的 show action &amp; show.html.erb算是完成了"></a>目前這樣我們的 show action &amp; show.html.erb算是完成了</h3><hr>
+<blockquote>
+<h3 id="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"><a href="#這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧" class="headerlink" title="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"></a>這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -307,86 +473,9 @@
 </ul>
 <p>失敗時頁面是有了，但是似乎少了醒目的提示。</p>
 <hr>
-<h2 id="下一堂課程，我們就使用CSS來製作一些醒目的提示"><a href="#下一堂課程，我們就使用CSS來製作一些醒目的提示" class="headerlink" title="下一堂課程，我們就使用CSS來製作一些醒目的提示"></a>下一堂課程，我們就使用CSS來製作一些醒目的提示</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class CandidatesController &lt; ApplicationController</span><br><span class="line">    </span><br><span class="line">    def index</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def new</span><br><span class="line">        @candidate = Candidate.new</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def create</span><br><span class="line"></span><br><span class="line">        @candidate = Candidate.new(candidate_params)</span><br><span class="line">        if @candidate.save</span><br><span class="line">            flash[:notice] = &quot;Candidate created!!!&quot;</span><br><span class="line">            redirect_to &#x27;/candidates&#x27;</span><br><span class="line">        else</span><br><span class="line">        #NG</span><br><span class="line">        render :new</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    private</span><br><span class="line">    def candidate_params</span><br><span class="line">        params.require(:candidate).permit(:name, :party, :age, :politics)</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line"> end</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 008 (候選人列表頁面，產生候選人列表)</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-008-%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8%E9%A0%81%E9%9D%A2%EF%BC%8C%E7%94%A2%E7%94%9F%E5%80%99%E9%81%B8%E4%BA%BA%E5%88%97%E8%A1%A8/</url>
-    <content><![CDATA[<h2 id="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料"><a href="#要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料" class="headerlink" title="要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料"></a>要將資料庫的的資料呈現到畫面，首先我們不需要自己寫SQL語法去撈資料</h2><h3 id="我們只要透過Model就可以幫我們去把資料拿出來。"><a href="#我們只要透過Model就可以幫我們去把資料拿出來。" class="headerlink" title="我們只要透過Model就可以幫我們去把資料拿出來。"></a>我們只要透過Model就可以幫我們去把資料拿出來。</h3><p>進到<code>CandidatesController</code>，接著要來寫<code>index action</code>。這樣才能知道，我們要把什麼東西放到<code>view//index.html.erb</code>裡面讓使用者看到。</p>
-<span id="more"></span>
-<p>在<code>index action</code> 裡面我們增加<code>@candidates = Candidate.all</code>。這裡我們把<code>candidate.rb</code>這個 Model 裡面的所有候選人都拿出來，放到實體變數@candidates。<br><img src="https://i.imgur.com/ygOWzp1.png"><br>為何將變數取名為複數型態，是因為因為如果知道我們現在拿到的資料看起來是一個集合、一個群體，會用複數的變數名稱來取名。</p>
-<hr>
-<h2 id="接著進入到view-index-html-erb，我們要來讓從-Model-拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個-lt-五個欄位的table-gt"><a href="#接著進入到view-index-html-erb，我們要來讓從-Model-拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個-lt-五個欄位的table-gt" class="headerlink" title="接著進入到view/index.html.erb，我們要來讓從 Model 拿出來的候選人資料，可以在頁面上印出來。★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML在頁面上，先新增一個&lt;五個欄位的table&gt;"></a>接著進入到<code>view/index.html.erb</code>，我們要來讓從 Model 拿出來的候選人資料，可以在頁面上印出來。<br>★小撇步：這邊可以先在VScode上設定，把檔案的格式改為HTML<br>在頁面上，先新增一個&lt;五個欄位的table&gt;<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">    &lt;tr&gt;</span><br><span class="line">        &lt;td&gt;Name&lt;/td&gt;    #名稱</span><br><span class="line">        &lt;td&gt;Party&lt;/td&gt;    #政黨</span><br><span class="line">        &lt;td&gt;Age&lt;/td&gt;    #年齡</span><br><span class="line">        &lt;td&gt;Politics&lt;/td&gt;    #政見</span><br><span class="line">        &lt;td&gt;Action&lt;/td&gt;    #動作：可能是 新增 or 刪除</span><br><span class="line">    &lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure></h2><h2 id="那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的-table-複製一份放到迴圈裡面，同時將原本的欄位內容替換"><a href="#那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的-table-複製一份放到迴圈裡面，同時將原本的欄位內容替換" class="headerlink" title="那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。接著把剛剛建立的 table 複製一份放到迴圈裡面，同時將原本的欄位內容替換"></a>那我們要如何把資料印出來，我們可以透過「迴圈」的方式。一筆一筆的把資料印出來。<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;% @candidates.each do |candidate| %&gt;</span><br><span class="line">&lt;% end %&gt;</span><br></pre></td></tr></table></figure><br>接著把剛剛建立的 table 複製一份放到迴圈裡面，同時將原本的欄位內容替換<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;% @candidates.each do |candidate| %&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.name %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.party %&gt;&lt;/td&gt;     </span><br><span class="line">    &lt;td&gt;&lt;%= candidate.age %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;&lt;%= candidate.politics %&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;Action&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;% end %&gt;</span><br></pre></td></tr></table></figure></h2><p>最後寫成<br><img src="https://i.imgur.com/8S5j1wh.png"><br>接著打開瀏覽器看看畫面，有成功顯示前面我們增加的兩筆候選人資料<br><img src="https://i.imgur.com/E9Pqjmh.png"><br>這時候我們來新增一筆候選人叫<code>kk</code>的資料。按下送出按鈕，看看結果會發生什麼？<br><img src="https://i.imgur.com/mD3xlxS.png"></p>
-<hr>
-<p>哇!有成功新增資料，畫面也有出現提示<br><img src="https://i.imgur.com/Rm6jgfV.png"><br>這邊就要再思考另外一件事情，候選人頁面顯示的欄位有包含政見(politics)。如果候選人的政見，字數非常多，那畫面會很擁擠不好看。<br>一般使用者想要是click候選人名稱後，會跳到新的頁面，這個頁面只會顯示此候選人的個人資料，包含政見。我們就開始來修該一下吧。</p>
-<hr>
-<ol>
-<li>拿掉<code>view/index.html.erb</code>的<code>politics</code>欄位。<br><img src="https://i.imgur.com/Z7WrksF.png"></li>
-<li>幫<code>Name</code>欄位加上超連結功能，要超連結的網址先暫時以＃代替，因為要知道要去的路徑，需要請門口阿姨(Routes)告訴我們。<br><img src="https://i.imgur.com/Z6k5Aby.png"></li>
-<li>打開終端機輸入<code>rails routes</code>，我們要找的路徑需要跟<code>id</code>有相關。可以看到路徑<code>candidates/:id(.:format)</code>，有一個對應的<code>controller#action</code>。(<code>candidates#show</code>)<br><img src="https://i.imgur.com/SfUZx2u.png"><br>所以這時候回到<code>view/index.html.erb</code>我們來補上超連結的路徑。<br><img src="https://i.imgur.com/Ua1H0c9.png"><br>打開瀏覽器，直接來測試看看，點擊超連結會發生什麼事？<br>竟然出現錯誤訊息。<br><img src="https://i.imgur.com/HGsjQWP.png"></li>
-</ol>
-<hr>
-<p>在把錯誤訊息處理前，我們先來看看剛剛的超連結寫法，其實不是很好看，意思也不明確，這時候又可以請出一個小幫手<code>&lt;%= link_to &#39;要顯示的字樣&#39;, 要去的位址 %&gt;</code><br>先來修改一下<code>&lt;a href=&quot;/candidates/new&quot;&gt;Add Candidate&lt;/a&gt;</code><br>換成<code>&lt;%= link_to &#39;Add Candidate&#39;, &#39;/candidates/new&#39; %&gt;</code><br><img src="https://i.imgur.com/bz5QYYM.png"><br>我們打開瀏覽器，右鍵 &gt; 檢查頁面原始碼，這時候你會發現兩個長一樣。<br><img src="https://i.imgur.com/vMs0zVy.png"></p>
-<hr>
-<p>這時候我們可以使用終端機打開<code>rails routes</code>看一下<code>Prefix Verb</code>這邊的<code>new_candidate</code>我們手動幫它後面加上<code>_path</code> 它就會幫我們做出<code>/candidates/new</code>出來。<br>所以回到<code>view/index.html.erb</code> ，我們把剛剛的<code>&lt;%= link_to &#39;Add Candidate&#39;, &#39;/candidates/new&#39; %&gt;</code>後面的<code>/candidates/new</code> 換成<code>new_candidate_path</code><br><img src="https://i.imgur.com/uGbXBV8.png"><br>打開瀏覽器檢視網頁原始碼，發現其實兩個都是超連結到同一個網址。<br><img src="https://i.imgur.com/ytgOghT.png"><br>其實第二個超連結等於是Routes幫我們產生的。這樣的好處就是，如果以後有需要維護專案或是更改超連結的網頁，我們只要到進到<code>config/routes.rb</code>這個檔案去修改路徑，整個網站就修改好了。</p>
-<hr>
-<h3 id="link-to-方法的好處-搭配prefix路徑寫法"><a href="#link-to-方法的好處-搭配prefix路徑寫法" class="headerlink" title="link_to 方法的好處(搭配prefix路徑寫法)"></a>link_to 方法的好處(搭配prefix路徑寫法)</h3><ul>
-<li>好處就是，如果在連結的地方少打字或者打錯字，瀏覽器會噴訊息提醒你。</li>
-<li>因為 <code>link_to</code> 是一個方法，所以只要有打錯字，就會噴訊息出來。</li>
-</ul>
-<hr>
-<ul>
-<li>另外如果發現<code>rails routtes</code>有些<code>Prefix Verb</code>是空的就同上面的<code>Prefix Verb</code>。</li>
-</ul>
-<hr>
-<p>接著修改候選人名稱的超連結，改用 link_to 的寫法。<br><img src="https://i.imgur.com/5llYzLM.png"><br>但是這邊我們是要連到某個id的候選人頁面，所以candidate_path要給它一個id，他才能正確連結到對的候選人。<br><img src="https://i.imgur.com/HF0RlJl.png"><br>按下送出按鈕，網址後面就會有id，但是畫面上噴出訊息<code>the action &#39;show&#39; could not be found</code><br><img src="https://i.imgur.com/E0yrPQf.png"></p>
-<hr>
-<blockquote>
-<h3 id="接下來，下一堂課程，我們要建立一個-“show-action”-給它，當然同時也要給它一個-“show”-的-view。"><a href="#接下來，下一堂課程，我們要建立一個-“show-action”-給它，當然同時也要給它一個-“show”-的-view。" class="headerlink" title="接下來，下一堂課程，我們要建立一個 “show action” 給它，當然同時也要給它一個 “show” 的 view。"></a>接下來，下一堂課程，我們要建立一個 “show action” 給它，當然同時也要給它一個 “show” 的 view。</h3></blockquote>
-]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 009 (建立show action &amp; show 的 view)</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-009-%E5%BB%BA%E7%AB%8Bshow-action-show-%E7%9A%84-view/</url>
-    <content><![CDATA[<p>回到<code>CandidatesController</code>裡面，來新增<code>show action</code>。至於要放在哪個地方都可以，只要不要放到<code>private method</code>下面就行。<br>這邊我們就把<code>show action</code>新增在<code>index action</code>的下面。</p>
-<span id="more"></span>
-<p><img src="https://i.imgur.com/tONr3kh.png"></p>
-<p>存檔完，回到瀏覽器點擊任何一位候選人，看看頁面會出現什麼訊息。沒意外的話，應該會看到沒有樣板(no template)的訊息。果真出現了!!!<br><img src="https://i.imgur.com/cDzChwM.png"></p>
-<hr>
-<p>所以這個時候，我們就來做一個 show 的頁面給它。進入到<code>view/candidates/</code>新增檔案<code>show.html.erb</code><br><img src="https://i.imgur.com/nVTuNJw.png"><br>我們測試一下，點擊第一個(id&#x3D;1)候選人’ccc’，看看會呈現什麼樣的畫面。<br><img src="https://i.imgur.com/KDw0W9B.png"><br>從上面的圖片可以看見，我們在<code>show.html.erb</code>檔案新增的<code>&lt;h1&gt;Candidate Information&lt;/h1&gt;</code>有確實的顯示在瀏覽器頁面，且觀察網址列可以確定現在是在<code>id是一號</code>的候選人的頁面了。</p>
-<hr>
-<p>回到<code>CandidatesController</code>的<code>show action</code>這裡，它應該要做的事情，就是把某一個候選人的資料調出來。但是它要怎麼去調呢？</p>
-<ul>
-<li>根據<code>id</code>去把對應的候選人資料調出來。</li>
-</ul>
-<p>我們切換到終端機，來看看<code>rails server</code>再跑的時候顯示的一些資訊，可以看到有一包<code>Parameters: &#123;&quot;id&quot;=&gt;&quot;1&quot;&#125;</code>。</p>
-<p>表示點擊候選人之後，會有一個對應的<code>id</code>被捕捉到<code>Parameters</code>這個變數裡面。<br>所以我們得知可以透過<code>params</code>裡面<code>id</code>這個值拿回來用，把這個值放到<code>show action</code> 裡面。<br><img src="https://i.imgur.com/2sGIt3k.png"></p>
-<hr>
-<p>假設今天我們要拿2號候選人的資料，這個時候我們就試著請<code>Candidate</code>Model 去抓2號候選人的資料。<br>這邊就可以使用find_by(key: value)的方法去抓我們要的id的資料。<br><img src="https://i.imgur.com/1yXFlXB.png"></p>
-<hr>
-<p>這時候給它一個變數來承接它<code>@candidate = Candidate.find_by(id: params[:id])</code>。至於為什麼要給它一個變數，是因為等下在view的部分會使用到。<br><img src="https://i.imgur.com/v1KtCp3.png"></p>
-<hr>
-<p>此時我們進到<code>view/show.html.erb</code>來把<code>&lt;h1&gt;</code>標籤更改為<code>&lt;h1&gt;&lt;%= @candidate.name %&gt;&lt;/h1&gt;</code>，表示我們要印出候選人的名稱。<br><img src="https://i.imgur.com/RNQ6w6P.png"><br>打開瀏覽器看看畫面，真的有印出每個<code>id</code>對應的候選人名稱。<br><img src="https://i.imgur.com/dYQmolH.png"><br><img src="https://i.imgur.com/tUmlRsO.png"><br><img src="https://i.imgur.com/wTs8bnE.png"></p>
-<hr>
-<p>既然如此，我們也可以印出其他的欄位資料，包含政黨、年紀、政見等等。<br>這邊我們用<code>&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;</code>的方式呈現這些欄位資料。<br><img src="https://i.imgur.com/eszVGpL.png"><br>那接著就可以打開瀏覽器來驗證一下，是否會出現一個列表有我們要的欄位資料。<br>在瀏覽器執行重新整理後，果真畫面上出現了我們想看到的列表清單。<br><img src="https://i.imgur.com/XOvOti0.png"><br>上圖顯示的欄位資料也確實是我們想要抓到的資料。</p>
-<hr>
-<h2 id="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false"><a href="#可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false" class="headerlink" title="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show.html.erb檔案裡面，增加一個if...else...的判斷式。&gt;因為在Ruby的世界，只有兩個東西會是false1. false 本身 &#x3D;&#x3D;&gt; false2. nil &#x3D;&#x3D;&gt; false"></a>可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入<code>id</code>的位置，不小心打錯打成100，這時候會看到錯誤訊息<br><img src="https://i.imgur.com/SEJGrNq.png"><br>說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到<code>show.html.erb</code>檔案裡面，增加一個<code>if...else...</code>的判斷式。<br>&gt;因為在Ruby的世界，只有兩個東西會是false<br><strong>1. false 本身 &#x3D;&#x3D;&gt; false</strong><br><strong>2. nil &#x3D;&#x3D;&gt; false</strong></h2><p>所以我們可以使用這樣的寫法<br><img src="https://i.imgur.com/S8tZ0U3.png"><br>如果 <code>@candidate</code> 是有東西，就執行下面第2-8行code<br>其他的話就在畫面上印出<code>No Record found!!!</code><br>重新整理瀏覽器頁面，一樣是讓網址列的 id 輸入 100，這時候顯示的就不是錯誤訊息的畫面，而是<code>No Record found!!!</code>。<br><img src="https://i.imgur.com/8LNBaSJ.png"></p>
-<hr>
-<h3 id="目前這樣我們的-show-action-amp-show-html-erb算是完成了"><a href="#目前這樣我們的-show-action-amp-show-html-erb算是完成了" class="headerlink" title="目前這樣我們的 show action &amp; show.html.erb算是完成了"></a>目前這樣我們的 show action &amp; show.html.erb算是完成了</h3><hr>
-<blockquote>
-<h3 id="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"><a href="#這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧" class="headerlink" title="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"></a>這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧</h3></blockquote>
+<h2 id="下一堂課程，我們就使用CSS來製作一些醒目的提示"><a href="#下一堂課程，我們就使用CSS來製作一些醒目的提示" class="headerlink" title="下一堂課程，我們就使用CSS來製作一些醒目的提示"></a>下一堂課程，我們就使用CSS來製作一些醒目的提示</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class CandidatesController &lt; ApplicationController</span><br><span class="line">    </span><br><span class="line">    def index</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def new</span><br><span class="line">        @candidate = Candidate.new</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def create</span><br><span class="line"></span><br><span class="line">        @candidate = Candidate.new(candidate_params)</span><br><span class="line">        if @candidate.save</span><br><span class="line">            flash[:notice] = &quot;Candidate created!!!&quot;</span><br><span class="line">            redirect_to &#x27;/candidates&#x27;</span><br><span class="line">        else</span><br><span class="line">        #NG</span><br><span class="line">        render :new</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    private</span><br><span class="line">    def candidate_params</span><br><span class="line">        params.require(:candidate).permit(:name, :party, :age, :politics)</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line"> end</span><br></pre></td></tr></table></figure>
+
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -427,78 +516,7 @@
 <p>那我們來找出哪邊要修改，所以一樣讓新增候選人頁面出現錯誤訊息，但我們打開<code>檢查</code>來看看是哪裡跑版。發現有個<code>&lt;div class=&quot;field_with_errors&quot;&gt;</code>，這裡是有問題的。<br><img src="https://i.imgur.com/hxYbPLU.png"><br>我們期望的頁面顯示是兩個欄位對齊排在同一行，不要輸入匡欄位被往下面壓下去，所以我們可以對剛剛找到的那個<code>&lt;div class=&quot;field_with_errors&quot;&gt;</code>設定它的style。<br><img src="https://i.imgur.com/9HXZ89E.png"><br>我們再回到瀏覽器來看看，真的有對齊了沒有跑版。<br><img src="https://i.imgur.com/bfd1xC3.png"><br>如果社時候我們想再多給它一些畫面上的美化，譬如提醒使用者欄位記得填寫，欄位框是紅色框框。那我們就可以在<code>candidate.scss</code>這邊再給<code>field_with_errors</code>這個class其他的 CSS style。</p>
 <p>此時<code>SCSS</code> 它厲害的厲害的地方，就可以展現出來了。SCSS可以寫巢狀CSS。</p>
 <p>這邊設定<code>input</code> type 是<code>text</code>的元件，讓它的外框是紅色，然後外框的寬度是1px。表示在<code>field_with_errors</code>這個class裡面有<code>input</code>且型態是<code>text</code>的話，都套用一樣的CSS style 設定。<br><img src="https://i.imgur.com/nsnnQha.png"><br>打開瀏覽器看看畫面效果如何，確實有出現紅色邊框。<br><img src="https://i.imgur.com/AIPSeUq.png"><br>如果像要旁邊的<code>Name</code>也一起顯示紅色。那我們可以再SCSS裡面多增加一個CSS選取器。要針對<code>label</code>才可以。所以我們可以這樣寫CSS sytle。<br><img src="https://i.imgur.com/k2JkKLI.png"><br>再打開瀏覽器看看，是否呈現我們想要的效果。確定有<br><img src="https://i.imgur.com/pFuzVR3.png"></p>
-]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 012 ( 資料””刪除(delete) )</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-012-%E8%B3%87%E6%96%99%E2%80%9D%E2%80%9D%E5%88%AA%E9%99%A4-delete/</url>
-    <content><![CDATA[<h1 id="練習-012-資料””刪除-delete"><a href="#練習-012-資料””刪除-delete" class="headerlink" title="練習 - 012 ( 資料””刪除(delete) )"></a>練習 - 012 ( 資料””刪除(delete) )</h1><h2 id="CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能"><a href="#CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能" class="headerlink" title="CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能"></a>CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能</h2><span id="more"></span>
-<p>首先，在 <code>view/index.html.erb</code> 再多增加一個”刪除”超連結。一樣我們使用<code>link_to</code>方法。</p>
-<p>可是我們不知道<code>delete</code>的路徑要怎麼走，所以一樣需要請門口阿姨(Routes)來告訴我們。可以發現<code>DELETE</code>前面的<code>prefix</code>沒寫東西，只要是沒寫就表示同上。<br><img src="https://i.imgur.com/pnmoGm5.png"><br>所以我們可以確定路徑是<code>/candidate/candidates/:id(.:format)</code>。</p>
-<p>所以路徑該會是<code>&lt;%= link_to &#39;delete&#39;, candidate_path(candidate.id) %&gt;</code>。</p>
-<p>可是如果這樣寫的話，基本上你會看到跟<code>show</code>的頁面是一模一樣。因此我們要在路徑後面給它加上一個動詞：<br><code>&lt;%= link_to &#39;delete&#39;, candidate_path(candidate.id), method: &#39;delete&#39; %&gt;</code><br><img src="https://i.imgur.com/YocIh5i.png"><br>打開瀏覽器，就會看到畫面上的表單中呈現<br><img src="https://i.imgur.com/LoStwWL.png"><br>同時我們檢視頁面原始碼，可以發現在每個超連結中，都多出了一個<code>data-method=&quot;delete&quot;</code>的屬性。這個是Rails做的是手腳。<br><img src="https://i.imgur.com/OlQiFhL.png"></p>
-<hr>
-<p>所以我們應該也可以猜到，按下去<code>delete</code>，因該是會出現提示訊息的頁面，告訴我們說找不到<code>destroy action</code>。<br><img src="https://i.imgur.com/vrgpbCX.png"><br>而我們也是維持跟之前一樣的作法，如果找不到，那就做一個給你。</p>
-<hr>
-<p>接著我們就要到<code>CandidatesController</code> 新增<code>destroy action</code>。<br><img src="https://i.imgur.com/piEOXfT.png"></p>
-<hr>
-<p>如果今天我們要刪除一筆資料，那首先要做的就是先把那筆資料找出來。在前面的新增、編輯、更新，我們早就找過好幾次的資料了，所以直接把同樣的code給複製過來。<br><img src="https://i.imgur.com/q1aA65a.png"></p>
-<hr>
-<p>找到資料，那我們就可以直接把資料給刪除了，<code>@candidate.destroy</code><br><img src="https://i.imgur.com/68MTX5y.png"><br>另外我們一樣給它一個提示訊息<code>flash[notice] = &quot;候選人已刪除!!!&quot;</code>，並且將頁面跳轉回候選人列表頁面。<br><img src="https://i.imgur.com/Hclg3Wb.png"><br>打開瀏覽器，隨便點選一個候選人的刪除超連結<br><img src="https://i.imgur.com/kCXCvlC.png"><br>如果我們回到候選人表單頁面，真的點擊 delete 是會直接將整筆資料刪除，救不回來。</p>
-<hr>
-<p>所以我們可以在 <code>index.html.erb</code> 中<code>delete</code>超連結多增加一個防呆機制<code>data: &#123;confirm: &quot;確定要刪除嗎？&quot;&#125;</code><br><img src="https://i.imgur.com/6vfESBr.png"><br>接著打開瀏覽器，來看看畫面。<br><img src="https://i.imgur.com/MFxwSK7.png"><br>這樣的設計，就是怕使用者不小心按到刪除，還會再做第2次的確認，這時候按下<code>確定</code>那就真的刪除那筆資料了。</p>
-<hr>
-<h3 id="下一堂課程，就是要進入投票的部分。"><a href="#下一堂課程，就是要進入投票的部分。" class="headerlink" title="下一堂課程，就是要進入投票的部分。"></a>下一堂課程，就是要進入投票的部分。</h3>]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 013 ( 投票 )</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-013-%E6%8A%95%E7%A5%A8/</url>
-    <content><![CDATA[<h1 id="練習-013-投票"><a href="#練習-013-投票" class="headerlink" title="練習 - 013 (投票)"></a>練習 - 013 (投票)</h1><p>在候選人表單增加 vote 超連結。<br>我們想在<code>Name</code>的前面加上<code>Ｖote</code>的超連結</p>
-<span id="more"></span>
-<p><img src="https://i.imgur.com/exNG5YE.png"></p>
-<hr>
-<p>為了要服符合 <strong>RESTful</strong> 設計風格，路徑我們希望是<code>candidates/id/vote</code><br>所以這時候要進到<code>config/routes.rb</code> 手動增加路徑，而我們選擇使用的方法是<code>POST</code>。意思就是對<code>candidates/:id/vote</code>這個地方做POST這個動作，它就會去找<code>candidates#vote</code>這個方法。<br>所以只要路徑對了，就會對到對的<code>action</code>。<br><img src="https://i.imgur.com/FYLYb27.png" alt="圖"></p>
-<hr>
-<p>這時候我們可以打開Routes路徑對照表來看看 <code>rails routes</code>。確實我們可以看到路徑有出來了。<br><img src="https://i.imgur.com/OC1DY7n.png" alt="圖"></p>
-<hr>
-<h2 id="但是，如果今天我們是要幫原本的resources產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的resources後面給它一個block-增加do-x2F-end-。-member-原本8個路徑在多一個「成員」的路徑。candidates-id-vote-collection-原本8個路徑多一個「沒有成員」的路徑。candidates-vote"><a href="#但是，如果今天我們是要幫原本的resources產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的resources後面給它一個block-增加do-x2F-end-。-member-原本8個路徑在多一個「成員」的路徑。candidates-id-vote-collection-原本8個路徑多一個「沒有成員」的路徑。candidates-vote" class="headerlink" title="但是，如果今天我們是要幫原本的resources產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的resources後面給它一個block(增加do&#x2F;end)。* member: 原本8個路徑在多一個「成員」的路徑。candidates/:id/vote* collection: 原本8個路徑多一個「沒有成員」的路徑。candidates/vote"></a>但是，如果今天我們是要幫原本的<code>resources</code>產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的<code>resources</code>後面給它一個<code>block</code>(增加do&#x2F;end)。<br><figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">resources <span class="symbol">:candidates</span> <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 用 member </span></span><br><span class="line">    <span class="comment"># 或是</span></span><br><span class="line">    <span class="comment"># 用 collection</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><br><img src="https://i.imgur.com/RKpdhc6.png" alt="圖"><br>* member: 原本8個路徑在多一個「成員」的路徑。<code>candidates/:id/vote</code><br>* collection: 原本8個路徑多一個「沒有成員」的路徑。<code>candidates/vote</code></h2><p>打開我們的<code>Routes</code>路徑對照表 <code>rails routes</code> 看看發什麼事。<br><img src="https://i.imgur.com/VLgzAS9.png" alt="圖"></p>
-<p>可以發現第一行是<code>member</code>做的路徑擴充，另外一行就是<code>collection</code>做的路徑擴充。</p>
-<p>但是我們可以明顯發現兩者產生的路徑擴充有不同。</p>
-<ul>
-<li><code>memeber</code> 的路徑有保留<code>id</code>：<code>candidates/:id/vote</code></li>
-<li><code>collection</code> 產生的路徑不會保留<code>id</code>：<code>candidates/vote</code></li>
-</ul>
-<p>另外這裡要「特別注意」的地方就是資料讀取方法，這邊使用 <code>POST</code> 會比較適合，是因為<code>POST</code>會帶<code>token</code>，相較於 GET 比較安全。這樣才有檢查機制。</p>
-<p><code>GET</code>比較容易被仿造，只要知道你的路徑，有心人士就可以一直灌票，相信這樣的結果應該不大家所樂見的。<br><img src="https://i.imgur.com/spZj3xB.png" alt="圖"></p>
-<hr>
-<p>回到 <code>view/candidates/index.html.erb</code> 表單中我們把要走的路徑寫上去。<br><img src="https://i.imgur.com/fDq0u4S.png" alt="圖"></p>
-<hr>
-<p>打開我們的瀏覽器，這時發現畫面還是會有錯誤訊息，找不到<code>vote action</code><br><img src="https://i.imgur.com/HVEeaN8.png"></p>
-<hr>
-<p>既然沒有，那就自己動手做一個。到<code>CandidatesController</code>來定義<code>vote action</code><br><img src="https://i.imgur.com/Z7DWwtd.png"><br><img src="https://i.imgur.com/KY7ligI.png"></p>
-<hr>
-<p>打開瀏覽器，確認畫面<br><img src="https://i.imgur.com/glIGY6T.png"><br><img src="https://i.imgur.com/4EK84hA.png"><br>但是這時候如果一直按下<code>vote</code>我們的票數就會一直蕾加上去。所以等下要來修改投票的部分。</p>
-<hr>
-<p>因為我們還沒新增<code>vote action</code>在<code>CandidatesController</code>裡面，所以要先確認一下在<code>/db/schema.rb</code>  <code>vote</code> 的值<br><img src="https://i.imgur.com/j8B6zlr.png" alt="圖"></p>
-<hr>
-<p>接著再到<code>CandidatesController</code>新增<code>vote action</code><br><img src="https://i.imgur.com/sEFB6Bw.png"></p>
-<hr>
-<p>另外還有一個比較優化一點的方法<br><img src="https://i.imgur.com/T6AUT8U.png" alt="圖"></p>
-<p><code>@candidate.increment(:votes)</code><br>效果等於<code>@candidate.votes = @candidate.votes + 1</code><br>increment 是 rails 提供的方法</p>
-<blockquote>
-<h3 id="下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯"><a href="#下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯" class="headerlink" title="下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯"></a>下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -563,6 +581,7 @@
 <hr>
 <blockquote>
 <h3 id="候選人更新的部分就到這邊，下堂課要介紹”刪除”功能"><a href="#候選人更新的部分就到這邊，下堂課要介紹”刪除”功能" class="headerlink" title="候選人更新的部分就到這邊，下堂課要介紹”刪除”功能"></a>候選人更新的部分就到這邊，下堂課要介紹”刪除”功能</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -572,108 +591,43 @@
       </tags>
   </entry>
   <entry>
-    <title>Ruby on Rails 網站開發 練習 - 015 ( 效能改善 N+1 Query)</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-015-%E6%95%88%E8%83%BD%E6%94%B9%E5%96%84-N-1-Query/</url>
-    <content><![CDATA[<h1 id="練習-015-效能改善-N-1-Query"><a href="#練習-015-效能改善-N-1-Query" class="headerlink" title="練習 - 015 (效能改善 N+1 Query)"></a>練習 - 015 (效能改善 N+1 Query)</h1><p>上一堂課，已經可以正確的顯示投票紀錄。但是透過<code>rails console</code>可以看到 server 的 log，每次投票都會計算一次。 <strong>(N+1 Query)</strong></p>
+    <title>Ruby on Rails 網站開發 練習 - 013 ( 投票 )</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-013-%E6%8A%95%E7%A5%A8/</url>
+    <content><![CDATA[<h1 id="練習-013-投票"><a href="#練習-013-投票" class="headerlink" title="練習 - 013 (投票)"></a>練習 - 013 (投票)</h1><p>在候選人表單增加 vote 超連結。<br>我們想在<code>Name</code>的前面加上<code>Ｖote</code>的超連結</p>
 <span id="more"></span>
-<p><img src="https://i.imgur.com/5Dahc4w.png" alt="圖"></p>
+<p><img src="https://i.imgur.com/exNG5YE.png"></p>
 <hr>
-<p>為了改善效能問題，此時我們就需要使用<code>Counter Cache</code></p>
-<h3 id="Counter-Cache-概念"><a href="#Counter-Cache-概念" class="headerlink" title="Counter Cache 概念"></a>Counter Cache 概念</h3><ul>
-<li>當我們的票寫入到投票紀錄的當下，同時會更新一份候選人票數到「候選人表單」的欄位中。</li>
-<li>這樣我們在讀取候選人票數的時候，就可以不用再 count 票數的欄位。</li>
-<li>因為在候選人的<code>table</code>已經有專門的欄位記載票數。</li>
-<li>這個欄位的「數字」會在每次按下<code>vote</code>的時候更新欄位的數字。</li>
-</ul>
+<p>為了要服符合 <strong>RESTful</strong> 設計風格，路徑我們希望是<code>candidates/id/vote</code><br>所以這時候要進到<code>config/routes.rb</code> 手動增加路徑，而我們選擇使用的方法是<code>POST</code>。意思就是對<code>candidates/:id/vote</code>這個地方做POST這個動作，它就會去找<code>candidates#vote</code>這個方法。<br>所以只要路徑對了，就會對到對的<code>action</code>。<br><img src="https://i.imgur.com/FYLYb27.png" alt="圖"></p>
 <hr>
-<h3 id="所以我們現在需要幫原本的Candidate-Model增加欄位："><a href="#所以我們現在需要幫原本的Candidate-Model增加欄位：" class="headerlink" title="所以我們現在需要幫原本的Candidate Model增加欄位："></a>所以我們現在需要幫原本的<code>Candidate Model</code>增加欄位：</h3><ol>
-<li>欄位名稱(依照慣例&lt;關聯的table名字_count&gt;)：vote_logs_count</li>
-<li>欄位資料型態：integer</li>
-</ol>
-<p>打開終端機輸入指令產生一個migration，<code>rails g migration add_counter_cache_to_candidate</code><br><img src="https://i.imgur.com/BcXt7om.png"><br><img src="https://i.imgur.com/dz9NYaV.png"></p>
-<p>再到 <code>db/migrate/</code> 可以找到剛剛透過終端機指令產生的 migration 檔案，檔案裡長出來的<code>class</code>名稱<code>AddCounterCacheToCandidate</code>其實會對應上我們輸入的名字。<br><img src="https://i.imgur.com/OtkpDMy.png"></p>
+<p>這時候我們可以打開Routes路徑對照表來看看 <code>rails routes</code>。確實我們可以看到路徑有出來了。<br><img src="https://i.imgur.com/OC1DY7n.png" alt="圖"></p>
 <hr>
-<p>上網找尋 Rails 新增欄位的方法<code>add_column</code></p>
+<h2 id="但是，如果今天我們是要幫原本的resources產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的resources後面給它一個block-增加do-x2F-end-。-member-原本8個路徑在多一個「成員」的路徑。candidates-id-vote-collection-原本8個路徑多一個「沒有成員」的路徑。candidates-vote"><a href="#但是，如果今天我們是要幫原本的resources產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的resources後面給它一個block-增加do-x2F-end-。-member-原本8個路徑在多一個「成員」的路徑。candidates-id-vote-collection-原本8個路徑多一個「沒有成員」的路徑。candidates-vote" class="headerlink" title="但是，如果今天我們是要幫原本的resources產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的resources後面給它一個block(增加do&#x2F;end)。* member: 原本8個路徑在多一個「成員」的路徑。candidates/:id/vote* collection: 原本8個路徑多一個「沒有成員」的路徑。candidates/vote"></a>但是，如果今天我們是要幫原本的<code>resources</code>產生的8條路徑做擴充，那我們就必須改成另外的寫法。就是在原本的<code>resources</code>後面給它一個<code>block</code>(增加do&#x2F;end)。<br><figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">resources <span class="symbol">:candidates</span> <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 用 member </span></span><br><span class="line">    <span class="comment"># 或是</span></span><br><span class="line">    <span class="comment"># 用 collection</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure><br><img src="https://i.imgur.com/RKpdhc6.png" alt="圖"><br>* member: 原本8個路徑在多一個「成員」的路徑。<code>candidates/:id/vote</code><br>* collection: 原本8個路徑多一個「沒有成員」的路徑。<code>candidates/vote</code></h2><p>打開我們的<code>Routes</code>路徑對照表 <code>rails routes</code> 看看發什麼事。<br><img src="https://i.imgur.com/VLgzAS9.png" alt="圖"></p>
+<p>可以發現第一行是<code>member</code>做的路徑擴充，另外一行就是<code>collection</code>做的路徑擴充。</p>
+<p>但是我們可以明顯發現兩者產生的路徑擴充有不同。</p>
 <ul>
-<li>add_column(要加入的表單名稱, 欄位名稱, 資料型態, option &#x3D; {})<br><img src="https://i.imgur.com/e8sHeEN.png" alt="圖"></li>
+<li><code>memeber</code> 的路徑有保留<code>id</code>：<code>candidates/:id/vote</code></li>
+<li><code>collection</code> 產生的路徑不會保留<code>id</code>：<code>candidates/vote</code></li>
 </ul>
+<p>另外這裡要「特別注意」的地方就是資料讀取方法，這邊使用 <code>POST</code> 會比較適合，是因為<code>POST</code>會帶<code>token</code>，相較於 GET 比較安全。這樣才有檢查機制。</p>
+<p><code>GET</code>比較容易被仿造，只要知道你的路徑，有心人士就可以一直灌票，相信這樣的結果應該不大家所樂見的。<br><img src="https://i.imgur.com/spZj3xB.png" alt="圖"></p>
 <hr>
-<p>進到<code>AddCounterCacheToCandidate</code> migration檔案在<code>change</code>方法裡面增加一行程式碼。</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">add_column <span class="symbol">:candidates</span>, <span class="symbol">:vote_logs_count</span>, <span class="symbol">:integer</span>, <span class="symbol">default:</span> <span class="number">0</span></span><br><span class="line"><span class="comment">#加入欄位:加進candidate表單, 欄位名稱vote_logs_count, 型態是integer, 預設值為0</span></span><br></pre></td></tr></table></figure>
-<p><strong>這裡要非常注意table名稱是複數(candidates)!</strong><br><strong>這裡要非常注意table名稱是複數(andidates)!</strong><br><strong>這裡要非常注意table名稱是複數(candidates)!</strong><br><img src="https://i.imgur.com/uBCjsNO.png"></p>
-<p>這裡已經確認migration檔案裡面的內容沒有問題，接下來就是要把這個migration「具現化」，使用終端機執行<code>rails db:migrate</code><br><img src="https://i.imgur.com/mHwN7g2.png"></p>
-<p>接著打開<code>db/migrate/schema.rb</code>來看看是否剛剛新增的欄位有加入成功。登愣!!!恭喜成功加入。<br><img src="https://i.imgur.com/FukqXwH.png"></p>
-<p>但是不是增欄位這樣就有效果，還要進到<code>VoteLog Model</code>裡面做一件很神奇的事情。要在原本的<code>belongs_to :candidate</code>後面加上<code>counter_cache: true</code>。<br><img src="https://i.imgur.com/fZLlk7H.png"></p>
-<p>增加<code>counter_cache: true</code>的用意，就是當我們把那張票寫入到資料庫的同時，也會執行「更新票數」的動作。把票數更新到哪裡呢？</p>
-<ul>
-<li>會把票數更新到<code>candidates</code>表單的<code>vote_logs_count</code>欄位<br><img src="https://i.imgur.com/o12lQ3L.png"></li>
-</ul>
+<p>回到 <code>view/candidates/index.html.erb</code> 表單中我們把要走的路徑寫上去。<br><img src="https://i.imgur.com/fDq0u4S.png" alt="圖"></p>
 <hr>
-<p>來確認看看是否有成功寫入。重新整理瀏覽器。確認目前頁面資料。<br><img src="https://i.imgur.com/Z6MW28a.png"></p>
+<p>打開我們的瀏覽器，這時發現畫面還是會有錯誤訊息，找不到<code>vote action</code><br><img src="https://i.imgur.com/HVEeaN8.png"></p>
 <hr>
-<p>按下<code>vote</code>，投給<code>ddd</code>候選人8票。<br><img src="https://i.imgur.com/PICPIDk.png"><br>確定每次的票數都會同步更新到畫面上，目前<code>ddd</code>候選人有10票。</p>
-<p>觀察一下終端機上<code>rails server</code>顯示的紀錄，每次投票的時候有做了哪些事情，先截圖其中一筆資料。<br><img src="https://i.imgur.com/EThCpUb.png"></p>
-<p>確實在寫入票數資料的同時也去更新了<code>candidates</code>表單的<code>vote_logs_count</code>欄位。</p>
-<p>但是我們也會發現現在rails server 每次撈資料的時候，都會再去撈一次，是因為在<code>view/index.html.erb</code>的<code>&lt;%= candidate.vote_logs.count %&gt;</code> 它會去<code>vote_logs</code>這個表單<br>去撈count。</p>
-<p>不是從<code>candidates</code>表單裡面的<code>vote_logs_count</code>欄位撈資料。所以要更改為<code>&lt;%= candidate.vote_logs_count %&gt;</code><br><img src="https://i.imgur.com/VRmJw9J.png"></p>
-<p>這時候重新整理瀏覽器畫面，看到的票數資料才是正確的。對<code>eee</code>候選人按下<code>vote</code>。<br><img src="https://i.imgur.com/bKRnCjU.png"></p>
+<p>既然沒有，那就自己動手做一個。到<code>CandidatesController</code>來定義<code>vote action</code><br><img src="https://i.imgur.com/Z7DWwtd.png"><br><img src="https://i.imgur.com/KY7ligI.png"></p>
 <hr>
-<p>我們可以發現 rails server 的紀錄顯示只有撈一次而已。<br><img src="https://i.imgur.com/nlIAEwZ.png"></p>
-<p>是不是發現效能有變更好一點了。但其實還可以再更優化。就是在<code>view/index.html.erb</code>的<code>&lt;%= candidate.vote_logs_count %&gt;</code>去修改。</p>
-<p>我們現在是讓它直接讀取那個欄位的資料，但是其實還有一個更「漂亮」的寫法。我們一樣透過<code>vote_logs</code>，畢竟<code>candidate</code> 有 <code>has_many :vote_logs</code>。</p>
-<p>所以我們可以把<code>&lt;%= candidate.vote_logs_count %&gt;</code>改成<br><code>&lt;%= candidate.vote_logs.size %&gt;</code></p>
-<p>為什麼用這樣的寫法？目前重新整理頁面看到的結果兩種寫法顯示的結果是一樣的，可以為什麼要用<code>.size</code>而不是直接讀取<code>vote_logs_count</code>欄位。為什麼用<code>.size</code>的寫法？</p>
-<ul>
-<li>原因就是：以程式碼的可讀性，使用<code>&lt;%= candidate.vote_logs.size %&gt;</code> 比較可以看出關聯性。</li>
-</ul>
+<p>打開瀏覽器，確認畫面<br><img src="https://i.imgur.com/glIGY6T.png"><br><img src="https://i.imgur.com/4EK84hA.png"><br>但是這時候如果一直按下<code>vote</code>我們的票數就會一直蕾加上去。所以等下要來修改投票的部分。</p>
 <hr>
-<p>不曉得到這邊大家有沒有發現一個事情，現在顯示的票數，好像跟一開始的不太一樣。打開<code>rails console</code>來看一下目前總票數。總共投了24票。<br><img src="https://i.imgur.com/XUwuRwv.png"></p>
-<p>可是瀏覽器畫面顯示的票數似乎不太一樣。</p>
-<p>是因為後來才加入的<code>counter cache</code>，現在瀏覽器畫面顯示的票數是<code>counter cashe</code>紀錄的票數。</p>
-<p>我們可以google搜尋關鍵字：rails api reset counter_cache<br><img src="https://i.imgur.com/NLnuZBE.png"></p>
-<p>找到了可以使用的方法，但是我們要測試看看，可以用<code>rake</code>語法來寫一個<code>task</code>。要寫在哪個目錄底下呢？<br>我們到<code>db/lib/tasks</code>目錄裡面新增一個任務<code>rest_counter.rake</code>檔案。<br><img src="https://i.imgur.com/aGLTATA.png"></p>
-<p><img src="https://i.imgur.com/wyQEkeF.png"></p>
-<p>這樣以後在終端機輸入<code>rake -T</code>就可以在任務列表中找到我們今天新增的這個<code>reset_counter</code>這個 task。<br><img src="https://i.imgur.com/dZba1TX.jpg"></p>
+<p>因為我們還沒新增<code>vote action</code>在<code>CandidatesController</code>裡面，所以要先確認一下在<code>/db/schema.rb</code>  <code>vote</code> 的值<br><img src="https://i.imgur.com/j8B6zlr.png" alt="圖"></p>
 <hr>
-<p>接著我們就要來寫程式了，進到<code>reset_counter.rake</code>，在<code>tesk ...do...end</code>裡面來寫程式。<br><img src="https://i.imgur.com/qRvg4V8.png"></p>
-<p>再多增加一行<code>puts &quot;prepare to reset counter&quot;</code>，表示執行<code>reset_counter</code>前會先印出<code>prepare to reset counter</code><br><img src="https://i.imgur.com/nZd6Xp1.png"></p>
-<p>執行完畢印出<code>done!</code>，所以在最下面增加一行<code>puts &quot;done!&quot;</code><br><img src="https://i.imgur.com/ylt6u7d.png"></p>
-<p>終端機輸入<code>rails db:reset_counter</code><br><img src="https://i.imgur.com/6AOnyHf.png"></p>
-<p>這時候我們再回到瀏覽器重新整理畫面，會發現票數就更新了。<br>從原本的 0票 8票 1票 —&gt; 7票 10票 7票。這樣票數就正確了!!!<br><img src="https://i.imgur.com/9JLBxwE.png"></p>
+<p>接著再到<code>CandidatesController</code>新增<code>vote action</code><br><img src="https://i.imgur.com/sEFB6Bw.png"></p>
 <hr>
-<p>目前我們已經有 新增&#x2F;修改&#x2F;刪除&#x2F;投票 都有成功寫出來了。但是現在我們的code長得樣子是滿雜亂的，需要再整理一下。把一些功能寫成方法，這樣整個專案的程式碼可讀性會更高。</p>
+<p>另外還有一個比較優化一點的方法<br><img src="https://i.imgur.com/T6AUT8U.png" alt="圖"></p>
+<p><code>@candidate.increment(:votes)</code><br>效果等於<code>@candidate.votes = @candidate.votes + 1</code><br>increment 是 rails 提供的方法</p>
 <blockquote>
-<h3 id="下一堂課程，整理程式碼"><a href="#下一堂課程，整理程式碼" class="headerlink" title="下一堂課程，整理程式碼"></a>下一堂課程，整理程式碼</h3></blockquote>
-]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 016 ( 整理code )</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-016-%E6%95%B4%E7%90%86code/</url>
-    <content><![CDATA[<h1 id="練習-016-整理code"><a href="#練習-016-整理code" class="headerlink" title="練習 - 016 (整理code)"></a>練習 - 016 (整理code)</h1><span id="more"></span>
-<p>首先，整理 <code>candidate_controller.rb</code></p>
-<p><code> @candidate = Candidate.find_by(id: params[:id])</code><br>它出現5次，所以我們可以拉到下面 private function 將它獨立出來成為一個 function。<br><img src="https://i.imgur.com/E6Ok9Gn.png" alt="圖"></p>
-<hr>
-<p>其他 function 有使用到它的<br>都可以用呼叫的方式<br><img src="https://i.imgur.com/kVA4HnA.png" alt="圖"></p>
-<hr>
-<p>目前這樣有變得比較簡潔乾淨，但是find_candidate 都還是會被重複呼叫5次。<br>這裡就要介紹Rails Controller提供了一個更便利有趣的方法：<br><code>before_action :find_candidate</code></p>
-<hr>
-<p>會發現原本需要輸入的地方都可以拿掉function<br><img src="https://i.imgur.com/kL6Zb8m.png"></p>
-<hr>
-<p>另外它還有很好的地方就是可以指定需要使用到find_candidate 的 function，可以改寫成<br><img src="https://i.imgur.com/jeENwLD.png"><br>這樣就可以指定哪些方法使用 find_candidate。<br>也有另外一種反向的寫法<br><img src="https://i.imgur.com/3sO7r6X.png"></p>
-<hr>
-<p>另外<code>flash[:notice] = &#39;Candidate Created!!!&#39;</code><br>也可以跟另外一行<code>redirect_to &#39;/candidate&#39;</code> 寫在同一行<br><img src="https://i.imgur.com/fJvYEXT.png"><br>其他的方法有用到 <code>notice</code> 也都可以同樣簡化成一行。</p>
-<hr>
-<p>接著要看 <code>view</code> 的地方，有那裡可以做精簡化。<br>一樣我們先從一些會被重複使用的方法來做簡化，我們可從<code>view/layouts</code>裡面的<code>application.html.erb</code> 也就是所謂的「公版」裡面來進行相關的設定，達到我們要的簡化效果。所以我們可以把 <code>index.html.erb</code> 裡面的 <code>&lt;%= flash[notice] %&gt;</code> 放到 <code>application.html.erb</code> 的<br><code>&lt;body&gt; &lt;/bodya</code> 裡面<br><img src="https://i.imgur.com/jFMLKqR.png"></p>
-<hr>
-<p>另外在 <code>new.html.erb</code> 的新增候選人及 <code>edit.html.erb</code> 更新候選人寫法幾乎一樣<br>那我們可以另外開一個新的檔案命名 <code>_form.html.erb</code>，把它變成「局部選染」檔案獨立出來，規定局部渲染檔案命名前面是下底線<code>_</code>。<br><img src="https://i.imgur.com/BF6emi5.png"><br>然後回到 <code>new.html.erb</code> 裡面輸入<br><img src="https://i.imgur.com/5kuwWjJ.png"><br>這樣畫面就會乾淨很多。所以 <code>edit.html.er</code> 檔案也可以同樣寫法<br><img src="https://i.imgur.com/PIc3OEl.png"></p>
-<hr>
-<p>同時我們檢查 <code>_form.html.erb</code> 檔案中有沒有可以簡化的地方，發現檔案中的 @candidate 變數是 <code>_form.html.erb</code> 他要自己伸手要東西過來，不是等別人餵東西給他。所以我們可以<code>new.html.erb</code> 裡面再加工一下。<br><img src="https://i.imgur.com/POZBVNz.png"><br>這樣我們就可以把<code>_form.html.erb</code> 裡面的實體變數 <code>@candidate</code> 改成區域變數 <code>candidate</code>。同樣的 <code>edit.html.erb</code> 也要做一樣的修改。<br><img src="https://i.imgur.com/opx3fYo.png"></p>
+<h3 id="下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯"><a href="#下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯" class="headerlink" title="下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯"></a>下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -758,6 +712,7 @@
 <p>目前已經看到每次投票的紀錄，但是其實有需要優化的地方，「效能」。</p>
 <blockquote>
 <h3 id="下一堂課程，改善效能。"><a href="#下一堂課程，改善效能。" class="headerlink" title="下一堂課程，改善效能。"></a>下一堂課程，改善效能。</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
@@ -767,74 +722,189 @@
       </tags>
   </entry>
   <entry>
-    <title>Ruby on Rails 小試身手 (初識 Rails)</title>
-    <url>/2022/12/13/Ruby-on-Rails-%E5%B0%8F%E8%A9%A6%E8%BA%AB%E6%89%8B-%E5%88%9D%E8%AD%98-Rails/</url>
-    <content><![CDATA[<h1 id="Ruby-on-Rails-小試身手-初識-Rails"><a href="#Ruby-on-Rails-小試身手-初識-Rails" class="headerlink" title="Ruby on Rails 小試身手 (初識 Rails)"></a>Ruby on Rails 小試身手 (初識 Rails)</h1><span id="more"></span>
-<ol>
-<li><p>是用 Ruby 做出來的<strong>網站開發框架</strong></p>
-</li>
-<li><p>發明人:David Heinemeier Hansson(DHH)</p>
-</li>
-<li><p>首次公開發表:西元2004年</p>
-</li>
-<li><p>西元2005年在研討會上用15分鐘做出一個blog系統，開始吸引大量開發者關注。</p>
-</li>
+    <title>Ruby on Rails 網站開發 練習 - 012 ( 資料””刪除(delete) )</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-012-%E8%B3%87%E6%96%99%E2%80%9D%E2%80%9D%E5%88%AA%E9%99%A4-delete/</url>
+    <content><![CDATA[<h1 id="練習-012-資料””刪除-delete"><a href="#練習-012-資料””刪除-delete" class="headerlink" title="練習 - 012 ( 資料””刪除(delete) )"></a>練習 - 012 ( 資料””刪除(delete) )</h1><h2 id="CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能"><a href="#CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能" class="headerlink" title="CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能"></a>CRUD前面已經介紹了新增、修改、編輯，現在剩下刪除的功能</h2><span id="more"></span>
+<p>首先，在 <code>view/index.html.erb</code> 再多增加一個”刪除”超連結。一樣我們使用<code>link_to</code>方法。</p>
+<p>可是我們不知道<code>delete</code>的路徑要怎麼走，所以一樣需要請門口阿姨(Routes)來告訴我們。可以發現<code>DELETE</code>前面的<code>prefix</code>沒寫東西，只要是沒寫就表示同上。<br><img src="https://i.imgur.com/pnmoGm5.png"><br>所以我們可以確定路徑是<code>/candidate/candidates/:id(.:format)</code>。</p>
+<p>所以路徑該會是<code>&lt;%= link_to &#39;delete&#39;, candidate_path(candidate.id) %&gt;</code>。</p>
+<p>可是如果這樣寫的話，基本上你會看到跟<code>show</code>的頁面是一模一樣。因此我們要在路徑後面給它加上一個動詞：<br><code>&lt;%= link_to &#39;delete&#39;, candidate_path(candidate.id), method: &#39;delete&#39; %&gt;</code><br><img src="https://i.imgur.com/YocIh5i.png"><br>打開瀏覽器，就會看到畫面上的表單中呈現<br><img src="https://i.imgur.com/LoStwWL.png"><br>同時我們檢視頁面原始碼，可以發現在每個超連結中，都多出了一個<code>data-method=&quot;delete&quot;</code>的屬性。這個是Rails做的是手腳。<br><img src="https://i.imgur.com/OlQiFhL.png"></p>
+<hr>
+<p>所以我們應該也可以猜到，按下去<code>delete</code>，因該是會出現提示訊息的頁面，告訴我們說找不到<code>destroy action</code>。<br><img src="https://i.imgur.com/vrgpbCX.png"><br>而我們也是維持跟之前一樣的作法，如果找不到，那就做一個給你。</p>
+<hr>
+<p>接著我們就要到<code>CandidatesController</code> 新增<code>destroy action</code>。<br><img src="https://i.imgur.com/piEOXfT.png"></p>
+<hr>
+<p>如果今天我們要刪除一筆資料，那首先要做的就是先把那筆資料找出來。在前面的新增、編輯、更新，我們早就找過好幾次的資料了，所以直接把同樣的code給複製過來。<br><img src="https://i.imgur.com/q1aA65a.png"></p>
+<hr>
+<p>找到資料，那我們就可以直接把資料給刪除了，<code>@candidate.destroy</code><br><img src="https://i.imgur.com/68MTX5y.png"><br>另外我們一樣給它一個提示訊息<code>flash[notice] = &quot;候選人已刪除!!!&quot;</code>，並且將頁面跳轉回候選人列表頁面。<br><img src="https://i.imgur.com/Hclg3Wb.png"><br>打開瀏覽器，隨便點選一個候選人的刪除超連結<br><img src="https://i.imgur.com/kCXCvlC.png"><br>如果我們回到候選人表單頁面，真的點擊 delete 是會直接將整筆資料刪除，救不回來。</p>
+<hr>
+<p>所以我們可以在 <code>index.html.erb</code> 中<code>delete</code>超連結多增加一個防呆機制<code>data: &#123;confirm: &quot;確定要刪除嗎？&quot;&#125;</code><br><img src="https://i.imgur.com/6vfESBr.png"><br>接著打開瀏覽器，來看看畫面。<br><img src="https://i.imgur.com/MFxwSK7.png"><br>這樣的設計，就是怕使用者不小心按到刪除，還會再做第2次的確認，這時候按下<code>確定</code>那就真的刪除那筆資料了。</p>
+<hr>
+<h3 id="下一堂課程，就是要進入投票的部分。"><a href="#下一堂課程，就是要進入投票的部分。" class="headerlink" title="下一堂課程，就是要進入投票的部分。"></a>下一堂課程，就是要進入投票的部分。</h3><p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - 015 ( 效能改善 N+1 Query)</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-015-%E6%95%88%E8%83%BD%E6%94%B9%E5%96%84-N-1-Query/</url>
+    <content><![CDATA[<h1 id="練習-015-效能改善-N-1-Query"><a href="#練習-015-效能改善-N-1-Query" class="headerlink" title="練習 - 015 (效能改善 N+1 Query)"></a>練習 - 015 (效能改善 N+1 Query)</h1><p>上一堂課，已經可以正確的顯示投票紀錄。但是透過<code>rails console</code>可以看到 server 的 log，每次投票都會計算一次。 <strong>(N+1 Query)</strong></p>
+<span id="more"></span>
+<p><img src="https://i.imgur.com/5Dahc4w.png" alt="圖"></p>
+<hr>
+<p>為了改善效能問題，此時我們就需要使用<code>Counter Cache</code></p>
+<h3 id="Counter-Cache-概念"><a href="#Counter-Cache-概念" class="headerlink" title="Counter Cache 概念"></a>Counter Cache 概念</h3><ul>
+<li>當我們的票寫入到投票紀錄的當下，同時會更新一份候選人票數到「候選人表單」的欄位中。</li>
+<li>這樣我們在讀取候選人票數的時候，就可以不用再 count 票數的欄位。</li>
+<li>因為在候選人的<code>table</code>已經有專門的欄位記載票數。</li>
+<li>這個欄位的「數字」會在每次按下<code>vote</code>的時候更新欄位的數字。</li>
+</ul>
+<hr>
+<h3 id="所以我們現在需要幫原本的Candidate-Model增加欄位："><a href="#所以我們現在需要幫原本的Candidate-Model增加欄位：" class="headerlink" title="所以我們現在需要幫原本的Candidate Model增加欄位："></a>所以我們現在需要幫原本的<code>Candidate Model</code>增加欄位：</h3><ol>
+<li>欄位名稱(依照慣例&lt;關聯的table名字_count&gt;)：vote_logs_count</li>
+<li>欄位資料型態：integer</li>
 </ol>
-<h2 id="Rails-有兩大設計哲學"><a href="#Rails-有兩大設計哲學" class="headerlink" title="Rails 有兩大設計哲學"></a>Rails 有兩大設計哲學</h2><ol>
-<li><p>DRY &#x3D; 不做重複的事 (Don’t Repeat Yourself)</p>
-</li>
-<li><p>CoC &#x3D; 慣例優於設定 (Covention Over Configuration)</p>
-</li>
-</ol>
-<h2 id="使用-Scaffold-創建一個-table-出來"><a href="#使用-Scaffold-創建一個-table-出來" class="headerlink" title="使用 Scaffold 創建一個 table 出來"></a>使用 Scaffold 創建一個 table 出來</h2><p>第一步 輸入指令:</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">generate scaffold <span class="title class_">User</span> <span class="symbol">name:</span>string <span class="symbol">email:</span>string <span class="symbol">tel:</span>string</span><br></pre></td></tr></table></figure>
+<p>打開終端機輸入指令產生一個migration，<code>rails g migration add_counter_cache_to_candidate</code><br><img src="https://i.imgur.com/BcXt7om.png"><br><img src="https://i.imgur.com/dz9NYaV.png"></p>
+<p>再到 <code>db/migrate/</code> 可以找到剛剛透過終端機指令產生的 migration 檔案，檔案裡長出來的<code>class</code>名稱<code>AddCounterCacheToCandidate</code>其實會對應上我們輸入的名字。<br><img src="https://i.imgur.com/OtkpDMy.png"></p>
+<hr>
+<p>上網找尋 Rails 新增欄位的方法<code>add_column</code></p>
 <ul>
-<li>可以偷懶一下少敲打一些字 ：<br>generate &#x3D; g<br>String 型態可省略不打<br>bin&#x2F;rails 可以輸入 rails 就好</li>
+<li>add_column(要加入的表單名稱, 欄位名稱, 資料型態, option &#x3D; {})<br><img src="https://i.imgur.com/e8sHeEN.png" alt="圖"></li>
 </ul>
 <hr>
-<p>至於什麼時候用<code>bin/rails</code>這個指令，是因為在本機有安裝不同版本的rails，每個專案開發時使用的版本不同，<code>bin/rails</code>會只針對專案本身使用的rails版本去執行。</p>
-<p>而<code>rails</code>預設會使用目前本機端內最新版本的rails來執行。</p>
+<p>進到<code>AddCounterCacheToCandidate</code> migration檔案在<code>change</code>方法裡面增加一行程式碼。</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">add_column <span class="symbol">:candidates</span>, <span class="symbol">:vote_logs_count</span>, <span class="symbol">:integer</span>, <span class="symbol">default:</span> <span class="number">0</span></span><br><span class="line"><span class="comment">#加入欄位:加進candidate表單, 欄位名稱vote_logs_count, 型態是integer, 預設值為0</span></span><br></pre></td></tr></table></figure>
+<p><strong>這裡要非常注意table名稱是複數(candidates)!</strong><br><strong>這裡要非常注意table名稱是複數(andidates)!</strong><br><strong>這裡要非常注意table名稱是複數(candidates)!</strong><br><img src="https://i.imgur.com/uBCjsNO.png"></p>
+<p>這裡已經確認migration檔案裡面的內容沒有問題，接下來就是要把這個migration「具現化」，使用終端機執行<code>rails db:migrate</code><br><img src="https://i.imgur.com/mHwN7g2.png"></p>
+<p>接著打開<code>db/migrate/schema.rb</code>來看看是否剛剛新增的欄位有加入成功。登愣!!!恭喜成功加入。<br><img src="https://i.imgur.com/FukqXwH.png"></p>
+<p>但是不是增欄位這樣就有效果，還要進到<code>VoteLog Model</code>裡面做一件很神奇的事情。要在原本的<code>belongs_to :candidate</code>後面加上<code>counter_cache: true</code>。<br><img src="https://i.imgur.com/fZLlk7H.png"></p>
+<p>增加<code>counter_cache: true</code>的用意，就是當我們把那張票寫入到資料庫的同時，也會執行「更新票數」的動作。把票數更新到哪裡呢？</p>
 <ul>
-<li>所以有時候會發現某些專案輸入<code>rails g</code>不會執行，要使用<code>bin/rails</code>才會執行。</li>
+<li>會把票數更新到<code>candidates</code>表單的<code>vote_logs_count</code>欄位<br><img src="https://i.imgur.com/o12lQ3L.png"></li>
 </ul>
 <hr>
-<p>讓我們開始認識Ruby on Rails，看看它有什麼厲害的地方吧！</p>
-<p>首先：cd 到我們要建立專案的目錄底下輸入指令:<code>rails new test-scaffold</code>再 cd 到 test-scaffold 目錄中。</p>
-<p>接著我們就開始在終端機輸入指令</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails g scaffold <span class="title class_">User</span> name email tel</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/LALBWQs.png"></p>
-<p>可以看到Rails已經幫我們生成好多檔案出來，雖然目前還不了解這些檔案的個別功用，之後在實體課程中會進一步了解。這些檔案就是網站架構起來的關鍵。</p>
-<p>看到指令中<code>scaffold</code>這個單字，中文翻譯「鷹架」，從這邊其實大概可以猜的出來這個指令應該是要產生類似腳架的結構出來，一般我們日常生活最常看到這種腳架或鷹架結構，就是建造房屋、大樓。所以看到這行指令會猜想應該是產生要架構出網站的「鷹架」。</p>
-<p>這個指令所產生一整串的檔案，其中db&#x2F;migrate&#x2F;這個目錄開頭的.rb檔，是一個描述檔。描述「資料庫的架構長什麼樣子」。在這邊可以先理解成描述我們剛剛輸入的指令，之後要建立一張資料表，表單名稱叫做User，且表單裡面會有一些欄位分別是要存放name、email、tellphone等資料。</p>
-<p>你會想問為什麼會有這個表單，它的作用如何？這就要說到Rails是由一種叫做 MVC 的軟體構模式來設計網站，主要目的是分化程式的權責，口語化來說，就是各司其職，比如一間餐廳，廚師負責烹飪出菜，服務人員負責接待客人、帶位，收銀櫃檯人員負責結帳，就是分工合作的概念。</p>
+<p>來確認看看是否有成功寫入。重新整理瀏覽器。確認目前頁面資料。<br><img src="https://i.imgur.com/Z6MW28a.png"></p>
+<hr>
+<p>按下<code>vote</code>，投給<code>ddd</code>候選人8票。<br><img src="https://i.imgur.com/PICPIDk.png"><br>確定每次的票數都會同步更新到畫面上，目前<code>ddd</code>候選人有10票。</p>
+<p>觀察一下終端機上<code>rails server</code>顯示的紀錄，每次投票的時候有做了哪些事情，先截圖其中一筆資料。<br><img src="https://i.imgur.com/EThCpUb.png"></p>
+<p>確實在寫入票數資料的同時也去更新了<code>candidates</code>表單的<code>vote_logs_count</code>欄位。</p>
+<p>但是我們也會發現現在rails server 每次撈資料的時候，都會再去撈一次，是因為在<code>view/index.html.erb</code>的<code>&lt;%= candidate.vote_logs.count %&gt;</code> 它會去<code>vote_logs</code>這個表單<br>去撈count。</p>
+<p>不是從<code>candidates</code>表單裡面的<code>vote_logs_count</code>欄位撈資料。所以要更改為<code>&lt;%= candidate.vote_logs_count %&gt;</code><br><img src="https://i.imgur.com/VRmJw9J.png"></p>
+<p>這時候重新整理瀏覽器畫面，看到的票數資料才是正確的。對<code>eee</code>候選人按下<code>vote</code>。<br><img src="https://i.imgur.com/bKRnCjU.png"></p>
+<hr>
+<p>我們可以發現 rails server 的紀錄顯示只有撈一次而已。<br><img src="https://i.imgur.com/nlIAEwZ.png"></p>
+<p>是不是發現效能有變更好一點了。但其實還可以再更優化。就是在<code>view/index.html.erb</code>的<code>&lt;%= candidate.vote_logs_count %&gt;</code>去修改。</p>
+<p>我們現在是讓它直接讀取那個欄位的資料，但是其實還有一個更「漂亮」的寫法。我們一樣透過<code>vote_logs</code>，畢竟<code>candidate</code> 有 <code>has_many :vote_logs</code>。</p>
+<p>所以我們可以把<code>&lt;%= candidate.vote_logs_count %&gt;</code>改成<br><code>&lt;%= candidate.vote_logs.size %&gt;</code></p>
+<p>為什麼用這樣的寫法？目前重新整理頁面看到的結果兩種寫法顯示的結果是一樣的，可以為什麼要用<code>.size</code>而不是直接讀取<code>vote_logs_count</code>欄位。為什麼用<code>.size</code>的寫法？</p>
 <ul>
-<li><p>M(Model):模型，它主要負責跟資料庫溝通。該拿取什麼資料透過Model。</p>
-</li>
-<li><p>V(View):可以當作讓使用者看到的畫面，所以稱為「View」。主要是呈現畫面讓使用者看到。</p>
-</li>
-<li><p>C(Controller):控制器，可以想像成「指揮官」，contoller負責指揮model要去資料庫拿什麼資料，然後決定要用什麼樣的畫面讓view呈現給使用者看到。</p>
-</li>
+<li>原因就是：以程式碼的可讀性，使用<code>&lt;%= candidate.vote_logs.size %&gt;</code> 比較可以看出關聯性。</li>
 </ul>
 <hr>
-<p>所以剛剛前面提到的「描述檔」就是跟model有關係的，因為model才會知道要怎麼拿取資料。之後的實體課程會再進一步的學習。</p>
-<p>第二步：把 scaffold 的資料表設定具象化</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails <span class="symbol">db:</span>migrate</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/hXOlgae.png"></p>
-<p>這個步驟是把描述檔，生成User資料表。</p>
-<p>第三步：啟動伺服器</p>
-<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">rails server 或是 減寫 rails s</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/gVRiWXF.png"></p>
-<p>然後，打開瀏覽器，輸入網址<br><code>http://localhost:3000/users</code><br><img src="https://i.imgur.com/Rt2Ohey.png"></p>
-<p>耶～～恭喜你，成功建立一個簡單的表單網頁了~~~</p>
-<p>按下<code>New user</code>會看到一個新增user的頁面</p>
-<p><img src="https://i.imgur.com/nsEcMsk.png"></p>
-<p>可以快速的產生一個簡單的user頁面。還能做到新增&#x2F;修改&#x2F;刪除。這邊就不放上修改及刪除的頁面了。</p>
-<p><img src="https://i.imgur.com/lMGDM7R.png"></p>
-<p><img src="https://i.imgur.com/CXVHCqt.png"></p>
-<p>第一次看到，哇!!!真是太神奇了，Rails。</p>
-<p>這就是第一次與Rails見面。也是第一次寫學習筆記的分享。</p>
-<p>或許有些觀念是沒有理解清楚，可以幫忙給予糾正。</p>
-<p>期許自己透過分享學習筆記的過程，課程中較模糊或沒有完全理解的觀念可以慢慢的整理清楚。</p>
+<p>不曉得到這邊大家有沒有發現一個事情，現在顯示的票數，好像跟一開始的不太一樣。打開<code>rails console</code>來看一下目前總票數。總共投了24票。<br><img src="https://i.imgur.com/XUwuRwv.png"></p>
+<p>可是瀏覽器畫面顯示的票數似乎不太一樣。</p>
+<p>是因為後來才加入的<code>counter cache</code>，現在瀏覽器畫面顯示的票數是<code>counter cashe</code>紀錄的票數。</p>
+<p>我們可以google搜尋關鍵字：rails api reset counter_cache<br><img src="https://i.imgur.com/NLnuZBE.png"></p>
+<p>找到了可以使用的方法，但是我們要測試看看，可以用<code>rake</code>語法來寫一個<code>task</code>。要寫在哪個目錄底下呢？<br>我們到<code>db/lib/tasks</code>目錄裡面新增一個任務<code>rest_counter.rake</code>檔案。<br><img src="https://i.imgur.com/aGLTATA.png"></p>
+<p><img src="https://i.imgur.com/wyQEkeF.png"></p>
+<p>這樣以後在終端機輸入<code>rake -T</code>就可以在任務列表中找到我們今天新增的這個<code>reset_counter</code>這個 task。<br><img src="https://i.imgur.com/dZba1TX.jpg"></p>
+<hr>
+<p>接著我們就要來寫程式了，進到<code>reset_counter.rake</code>，在<code>tesk ...do...end</code>裡面來寫程式。<br><img src="https://i.imgur.com/qRvg4V8.png"></p>
+<p>再多增加一行<code>puts &quot;prepare to reset counter&quot;</code>，表示執行<code>reset_counter</code>前會先印出<code>prepare to reset counter</code><br><img src="https://i.imgur.com/nZd6Xp1.png"></p>
+<p>執行完畢印出<code>done!</code>，所以在最下面增加一行<code>puts &quot;done!&quot;</code><br><img src="https://i.imgur.com/ylt6u7d.png"></p>
+<p>終端機輸入<code>rails db:reset_counter</code><br><img src="https://i.imgur.com/6AOnyHf.png"></p>
+<p>這時候我們再回到瀏覽器重新整理畫面，會發現票數就更新了。<br>從原本的 0票 8票 1票 —&gt; 7票 10票 7票。這樣票數就正確了!!!<br><img src="https://i.imgur.com/9JLBxwE.png"></p>
+<hr>
+<p>目前我們已經有 新增&#x2F;修改&#x2F;刪除&#x2F;投票 都有成功寫出來了。但是現在我們的code長得樣子是滿雜亂的，需要再整理一下。把一些功能寫成方法，這樣整個專案的程式碼可讀性會更高。</p>
+<blockquote>
+<h3 id="下一堂課程，整理程式碼"><a href="#下一堂課程，整理程式碼" class="headerlink" title="下一堂課程，整理程式碼"></a>下一堂課程，整理程式碼</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - 016 ( 整理code )</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-016-%E6%95%B4%E7%90%86code/</url>
+    <content><![CDATA[<h1 id="練習-016-整理code"><a href="#練習-016-整理code" class="headerlink" title="練習 - 016 (整理code)"></a>練習 - 016 (整理code)</h1><span id="more"></span>
+<p>首先，整理 <code>candidate_controller.rb</code></p>
+<p><code> @candidate = Candidate.find_by(id: params[:id])</code><br>它出現5次，所以我們可以拉到下面 private function 將它獨立出來成為一個 function。<br><img src="https://i.imgur.com/E6Ok9Gn.png" alt="圖"></p>
+<hr>
+<p>其他 function 有使用到它的<br>都可以用呼叫的方式<br><img src="https://i.imgur.com/kVA4HnA.png" alt="圖"></p>
+<hr>
+<p>目前這樣有變得比較簡潔乾淨，但是find_candidate 都還是會被重複呼叫5次。<br>這裡就要介紹Rails Controller提供了一個更便利有趣的方法：<br><code>before_action :find_candidate</code></p>
+<hr>
+<p>會發現原本需要輸入的地方都可以拿掉function<br><img src="https://i.imgur.com/kL6Zb8m.png"></p>
+<hr>
+<p>另外它還有很好的地方就是可以指定需要使用到find_candidate 的 function，可以改寫成<br><img src="https://i.imgur.com/jeENwLD.png"><br>這樣就可以指定哪些方法使用 find_candidate。<br>也有另外一種反向的寫法<br><img src="https://i.imgur.com/3sO7r6X.png"></p>
+<hr>
+<p>另外<code>flash[:notice] = &#39;Candidate Created!!!&#39;</code><br>也可以跟另外一行<code>redirect_to &#39;/candidate&#39;</code> 寫在同一行<br><img src="https://i.imgur.com/fJvYEXT.png"><br>其他的方法有用到 <code>notice</code> 也都可以同樣簡化成一行。</p>
+<hr>
+<p>接著要看 <code>view</code> 的地方，有那裡可以做精簡化。<br>一樣我們先從一些會被重複使用的方法來做簡化，我們可從<code>view/layouts</code>裡面的<code>application.html.erb</code> 也就是所謂的「公版」裡面來進行相關的設定，達到我們要的簡化效果。所以我們可以把 <code>index.html.erb</code> 裡面的 <code>&lt;%= flash[notice] %&gt;</code> 放到 <code>application.html.erb</code> 的<br><code>&lt;body&gt; &lt;/bodya</code> 裡面<br><img src="https://i.imgur.com/jFMLKqR.png"></p>
+<hr>
+<p>另外在 <code>new.html.erb</code> 的新增候選人及 <code>edit.html.erb</code> 更新候選人寫法幾乎一樣<br>那我們可以另外開一個新的檔案命名 <code>_form.html.erb</code>，把它變成「局部選染」檔案獨立出來，規定局部渲染檔案命名前面是下底線<code>_</code>。<br><img src="https://i.imgur.com/BF6emi5.png"><br>然後回到 <code>new.html.erb</code> 裡面輸入<br><img src="https://i.imgur.com/5kuwWjJ.png"><br>這樣畫面就會乾淨很多。所以 <code>edit.html.er</code> 檔案也可以同樣寫法<br><img src="https://i.imgur.com/PIc3OEl.png"></p>
+<hr>
+<p>同時我們檢查 <code>_form.html.erb</code> 檔案中有沒有可以簡化的地方，發現檔案中的 @candidate 變數是 <code>_form.html.erb</code> 他要自己伸手要東西過來，不是等別人餵東西給他。所以我們可以<code>new.html.erb</code> 裡面再加工一下。<br><img src="https://i.imgur.com/POZBVNz.png"><br>這樣我們就可以把<code>_form.html.erb</code> 裡面的實體變數 <code>@candidate</code> 改成區域變數 <code>candidate</code>。同樣的 <code>edit.html.erb</code> 也要做一樣的修改。<br><img src="https://i.imgur.com/opx3fYo.png"></p>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - ActiveRocord - 資料表關連 part 1</title>
+    <url>/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRocord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-1/</url>
+    <content><![CDATA[<h1 id="ActiveRecord-資料表關連-part-1"><a href="#ActiveRecord-資料表關連-part-1" class="headerlink" title="ActiveRecord - 資料表關連 part 1"></a>ActiveRecord - 資料表關連 part 1</h1><span id="more"></span>
+<p><img src="https://i.imgur.com/18t3uNV.png"></p>
+<h2 id="把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。"><a href="#把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。" class="headerlink" title="把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。"></a><strong>把資料表的『一筆資料』包裝成一個「物件」，並可在物件上增加額外的邏輯操作，讓資料的存取更便利。</strong></h2><hr>
+<p><img src="https://i.imgur.com/zQMDWB7.png"><br><img src="https://i.imgur.com/4ht96p7.png"></p>
+<hr>
+<h3 id="到這裡就會有問題：那-Model-到底是什麼"><a href="#到這裡就會有問題：那-Model-到底是什麼" class="headerlink" title="到這裡就會有問題：那 Model 到底是什麼?"></a>到這裡就會有問題：那 Model 到底是什麼?</h3><h3 id="Model-x3D-依照-Active-Record-模式設計的產物"><a href="#Model-x3D-依照-Active-Record-模式設計的產物" class="headerlink" title="Model &#x3D; 依照 Active Record 模式設計的產物"></a><em><strong>Model &#x3D; 依照 Active Record 模式設計的產物</strong></em></h3><p><img src="https://i.imgur.com/ZIXS4ya.png"></p>
+<p>這邊就要提到一個觀念：</p>
+<ul>
+<li>ORM &#x3D; Object Relational Mapping (物件關聯對映)</li>
+<li>目的：簡化資料庫操作語法<br>那又會有一個問題：<br>用 ORM 就不需要學 SQL 了?</li>
+</ul>
+<h3 id="當然不是"><a href="#當然不是" class="headerlink" title="當然不是!!!"></a>當然不是!!!</h3><hr>
+<p><img src="https://i.imgur.com/n3YYS5k.png"><br>答案：</p>
+<blockquote>
+<p>ActiveRecord 是一種 ORM 的設計框架，目的是希望透過物件的方式來簡化操作資料庫的語法。</p>
+</blockquote>
+<hr>
+<h3 id="慣例優於設定："><a href="#慣例優於設定：" class="headerlink" title="慣例優於設定："></a>慣例優於設定：</h3><blockquote>
+<p>Convention over Configuration(CoC)</p>
+</blockquote>
+<ul>
+<li>慣例 &#x3D; 可以少寫不必要的程式碼</li>
+</ul>
+<hr>
+<h3 id="換句話說：學習Rails，等於是在學習Rails的慣例"><a href="#換句話說：學習Rails，等於是在學習Rails的慣例" class="headerlink" title="換句話說：學習Rails，等於是在學習Rails的慣例"></a>換句話說：學習Rails，等於是在學習Rails的慣例</h3><p>慣例一：</p>
+<ul>
+<li>Model：大寫、單數</li>
+<li>Table：小寫、複數<br><img src="https://i.imgur.com/Iehm27f.png"></li>
+</ul>
+<hr>
+<p>慣例二：</p>
+<ul>
+<li>每個表格預設有一個叫做 id 的流水編號欄位</li>
+<li>在 migration 裡預設會有個 timestamps：<br>timestamps 會轉變成 <code>created_at</code> 跟 <code>update_at</code> 這兩個時間欄位<br>在資料新增或更新的時候會自動寫入當下時間<br><img src="https://i.imgur.com/7USCurR.png"></li>
+</ul>
+<hr>
+<p><img src="https://i.imgur.com/UwBjFi9.png"><br>答案：<br>流水編號(id)：當資料在新增的時候，它會自動跳號去「累加」。<br>如果自己手動增加：會有個風險，假設你要手動把某筆 id 是最大的資料取出，手動+1後再存回去資料庫，但是你取出的同時有另外的人也剛好取出同一筆資料，這樣你們兩者回傳回去資料庫的 id 會產生一樣的情況。<br>為了避免發生這種情況，盡量不要自己手動去做，都交給資料庫系統本身處理就好。</p>
+<hr>
+<p><img src="https://i.imgur.com/cXy9zmL.png"><br>答案：<br>其實是在 Rails 專案裡面有個檔案 <code>config/initializers/inflection.rb</code><br>第6、9、11行解開註解<br>在第9行去修改它<br><img src="https://i.imgur.com/1vhcbvE.png"><br>打開 rails console畫面檢查結果<br><img src="https://i.imgur.com/Kju8hid.png"><br>檔名更類別可以對應：<br><img src="https://i.imgur.com/mYT7zOL.png"></p>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
         <category>ASTRO CAMP 線上課程學習筆記</category>
