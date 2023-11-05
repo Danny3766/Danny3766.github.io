@@ -314,53 +314,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Ruby on Rails 網站開發 練習 - 007 (新增候選人，存檔失敗的情況)</title>
-    <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-007-%E6%96%B0%E5%A2%9E%E5%80%99%E9%81%B8%E4%BA%BA%EF%BC%8C%E5%AD%98%E6%AA%94%E5%A4%B1%E6%95%97%E7%9A%84%E6%83%85%E6%B3%81/</url>
-    <content><![CDATA[<h2 id="什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。"><a href="#什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。" class="headerlink" title="什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。"></a>什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。</h2><ul>
-<li>進入<code>mondel/candidate.rb</code> 在這個<code>model</code>裡面，我們來增加驗證的內容。<span id="more"></span>
-需要驗證<code>Name</code>欄位，是否有存在<code>validates :name, presence: true</code><br><img src="https://i.imgur.com/IztV3wg.png"></li>
-</ul>
-<hr>
-<p>接著我們回到<code>CandidatesController</code>的<code>create action</code>，來寫驗證失敗的話，我們要怎麼做。<br>在<code>create action</code> <code>else</code> 輸入<code>redirect_to &#39;/candidate/new&#39;</code><br>表示如果驗證失敗，就將頁面導入到”新增候選人”頁面<br><img src="https://i.imgur.com/nhsUaTQ.png"></p>
-<hr>
-<p>打開瀏覽器來試試看，我們先在新增的表單頁面，故意空著<code>Name</code>欄位。<br><img src="https://i.imgur.com/XHfLdrB.png"></p>
-<hr>
-<p>按下送出按鈕，看看網址列，確實有導回新增候選人頁面，但我們也可以發現剛剛有填寫的欄位資料也 <strong>一併被清空了</strong> 。<br><img src="https://i.imgur.com/LDTjJl5.png"></p>
-<hr>
-<h3 id="要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。"><a href="#要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。" class="headerlink" title="要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。"></a>要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。</h3><ul>
-<li>目前可以確定的事情，使用 <code>redirect_to &#39;/candidate/new&#39;</code> 不是好的做法。因為會直接把頁面整個清空，讓使用者重新填寫。</li>
-</ul>
-<p>我們來修改一下，使用<code>render :new</code>方法來重新導入頁面。如果存檔失敗的話，我們就去借 new 這個 template，把畫面重新「畫」出來。<br><img src="https://i.imgur.com/juCRrMz.png"></p>
-<blockquote>
-<p>這裡需要注意的地方，<code>render :new</code>其中的<code>:new</code> 並不是指同樣<code>CandidatesController</code>的<code>new action</code>。<br>而是我們去借用<code>view/new.html.erb</code>這個檔案，重新將畫面「渲染」出來，本質上我們還是在<code>create action</code>當中執行。</p>
-</blockquote>
-<hr>
-<p>我們再試一次，這次一樣空著<code>Name</code>欄位不填。送出表單試試看。<br><img src="https://i.imgur.com/pSbfzvk.png"></p>
-<hr>
-<p>咦？這次的畫面有跟上次不一樣了，剛剛填寫過的資料還是有保留起來，<code>Name</code>欄位也是維持空著的狀態。可以達到這樣的效果，就是<code>form_for()</code>它神奇的地方。<br><img src="https://i.imgur.com/bWbLF1u.png"></p>
-<hr>
-<p>因為在<code>new.htaml.erb</code>檔案中的<code>form_for(@candidate)</code>，它會去接<code>@candidate</code>這個變數。<br><img src="https://i.imgur.com/fl2gxPi.png"><br>另外我們在<code>CandidatesController</code>裡面的<code>new action</code>、<code>create action</code> 也都有用到<code>@candidate</code>變數。<br><img src="https://i.imgur.com/fV7M9O7.png"></p>
-<hr>
-<p>這個就是我們取變數名稱時，「故意」取同名的用意，製造「巧合」。<br>透過這個「巧合」，當它在<code>render</code>這個<code>new.html.erb</code>這個過程中，會去抓變數<code>@candidate</code>。當抓到<code>@candidate</code>，它不是空的，它裡面是「有料的」**(candidate_params)** 。因為我們仍然在執行<code>create acion</code>。</p>
-<h3 id="form-helper-神奇黑魔法"><a href="#form-helper-神奇黑魔法" class="headerlink" title="form helper 神奇黑魔法"></a>form helper 神奇黑魔法</h3><p>接著就是<code>new.html.erb</code>裡面<code>form_for()</code>它厲害的地方。它會根據我們給它的那包東西<code>參數(@candidate)</code>裡面相對應的值，放到相對應的欄位。<br>因此當我們按下送出按鈕後，會看到畫面上欄位裡還保留著剛剛填入的資料。</p>
-<h3 id="因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect-to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。"><a href="#因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect-to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。" class="headerlink" title="因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect_to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。"></a>因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect_to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。</h3><h3 id="在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次"><a href="#在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次" class="headerlink" title="在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次"></a>在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次</h3><ul>
-<li>要記得，不是重新執行<code>CandidatesController</code>的<code>new action</code>!!!</li>
-<li>是借用<code>view/new.html.erb</code>這個檔案，重新把它<code>render</code>出來!!!</li>
-</ul>
-<p>失敗時頁面是有了，但是似乎少了醒目的提示。</p>
-<hr>
-<h2 id="下一堂課程，我們就使用CSS來製作一些醒目的提示"><a href="#下一堂課程，我們就使用CSS來製作一些醒目的提示" class="headerlink" title="下一堂課程，我們就使用CSS來製作一些醒目的提示"></a>下一堂課程，我們就使用CSS來製作一些醒目的提示</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class CandidatesController &lt; ApplicationController</span><br><span class="line">    </span><br><span class="line">    def index</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def new</span><br><span class="line">        @candidate = Candidate.new</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def create</span><br><span class="line"></span><br><span class="line">        @candidate = Candidate.new(candidate_params)</span><br><span class="line">        if @candidate.save</span><br><span class="line">            flash[:notice] = &quot;Candidate created!!!&quot;</span><br><span class="line">            redirect_to &#x27;/candidates&#x27;</span><br><span class="line">        else</span><br><span class="line">        #NG</span><br><span class="line">        render :new</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    private</span><br><span class="line">    def candidate_params</span><br><span class="line">        params.require(:candidate).permit(:name, :party, :age, :politics)</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line"> end</span><br></pre></td></tr></table></figure>
-
-<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
-]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ruby on Rails 網站開發 練習 - 006 (資料清洗 data cleaning)</title>
     <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-006-%E8%B3%87%E6%96%99%E6%B8%85%E6%B4%97-data-cleaning/</url>
     <content><![CDATA[<h1 id="練習-006-資料清洗-data-cleaning"><a href="#練習-006-資料清洗-data-cleaning" class="headerlink" title="練習 - 006 (資料清洗 data cleaning)"></a>練習 - 006 (資料清洗 data cleaning)</h1><p>首先在<code>CandidatesController</code>的<code>create</code>action，我們宣告一個變數<code>clean_params</code>承接清洗過的資料。</p>
@@ -403,35 +356,43 @@
       </tags>
   </entry>
   <entry>
-    <title>Ruby on Rails 網站開發 練習 - 009 (建立show action &amp; show 的 view)</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-009-%E5%BB%BA%E7%AB%8Bshow-action-show-%E7%9A%84-view/</url>
-    <content><![CDATA[<p>回到<code>CandidatesController</code>裡面，來新增<code>show action</code>。至於要放在哪個地方都可以，只要不要放到<code>private method</code>下面就行。<br>這邊我們就把<code>show action</code>新增在<code>index action</code>的下面。</p>
-<span id="more"></span>
-<p><img src="https://i.imgur.com/tONr3kh.png"></p>
-<p>存檔完，回到瀏覽器點擊任何一位候選人，看看頁面會出現什麼訊息。沒意外的話，應該會看到沒有樣板(no template)的訊息。果真出現了!!!<br><img src="https://i.imgur.com/cDzChwM.png"></p>
-<hr>
-<p>所以這個時候，我們就來做一個 show 的頁面給它。進入到<code>view/candidates/</code>新增檔案<code>show.html.erb</code><br><img src="https://i.imgur.com/nVTuNJw.png"><br>我們測試一下，點擊第一個(id&#x3D;1)候選人’ccc’，看看會呈現什麼樣的畫面。<br><img src="https://i.imgur.com/KDw0W9B.png"><br>從上面的圖片可以看見，我們在<code>show.html.erb</code>檔案新增的<code>&lt;h1&gt;Candidate Information&lt;/h1&gt;</code>有確實的顯示在瀏覽器頁面，且觀察網址列可以確定現在是在<code>id是一號</code>的候選人的頁面了。</p>
-<hr>
-<p>回到<code>CandidatesController</code>的<code>show action</code>這裡，它應該要做的事情，就是把某一個候選人的資料調出來。但是它要怎麼去調呢？</p>
-<ul>
-<li>根據<code>id</code>去把對應的候選人資料調出來。</li>
+    <title>Ruby on Rails 網站開發 練習 - 007 (新增候選人，存檔失敗的情況)</title>
+    <url>/2023/01/14/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-007-%E6%96%B0%E5%A2%9E%E5%80%99%E9%81%B8%E4%BA%BA%EF%BC%8C%E5%AD%98%E6%AA%94%E5%A4%B1%E6%95%97%E7%9A%84%E6%83%85%E6%B3%81/</url>
+    <content><![CDATA[<h2 id="什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。"><a href="#什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。" class="headerlink" title="什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。"></a>什麼是新增候選人失敗，驗證表單該填的欄位是否填寫，資料格式是否正確，沒有通過驗證，即是存檔失敗。</h2><ul>
+<li>進入<code>mondel/candidate.rb</code> 在這個<code>model</code>裡面，我們來增加驗證的內容。<span id="more"></span>
+需要驗證<code>Name</code>欄位，是否有存在<code>validates :name, presence: true</code><br><img src="https://i.imgur.com/IztV3wg.png"></li>
 </ul>
-<p>我們切換到終端機，來看看<code>rails server</code>再跑的時候顯示的一些資訊，可以看到有一包<code>Parameters: &#123;&quot;id&quot;=&gt;&quot;1&quot;&#125;</code>。</p>
-<p>表示點擊候選人之後，會有一個對應的<code>id</code>被捕捉到<code>Parameters</code>這個變數裡面。<br>所以我們得知可以透過<code>params</code>裡面<code>id</code>這個值拿回來用，把這個值放到<code>show action</code> 裡面。<br><img src="https://i.imgur.com/2sGIt3k.png"></p>
 <hr>
-<p>假設今天我們要拿2號候選人的資料，這個時候我們就試著請<code>Candidate</code>Model 去抓2號候選人的資料。<br>這邊就可以使用find_by(key: value)的方法去抓我們要的id的資料。<br><img src="https://i.imgur.com/1yXFlXB.png"></p>
+<p>接著我們回到<code>CandidatesController</code>的<code>create action</code>，來寫驗證失敗的話，我們要怎麼做。<br>在<code>create action</code> <code>else</code> 輸入<code>redirect_to &#39;/candidate/new&#39;</code><br>表示如果驗證失敗，就將頁面導入到”新增候選人”頁面<br><img src="https://i.imgur.com/nhsUaTQ.png"></p>
 <hr>
-<p>這時候給它一個變數來承接它<code>@candidate = Candidate.find_by(id: params[:id])</code>。至於為什麼要給它一個變數，是因為等下在view的部分會使用到。<br><img src="https://i.imgur.com/v1KtCp3.png"></p>
+<p>打開瀏覽器來試試看，我們先在新增的表單頁面，故意空著<code>Name</code>欄位。<br><img src="https://i.imgur.com/XHfLdrB.png"></p>
 <hr>
-<p>此時我們進到<code>view/show.html.erb</code>來把<code>&lt;h1&gt;</code>標籤更改為<code>&lt;h1&gt;&lt;%= @candidate.name %&gt;&lt;/h1&gt;</code>，表示我們要印出候選人的名稱。<br><img src="https://i.imgur.com/RNQ6w6P.png"><br>打開瀏覽器看看畫面，真的有印出每個<code>id</code>對應的候選人名稱。<br><img src="https://i.imgur.com/dYQmolH.png"><br><img src="https://i.imgur.com/tUmlRsO.png"><br><img src="https://i.imgur.com/wTs8bnE.png"></p>
+<p>按下送出按鈕，看看網址列，確實有導回新增候選人頁面，但我們也可以發現剛剛有填寫的欄位資料也 <strong>一併被清空了</strong> 。<br><img src="https://i.imgur.com/LDTjJl5.png"></p>
 <hr>
-<p>既然如此，我們也可以印出其他的欄位資料，包含政黨、年紀、政見等等。<br>這邊我們用<code>&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;</code>的方式呈現這些欄位資料。<br><img src="https://i.imgur.com/eszVGpL.png"><br>那接著就可以打開瀏覽器來驗證一下，是否會出現一個列表有我們要的欄位資料。<br>在瀏覽器執行重新整理後，果真畫面上出現了我們想看到的列表清單。<br><img src="https://i.imgur.com/XOvOti0.png"><br>上圖顯示的欄位資料也確實是我們想要抓到的資料。</p>
-<hr>
-<h2 id="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false"><a href="#可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false" class="headerlink" title="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show.html.erb檔案裡面，增加一個if...else...的判斷式。&gt;因為在Ruby的世界，只有兩個東西會是false1. false 本身 &#x3D;&#x3D;&gt; false2. nil &#x3D;&#x3D;&gt; false"></a>可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入<code>id</code>的位置，不小心打錯打成100，這時候會看到錯誤訊息<br><img src="https://i.imgur.com/SEJGrNq.png"><br>說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到<code>show.html.erb</code>檔案裡面，增加一個<code>if...else...</code>的判斷式。<br>&gt;因為在Ruby的世界，只有兩個東西會是false<br><strong>1. false 本身 &#x3D;&#x3D;&gt; false</strong><br><strong>2. nil &#x3D;&#x3D;&gt; false</strong></h2><p>所以我們可以使用這樣的寫法<br><img src="https://i.imgur.com/S8tZ0U3.png"><br>如果 <code>@candidate</code> 是有東西，就執行下面第2-8行code<br>其他的話就在畫面上印出<code>No Record found!!!</code><br>重新整理瀏覽器頁面，一樣是讓網址列的 id 輸入 100，這時候顯示的就不是錯誤訊息的畫面，而是<code>No Record found!!!</code>。<br><img src="https://i.imgur.com/8LNBaSJ.png"></p>
-<hr>
-<h3 id="目前這樣我們的-show-action-amp-show-html-erb算是完成了"><a href="#目前這樣我們的-show-action-amp-show-html-erb算是完成了" class="headerlink" title="目前這樣我們的 show action &amp; show.html.erb算是完成了"></a>目前這樣我們的 show action &amp; show.html.erb算是完成了</h3><hr>
+<h3 id="要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。"><a href="#要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。" class="headerlink" title="要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。"></a>要如何做到保留原本填寫的資料，然後又可以提醒使用者有欄位忘記填寫。</h3><ul>
+<li>目前可以確定的事情，使用 <code>redirect_to &#39;/candidate/new&#39;</code> 不是好的做法。因為會直接把頁面整個清空，讓使用者重新填寫。</li>
+</ul>
+<p>我們來修改一下，使用<code>render :new</code>方法來重新導入頁面。如果存檔失敗的話，我們就去借 new 這個 template，把畫面重新「畫」出來。<br><img src="https://i.imgur.com/juCRrMz.png"></p>
 <blockquote>
-<h3 id="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"><a href="#這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧" class="headerlink" title="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"></a>這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧</h3></blockquote>
+<p>這裡需要注意的地方，<code>render :new</code>其中的<code>:new</code> 並不是指同樣<code>CandidatesController</code>的<code>new action</code>。<br>而是我們去借用<code>view/new.html.erb</code>這個檔案，重新將畫面「渲染」出來，本質上我們還是在<code>create action</code>當中執行。</p>
+</blockquote>
+<hr>
+<p>我們再試一次，這次一樣空著<code>Name</code>欄位不填。送出表單試試看。<br><img src="https://i.imgur.com/pSbfzvk.png"></p>
+<hr>
+<p>咦？這次的畫面有跟上次不一樣了，剛剛填寫過的資料還是有保留起來，<code>Name</code>欄位也是維持空著的狀態。可以達到這樣的效果，就是<code>form_for()</code>它神奇的地方。<br><img src="https://i.imgur.com/bWbLF1u.png"></p>
+<hr>
+<p>因為在<code>new.htaml.erb</code>檔案中的<code>form_for(@candidate)</code>，它會去接<code>@candidate</code>這個變數。<br><img src="https://i.imgur.com/fl2gxPi.png"><br>另外我們在<code>CandidatesController</code>裡面的<code>new action</code>、<code>create action</code> 也都有用到<code>@candidate</code>變數。<br><img src="https://i.imgur.com/fV7M9O7.png"></p>
+<hr>
+<p>這個就是我們取變數名稱時，「故意」取同名的用意，製造「巧合」。<br>透過這個「巧合」，當它在<code>render</code>這個<code>new.html.erb</code>這個過程中，會去抓變數<code>@candidate</code>。當抓到<code>@candidate</code>，它不是空的，它裡面是「有料的」**(candidate_params)** 。因為我們仍然在執行<code>create acion</code>。</p>
+<h3 id="form-helper-神奇黑魔法"><a href="#form-helper-神奇黑魔法" class="headerlink" title="form helper 神奇黑魔法"></a>form helper 神奇黑魔法</h3><p>接著就是<code>new.html.erb</code>裡面<code>form_for()</code>它厲害的地方。它會根據我們給它的那包東西<code>參數(@candidate)</code>裡面相對應的值，放到相對應的欄位。<br>因此當我們按下送出按鈕後，會看到畫面上欄位裡還保留著剛剛填入的資料。</p>
+<h3 id="因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect-to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。"><a href="#因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect-to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。" class="headerlink" title="因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect_to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。"></a>因為HTTP沒有所謂的「狀態」，所以如果今天使用redirect_to，把它轉址轉過去，就會整個頁面重新整理，欄位當然就被清空。</h3><h3 id="在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次"><a href="#在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次" class="headerlink" title="在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次"></a>在驗證不過，存檔失敗時，去借用「現有的」表單重新畫一次</h3><ul>
+<li>要記得，不是重新執行<code>CandidatesController</code>的<code>new action</code>!!!</li>
+<li>是借用<code>view/new.html.erb</code>這個檔案，重新把它<code>render</code>出來!!!</li>
+</ul>
+<p>失敗時頁面是有了，但是似乎少了醒目的提示。</p>
+<hr>
+<h2 id="下一堂課程，我們就使用CSS來製作一些醒目的提示"><a href="#下一堂課程，我們就使用CSS來製作一些醒目的提示" class="headerlink" title="下一堂課程，我們就使用CSS來製作一些醒目的提示"></a>下一堂課程，我們就使用CSS來製作一些醒目的提示</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">class CandidatesController &lt; ApplicationController</span><br><span class="line">    </span><br><span class="line">    def index</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def new</span><br><span class="line">        @candidate = Candidate.new</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    def create</span><br><span class="line"></span><br><span class="line">        @candidate = Candidate.new(candidate_params)</span><br><span class="line">        if @candidate.save</span><br><span class="line">            flash[:notice] = &quot;Candidate created!!!&quot;</span><br><span class="line">            redirect_to &#x27;/candidates&#x27;</span><br><span class="line">        else</span><br><span class="line">        #NG</span><br><span class="line">        render :new</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    private</span><br><span class="line">    def candidate_params</span><br><span class="line">        params.require(:candidate).permit(:name, :party, :age, :politics)</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line"> end</span><br></pre></td></tr></table></figure>
+
 <p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
@@ -485,6 +446,45 @@
       </tags>
   </entry>
   <entry>
+    <title>Ruby on Rails 網站開發 練習 - 009 (建立show action &amp; show 的 view)</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-009-%E5%BB%BA%E7%AB%8Bshow-action-show-%E7%9A%84-view/</url>
+    <content><![CDATA[<p>回到<code>CandidatesController</code>裡面，來新增<code>show action</code>。至於要放在哪個地方都可以，只要不要放到<code>private method</code>下面就行。<br>這邊我們就把<code>show action</code>新增在<code>index action</code>的下面。</p>
+<span id="more"></span>
+<p><img src="https://i.imgur.com/tONr3kh.png"></p>
+<p>存檔完，回到瀏覽器點擊任何一位候選人，看看頁面會出現什麼訊息。沒意外的話，應該會看到沒有樣板(no template)的訊息。果真出現了!!!<br><img src="https://i.imgur.com/cDzChwM.png"></p>
+<hr>
+<p>所以這個時候，我們就來做一個 show 的頁面給它。進入到<code>view/candidates/</code>新增檔案<code>show.html.erb</code><br><img src="https://i.imgur.com/nVTuNJw.png"><br>我們測試一下，點擊第一個(id&#x3D;1)候選人’ccc’，看看會呈現什麼樣的畫面。<br><img src="https://i.imgur.com/KDw0W9B.png"><br>從上面的圖片可以看見，我們在<code>show.html.erb</code>檔案新增的<code>&lt;h1&gt;Candidate Information&lt;/h1&gt;</code>有確實的顯示在瀏覽器頁面，且觀察網址列可以確定現在是在<code>id是一號</code>的候選人的頁面了。</p>
+<hr>
+<p>回到<code>CandidatesController</code>的<code>show action</code>這裡，它應該要做的事情，就是把某一個候選人的資料調出來。但是它要怎麼去調呢？</p>
+<ul>
+<li>根據<code>id</code>去把對應的候選人資料調出來。</li>
+</ul>
+<p>我們切換到終端機，來看看<code>rails server</code>再跑的時候顯示的一些資訊，可以看到有一包<code>Parameters: &#123;&quot;id&quot;=&gt;&quot;1&quot;&#125;</code>。</p>
+<p>表示點擊候選人之後，會有一個對應的<code>id</code>被捕捉到<code>Parameters</code>這個變數裡面。<br>所以我們得知可以透過<code>params</code>裡面<code>id</code>這個值拿回來用，把這個值放到<code>show action</code> 裡面。<br><img src="https://i.imgur.com/2sGIt3k.png"></p>
+<hr>
+<p>假設今天我們要拿2號候選人的資料，這個時候我們就試著請<code>Candidate</code>Model 去抓2號候選人的資料。<br>這邊就可以使用find_by(key: value)的方法去抓我們要的id的資料。<br><img src="https://i.imgur.com/1yXFlXB.png"></p>
+<hr>
+<p>這時候給它一個變數來承接它<code>@candidate = Candidate.find_by(id: params[:id])</code>。至於為什麼要給它一個變數，是因為等下在view的部分會使用到。<br><img src="https://i.imgur.com/v1KtCp3.png"></p>
+<hr>
+<p>此時我們進到<code>view/show.html.erb</code>來把<code>&lt;h1&gt;</code>標籤更改為<code>&lt;h1&gt;&lt;%= @candidate.name %&gt;&lt;/h1&gt;</code>，表示我們要印出候選人的名稱。<br><img src="https://i.imgur.com/RNQ6w6P.png"><br>打開瀏覽器看看畫面，真的有印出每個<code>id</code>對應的候選人名稱。<br><img src="https://i.imgur.com/dYQmolH.png"><br><img src="https://i.imgur.com/tUmlRsO.png"><br><img src="https://i.imgur.com/wTs8bnE.png"></p>
+<hr>
+<p>既然如此，我們也可以印出其他的欄位資料，包含政黨、年紀、政見等等。<br>這邊我們用<code>&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;</code>的方式呈現這些欄位資料。<br><img src="https://i.imgur.com/eszVGpL.png"><br>那接著就可以打開瀏覽器來驗證一下，是否會出現一個列表有我們要的欄位資料。<br>在瀏覽器執行重新整理後，果真畫面上出現了我們想看到的列表清單。<br><img src="https://i.imgur.com/XOvOti0.png"><br>上圖顯示的欄位資料也確實是我們想要抓到的資料。</p>
+<hr>
+<h2 id="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false"><a href="#可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說-nil-找不到-‘name’-這個方法，為什麼會有-nil-呢？這個-nil-表示id-x3D-100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show-html-erb檔案裡面，增加一個if-else-的判斷式。-gt-因為在Ruby的世界，只有兩個東西會是false1-false-本身-x3D-x3D-gt-false2-nil-x3D-x3D-gt-false" class="headerlink" title="可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入id的位置，不小心打錯打成100，這時候會看到錯誤訊息說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到show.html.erb檔案裡面，增加一個if...else...的判斷式。&gt;因為在Ruby的世界，只有兩個東西會是false1. false 本身 &#x3D;&#x3D;&gt; false2. nil &#x3D;&#x3D;&gt; false"></a>可是呢？我們今天也要考慮了其他的情況，假設今天使用者在網址列需要輸入<code>id</code>的位置，不小心打錯打成100，這時候會看到錯誤訊息<br><img src="https://i.imgur.com/SEJGrNq.png"><br>說 nil 找不到 ‘name’ 這個方法，為什麼會有 nil 呢？這個 nil 表示id&#x3D;100這件事情是不存在的，所以得到一個nil回傳值。因此，我們可以回到<code>show.html.erb</code>檔案裡面，增加一個<code>if...else...</code>的判斷式。<br>&gt;因為在Ruby的世界，只有兩個東西會是false<br><strong>1. false 本身 &#x3D;&#x3D;&gt; false</strong><br><strong>2. nil &#x3D;&#x3D;&gt; false</strong></h2><p>所以我們可以使用這樣的寫法<br><img src="https://i.imgur.com/S8tZ0U3.png"><br>如果 <code>@candidate</code> 是有東西，就執行下面第2-8行code<br>其他的話就在畫面上印出<code>No Record found!!!</code><br>重新整理瀏覽器頁面，一樣是讓網址列的 id 輸入 100，這時候顯示的就不是錯誤訊息的畫面，而是<code>No Record found!!!</code>。<br><img src="https://i.imgur.com/8LNBaSJ.png"></p>
+<hr>
+<h3 id="目前這樣我們的-show-action-amp-show-html-erb算是完成了"><a href="#目前這樣我們的-show-action-amp-show-html-erb算是完成了" class="headerlink" title="目前這樣我們的 show action &amp; show.html.erb算是完成了"></a>目前這樣我們的 show action &amp; show.html.erb算是完成了</h3><hr>
+<blockquote>
+<h3 id="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"><a href="#這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧" class="headerlink" title="這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧"></a>這時候發現前面新增候選人的頁面忘記加上CSS強化視覺效果，所以下一堂課，來做畫面的CSS吧</h3></blockquote>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ruby on Rails 網站開發 練習 - 010 (Add Candidate有欄位沒填寫，顯示錯誤訊息，並且加上紅色外框提示)</title>
     <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-010-Add-Candidate%E6%9C%89%E6%AC%84%E4%BD%8D%E6%B2%92%E5%A1%AB%E5%AF%AB%EF%BC%8C%E9%A1%AF%E7%A4%BA%E9%8C%AF%E8%AA%A4%E8%A8%8A%E6%81%AF%EF%BC%8C%E4%B8%A6%E4%B8%94%E5%8A%A0%E4%B8%8A%E7%B4%85%E8%89%B2%E5%A4%96%E6%A1%86%E6%8F%90%E7%A4%BA/</url>
     <content><![CDATA[<p>已經知道有資料驗證的機制，現在要透過CSS的方式在<code>Add Candidate</code>頁面上製作出一些美化效果。</p>
@@ -516,6 +516,71 @@
 <p>那我們來找出哪邊要修改，所以一樣讓新增候選人頁面出現錯誤訊息，但我們打開<code>檢查</code>來看看是哪裡跑版。發現有個<code>&lt;div class=&quot;field_with_errors&quot;&gt;</code>，這裡是有問題的。<br><img src="https://i.imgur.com/hxYbPLU.png"><br>我們期望的頁面顯示是兩個欄位對齊排在同一行，不要輸入匡欄位被往下面壓下去，所以我們可以對剛剛找到的那個<code>&lt;div class=&quot;field_with_errors&quot;&gt;</code>設定它的style。<br><img src="https://i.imgur.com/9HXZ89E.png"><br>我們再回到瀏覽器來看看，真的有對齊了沒有跑版。<br><img src="https://i.imgur.com/bfd1xC3.png"><br>如果社時候我們想再多給它一些畫面上的美化，譬如提醒使用者欄位記得填寫，欄位框是紅色框框。那我們就可以在<code>candidate.scss</code>這邊再給<code>field_with_errors</code>這個class其他的 CSS style。</p>
 <p>此時<code>SCSS</code> 它厲害的厲害的地方，就可以展現出來了。SCSS可以寫巢狀CSS。</p>
 <p>這邊設定<code>input</code> type 是<code>text</code>的元件，讓它的外框是紅色，然後外框的寬度是1px。表示在<code>field_with_errors</code>這個class裡面有<code>input</code>且型態是<code>text</code>的話，都套用一樣的CSS style 設定。<br><img src="https://i.imgur.com/nsnnQha.png"><br>打開瀏覽器看看畫面效果如何，確實有出現紅色邊框。<br><img src="https://i.imgur.com/AIPSeUq.png"><br>如果像要旁邊的<code>Name</code>也一起顯示紅色。那我們可以再SCSS裡面多增加一個CSS選取器。要針對<code>label</code>才可以。所以我們可以這樣寫CSS sytle。<br><img src="https://i.imgur.com/k2JkKLI.png"><br>再打開瀏覽器看看，是否呈現我們想要的效果。確定有<br><img src="https://i.imgur.com/pFuzVR3.png"></p>
+<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
+]]></content>
+      <categories>
+        <category>ASTRO CAMP 線上課程學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Ruby on Rails</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ruby on Rails 網站開發 練習 - 011 ( 資料&quot;編輯&quot;(update) )</title>
+    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-011-%E8%B3%87%E6%96%99-%E7%B7%A8%E8%BC%AF-update/</url>
+    <content><![CDATA[<h1 id="前面課程已經知道如何新增-x2F-製作列表"><a href="#前面課程已經知道如何新增-x2F-製作列表" class="headerlink" title="前面課程已經知道如何新增&#x2F;製作列表"></a>前面課程已經知道如何新增&#x2F;製作列表</h1><p>首先，我們進到<code>view/index.html.erb</code> 將原本在 table 裡面 Action 選項的<code>&lt;td&gt;</code> 裡面換成 <code>update</code>，但是我們要使用link_to的方法來寫。</p>
+<span id="more"></span>
+<p>所以要先去找門口阿姨(Routes)才能知道正確的路徑。</p>
+<p>打開終端機輸入<code>rails routes</code>，可以找到那8個路徑中，跟<code>edit</code>有相關的。找到了，所以我們可以拿前面的<code>prefix verb</code>來用在link_to裡面。<br><img src="https://i.imgur.com/1uiBToG.png"><br>因為這個路徑也是需要有一個<code>id</code> 所以寫法跟上面的<code>Name</code>欄位很像。path後面接<code>id</code>。<code>edit_candidate_path(cadidtae.id)</code><br><img src="https://i.imgur.com/C26M6lL.png" alt="圖"><br>打開瀏覽器看看，確實看到<code>Action``Update</code>欄位的出現<br><img src="https://i.imgur.com/s90HCmZ.png"></p>
+<hr>
+<p>也就是對應每個候選人 id 在Action欄位新增一個叫做 update 的超連按鈕，點擊之後會連到另外一個頁面。</p>
+<p>點擊第一位候選人的update按鈕，會看到提示畫面。沒有在controller中找到叫做<code>edit</code>的 action。</p>
+<p>但這時我們可以注意網址列的部分，有看到第一位候選人的 id 有在網址列上，表示目前是正確的。<br><img src="https://i.imgur.com/OIbeECm.png"></p>
+<hr>
+<p>接著我們就要到<code>CandidatesController</code>中產生對應的<code>edit action</code><br><img src="https://i.imgur.com/H6N9ZHu.png"><br>可以預期的是，重新整理瀏覽器後，頁面應該會顯示沒有 edit 的 template。<br><img src="https://i.imgur.com/uQQaxpS.png"><br>當然我們也就必須到 view 裡面 新增對應的<code>edit.html.erb</code>檔案。先給它一個<code>&lt;h1&gt;Edit Candidate&lt;/h1&gt;</code><br><img src="https://i.imgur.com/gOuTQYx.png"><br>再確認一下瀏覽器是否可以正常顯示頁面，確實有正確顯示網址列也看到<code>h1</code>標籤<br><img src="https://i.imgur.com/BtAbQhO.png"></p>
+<hr>
+<p>這時候我們想要在畫面上給它一個表單(form)，因為其實表單的內容應該會跟新增候選人頁面的表單差不多，一樣有名稱、年紀、政見的等欄位。</p>
+<p>所以編輯候選人頁面中的表單，我們可以稍微偷懶一點點，借用原本<code>new.html.erb</code> 的內容 copy &amp; past。<br><img src="https://i.imgur.com/swkcXQg.png" alt="圖"></p>
+<hr>
+<p>再打開瀏覽器確認畫面如何，發現咦？還是有錯誤訊息。<br><img src="https://i.imgur.com/dzxaKNe.png"><br><img src="https://i.imgur.com/lI0ur7C.png"></p>
+<hr>
+<p>為什麼會看到錯誤訊息呢？會看到是正常的，我們回到<code>CandidatesController</code>來看裡面的<code>edit action</code>。</p>
+<p>這時候<code>edit action</code>都沒有做任何事，所以剛剛看才會看到錯誤訊息。<br><img src="https://i.imgur.com/fLokBvn.png"></p>
+<p>這時候我們可以再借用<code>show action</code>裡面的變數<code>@candidate = Candidate.fint_by(id: params[:id])</code>放到<code>edit action</code>裡面。</p>
+<p>因為<code>show action</code>可以去抓到某個<code>id</code>候選人的資料，這邊在<code>edit action</code>裡面也是要針對某個<code>id</code>候選人的資料做編輯。所以直接把整行code借用過來。<br><img src="https://i.imgur.com/wp6ZGz2.png"><br>接著我們再打開瀏覽器確認畫面</p>
+<hr>
+<p>此時神奇的事情發生了，可以發現畫面已經做好了。<br><img src="https://i.imgur.com/19wOknq.png"></p>
+<p>這也是<code>form_for()</code>這個小幫手厲害的地方，它發現參數<code>@candidate</code>是「有料的」，所以把裡面的「料」一個一個往每個欄位塞。</p>
+<hr>
+<p>這時候我們可以再打開網頁原始碼，來看一下裡面的<code>&lt;form&gt;</code>標籤。<br><img src="https://i.imgur.com/HH8pa69.png"></p>
+<p>可以跟之前做新增的時候對比一下，可以明顯發現有不一樣。<code>edit</code>方法會帶到<code>id</code>，把<code>id</code>帶進來。發法也是用「POST」，但是往後繼續看，會看到一個隱藏<code>input</code>欄位，它的名字叫<code>&quot;_method&quot;</code>，<code>value=&quot;PATCH&quot;</code>。</p>
+<p>這時候我們可以打開終端機的<code>Routes</code>，來看一下patch方法對&#x2F;candidates&#x2F;id 這個位址送資料的話，對應的<code>controller action</code>是<code>candidate#update</code>。也就表示我們按下送出後，他會直接往<code>update action</code>這個地方去。<br><img src="https://i.imgur.com/PQjJVtJ.png"></p>
+<p>是不是覺得<code>form_for()</code>很厲害了，我們只是把完全同樣的code從<code>new.html.erb</code>檔案直接複製過來<code>edit.html.erb</code>。完全沒有去修改任何的code，它還可以猜到我們要做什麼事情。</p>
+<p>因為<code>form_for()</code>會去猜，你既然從資料庫裡面撈東西出來，應該不會是要新增才對，所以會猜到你可能是要去修改資料。</p>
+<p>在我們沒有更改原始碼的情況下，可以發現原本在新增候選人頁面的按鈕是<code>new candidate</code>。</p>
+<p>而目前的頁面顯示的是 <code>update candidate</code>。<code>form_for()</code>直接幫我們做好了。</p>
+<hr>
+<p>點擊<code>update candidate</code>按鈕送出資料，看看瀏覽器的頁面如何。馬上看到提示訊息。<br><img src="https://i.imgur.com/oDzpQhL.png"><br>就如同之前的步驟，找不到某個<code>action</code>，那就動手做給你。</p>
+<hr>
+<p>這時我們可以觀察終端機的(Routes)，路徑<code>/candidates/:id(.:format)</code>有出現4個一樣的路徑。但是使用的方法卻不同。表示不一樣的動作，對應不同的<code>controller action</code>。<br><img src="https://i.imgur.com/4h2NZMT.png"></p>
+<ol>
+<li>GET： 讀取候選人資料</li>
+<li>PATCH：更新候選人資料</li>
+<li>PUT：更新候選人資料</li>
+<li>DELETE：刪除後選人資料</li>
+</ol>
+<hr>
+<p>所以我們就可以知道按下頁面的<code>update candidate</code>按鈕，應該是會往<code>candidates#update</code>這個地方去找。</p>
+<p>接著就是要到<code>CandidatesContrller</code>裡面新增<code>update action</code>。<br><img src="https://i.imgur.com/YhUieSL.png"><br>因為 「HTTP不會有狀態」，瀏覽器頁面跳轉的時候，資料不會保留，現在唯一有的是網址列的<code>id</code>及剛剛在編輯候選人頁面，我們輸入在表單裡面的那包資料。</p>
+<p>所以在<code>CandidatesController</code>的<code>update action</code>我們要再重新抓一次資料，並且更新抓到的那包資料。</p>
+<p>而更新資料的動作會跟在新增候選人時的動作很相似。所以code寫法很像。<br>新增時，先新增一個物件，如果新增成功就接著往下個目的地走，如果新增失敗就重新 Render 畫面。</p>
+<p>而我們在<code>update action</code>也是做類似的事情。<br><img src="https://i.imgur.com/psQiWIG.png"></p>
+<p>但此時在<code>update action</code>要記得做資料「清洗」，因為我們之前有定義了<code>private method</code>，已經有一包清洗過的資料，可以把它拿到<code>update action</code>來使用，所以要將 code 寫成<br><img src="https://i.imgur.com/UBdJYod.png"><br>如果成功更新，畫面會跳出訊息顯示候選人更新成功!!!並且將頁面跳轉到候選人清單頁面。<br><img src="https://i.imgur.com/L0Mtlv6.png"><br>打開瀏覽器確認，確實跟我們預期的一樣。<br><img src="https://i.imgur.com/L1hNnAj.png"></p>
+<hr>
+<p>如果更新候選人資料失敗，那就是借用<code>edit.html.erb</code>這個檔案，重新渲染畫面。<br><img src="https://i.imgur.com/YozEepA.png"></p>
+<hr>
+<blockquote>
+<h3 id="候選人更新的部分就到這邊，下堂課要介紹”刪除”功能"><a href="#候選人更新的部分就到這邊，下堂課要介紹”刪除”功能" class="headerlink" title="候選人更新的部分就到這邊，下堂課要介紹”刪除”功能"></a>候選人更新的部分就到這邊，下堂課要介紹”刪除”功能</h3></blockquote>
 <p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
@@ -590,71 +655,6 @@
 <p><code>@candidate.increment(:votes)</code><br>效果等於<code>@candidate.votes = @candidate.votes + 1</code><br>increment 是 rails 提供的方法</p>
 <blockquote>
 <h3 id="下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯"><a href="#下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯" class="headerlink" title="下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯"></a>下一堂課，就要來增加一個表格專門，紀錄投票紀錄。並且讓那個表格跟候選人建立關聯</h3></blockquote>
-<p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
-]]></content>
-      <categories>
-        <category>ASTRO CAMP 線上課程學習筆記</category>
-      </categories>
-      <tags>
-        <tag>Ruby on Rails</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ruby on Rails 網站開發 練習 - 011 ( 資料&quot;編輯&quot;(update) )</title>
-    <url>/2023/01/19/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-011-%E8%B3%87%E6%96%99-%E7%B7%A8%E8%BC%AF-update/</url>
-    <content><![CDATA[<h1 id="前面課程已經知道如何新增-x2F-製作列表"><a href="#前面課程已經知道如何新增-x2F-製作列表" class="headerlink" title="前面課程已經知道如何新增&#x2F;製作列表"></a>前面課程已經知道如何新增&#x2F;製作列表</h1><p>首先，我們進到<code>view/index.html.erb</code> 將原本在 table 裡面 Action 選項的<code>&lt;td&gt;</code> 裡面換成 <code>update</code>，但是我們要使用link_to的方法來寫。</p>
-<span id="more"></span>
-<p>所以要先去找門口阿姨(Routes)才能知道正確的路徑。</p>
-<p>打開終端機輸入<code>rails routes</code>，可以找到那8個路徑中，跟<code>edit</code>有相關的。找到了，所以我們可以拿前面的<code>prefix verb</code>來用在link_to裡面。<br><img src="https://i.imgur.com/1uiBToG.png"><br>因為這個路徑也是需要有一個<code>id</code> 所以寫法跟上面的<code>Name</code>欄位很像。path後面接<code>id</code>。<code>edit_candidate_path(cadidtae.id)</code><br><img src="https://i.imgur.com/C26M6lL.png" alt="圖"><br>打開瀏覽器看看，確實看到<code>Action``Update</code>欄位的出現<br><img src="https://i.imgur.com/s90HCmZ.png"></p>
-<hr>
-<p>也就是對應每個候選人 id 在Action欄位新增一個叫做 update 的超連按鈕，點擊之後會連到另外一個頁面。</p>
-<p>點擊第一位候選人的update按鈕，會看到提示畫面。沒有在controller中找到叫做<code>edit</code>的 action。</p>
-<p>但這時我們可以注意網址列的部分，有看到第一位候選人的 id 有在網址列上，表示目前是正確的。<br><img src="https://i.imgur.com/OIbeECm.png"></p>
-<hr>
-<p>接著我們就要到<code>CandidatesController</code>中產生對應的<code>edit action</code><br><img src="https://i.imgur.com/H6N9ZHu.png"><br>可以預期的是，重新整理瀏覽器後，頁面應該會顯示沒有 edit 的 template。<br><img src="https://i.imgur.com/uQQaxpS.png"><br>當然我們也就必須到 view 裡面 新增對應的<code>edit.html.erb</code>檔案。先給它一個<code>&lt;h1&gt;Edit Candidate&lt;/h1&gt;</code><br><img src="https://i.imgur.com/gOuTQYx.png"><br>再確認一下瀏覽器是否可以正常顯示頁面，確實有正確顯示網址列也看到<code>h1</code>標籤<br><img src="https://i.imgur.com/BtAbQhO.png"></p>
-<hr>
-<p>這時候我們想要在畫面上給它一個表單(form)，因為其實表單的內容應該會跟新增候選人頁面的表單差不多，一樣有名稱、年紀、政見的等欄位。</p>
-<p>所以編輯候選人頁面中的表單，我們可以稍微偷懶一點點，借用原本<code>new.html.erb</code> 的內容 copy &amp; past。<br><img src="https://i.imgur.com/swkcXQg.png" alt="圖"></p>
-<hr>
-<p>再打開瀏覽器確認畫面如何，發現咦？還是有錯誤訊息。<br><img src="https://i.imgur.com/dzxaKNe.png"><br><img src="https://i.imgur.com/lI0ur7C.png"></p>
-<hr>
-<p>為什麼會看到錯誤訊息呢？會看到是正常的，我們回到<code>CandidatesController</code>來看裡面的<code>edit action</code>。</p>
-<p>這時候<code>edit action</code>都沒有做任何事，所以剛剛看才會看到錯誤訊息。<br><img src="https://i.imgur.com/fLokBvn.png"></p>
-<p>這時候我們可以再借用<code>show action</code>裡面的變數<code>@candidate = Candidate.fint_by(id: params[:id])</code>放到<code>edit action</code>裡面。</p>
-<p>因為<code>show action</code>可以去抓到某個<code>id</code>候選人的資料，這邊在<code>edit action</code>裡面也是要針對某個<code>id</code>候選人的資料做編輯。所以直接把整行code借用過來。<br><img src="https://i.imgur.com/wp6ZGz2.png"><br>接著我們再打開瀏覽器確認畫面</p>
-<hr>
-<p>此時神奇的事情發生了，可以發現畫面已經做好了。<br><img src="https://i.imgur.com/19wOknq.png"></p>
-<p>這也是<code>form_for()</code>這個小幫手厲害的地方，它發現參數<code>@candidate</code>是「有料的」，所以把裡面的「料」一個一個往每個欄位塞。</p>
-<hr>
-<p>這時候我們可以再打開網頁原始碼，來看一下裡面的<code>&lt;form&gt;</code>標籤。<br><img src="https://i.imgur.com/HH8pa69.png"></p>
-<p>可以跟之前做新增的時候對比一下，可以明顯發現有不一樣。<code>edit</code>方法會帶到<code>id</code>，把<code>id</code>帶進來。發法也是用「POST」，但是往後繼續看，會看到一個隱藏<code>input</code>欄位，它的名字叫<code>&quot;_method&quot;</code>，<code>value=&quot;PATCH&quot;</code>。</p>
-<p>這時候我們可以打開終端機的<code>Routes</code>，來看一下patch方法對&#x2F;candidates&#x2F;id 這個位址送資料的話，對應的<code>controller action</code>是<code>candidate#update</code>。也就表示我們按下送出後，他會直接往<code>update action</code>這個地方去。<br><img src="https://i.imgur.com/PQjJVtJ.png"></p>
-<p>是不是覺得<code>form_for()</code>很厲害了，我們只是把完全同樣的code從<code>new.html.erb</code>檔案直接複製過來<code>edit.html.erb</code>。完全沒有去修改任何的code，它還可以猜到我們要做什麼事情。</p>
-<p>因為<code>form_for()</code>會去猜，你既然從資料庫裡面撈東西出來，應該不會是要新增才對，所以會猜到你可能是要去修改資料。</p>
-<p>在我們沒有更改原始碼的情況下，可以發現原本在新增候選人頁面的按鈕是<code>new candidate</code>。</p>
-<p>而目前的頁面顯示的是 <code>update candidate</code>。<code>form_for()</code>直接幫我們做好了。</p>
-<hr>
-<p>點擊<code>update candidate</code>按鈕送出資料，看看瀏覽器的頁面如何。馬上看到提示訊息。<br><img src="https://i.imgur.com/oDzpQhL.png"><br>就如同之前的步驟，找不到某個<code>action</code>，那就動手做給你。</p>
-<hr>
-<p>這時我們可以觀察終端機的(Routes)，路徑<code>/candidates/:id(.:format)</code>有出現4個一樣的路徑。但是使用的方法卻不同。表示不一樣的動作，對應不同的<code>controller action</code>。<br><img src="https://i.imgur.com/4h2NZMT.png"></p>
-<ol>
-<li>GET： 讀取候選人資料</li>
-<li>PATCH：更新候選人資料</li>
-<li>PUT：更新候選人資料</li>
-<li>DELETE：刪除後選人資料</li>
-</ol>
-<hr>
-<p>所以我們就可以知道按下頁面的<code>update candidate</code>按鈕，應該是會往<code>candidates#update</code>這個地方去找。</p>
-<p>接著就是要到<code>CandidatesContrller</code>裡面新增<code>update action</code>。<br><img src="https://i.imgur.com/YhUieSL.png"><br>因為 「HTTP不會有狀態」，瀏覽器頁面跳轉的時候，資料不會保留，現在唯一有的是網址列的<code>id</code>及剛剛在編輯候選人頁面，我們輸入在表單裡面的那包資料。</p>
-<p>所以在<code>CandidatesController</code>的<code>update action</code>我們要再重新抓一次資料，並且更新抓到的那包資料。</p>
-<p>而更新資料的動作會跟在新增候選人時的動作很相似。所以code寫法很像。<br>新增時，先新增一個物件，如果新增成功就接著往下個目的地走，如果新增失敗就重新 Render 畫面。</p>
-<p>而我們在<code>update action</code>也是做類似的事情。<br><img src="https://i.imgur.com/psQiWIG.png"></p>
-<p>但此時在<code>update action</code>要記得做資料「清洗」，因為我們之前有定義了<code>private method</code>，已經有一包清洗過的資料，可以把它拿到<code>update action</code>來使用，所以要將 code 寫成<br><img src="https://i.imgur.com/UBdJYod.png"><br>如果成功更新，畫面會跳出訊息顯示候選人更新成功!!!並且將頁面跳轉到候選人清單頁面。<br><img src="https://i.imgur.com/L0Mtlv6.png"><br>打開瀏覽器確認，確實跟我們預期的一樣。<br><img src="https://i.imgur.com/L1hNnAj.png"></p>
-<hr>
-<p>如果更新候選人資料失敗，那就是借用<code>edit.html.erb</code>這個檔案，重新渲染畫面。<br><img src="https://i.imgur.com/YozEepA.png"></p>
-<hr>
-<blockquote>
-<h3 id="候選人更新的部分就到這邊，下堂課要介紹”刪除”功能"><a href="#候選人更新的部分就到這邊，下堂課要介紹”刪除”功能" class="headerlink" title="候選人更新的部分就到這邊，下堂課要介紹”刪除”功能"></a>候選人更新的部分就到這邊，下堂課要介紹”刪除”功能</h3></blockquote>
 <p>參考來源：為你自己學 Ruby on Rails (<a href="https://railsbook.tw/">https://railsbook.tw/</a>)</p>
 ]]></content>
       <categories>
@@ -982,67 +982,6 @@
       </tags>
   </entry>
   <entry>
-    <title>轉職之路，有你有我!!!</title>
-    <url>/2023/11/05/%E8%BD%89%E8%81%B7%E4%B9%8B%E8%B7%AF%EF%BC%8C%E6%9C%89%E4%BD%A0%E6%9C%89%E6%88%91/</url>
-    <content><![CDATA[<h1 id="Make-it-happen-轉職之路，有你有我。"><a href="#Make-it-happen-轉職之路，有你有我。" class="headerlink" title="Make it happen !!! 轉職之路，有你有我。"></a><font color=#FFA344>Make it happen !!! 轉職之路，有你有我。</font></h1><p>By Cheng Ting<br>2023&#x2F;03&#x2F;30</p>
-<span id="more"></span>
-<p><img src="https://i.imgur.com/PyXNx3g.jpg" alt="文章圖片001"></p>
-<h2 id="原本是在電信門市的小專員，舒適圈裡的小蝦米"><a href="#原本是在電信門市的小專員，舒適圈裡的小蝦米" class="headerlink" title="原本是在電信門市的小專員，舒適圈裡的小蝦米"></a><font color=#FFA344>原本是在電信門市的小專員，舒適圈裡的小蝦米</font></h2><p>我原本是在電信門市服務的專員，工作內容基本就是門市營業時間一到，鐵門拉起後，開始清亮的叫號：「您好，歡迎光臨～請問今天有什麼可以為您服務？」，協助客戶辦理完成客戶需求的業務後「謝謝您，請慢走。」</p>
-<p>我的個性是喜歡與人互動交談，當初選擇從事這份工作也是覺得滿符合自己的個性，但就在日復一日重複性的工作模式及內容、每天被 KPI 追著跑的循環下，從滿懷熱情與衝勁的初生之犢，漸漸變成一顆彈性疲乏的橡皮球，隨著年紀漸漸奔三，心裡有個聲音不斷告訴自己：「<strong>我的未來要有所改變！！！</strong>」</p>
-<p>此時，轉職的念頭已然萌芽，我問自己：「假如你今天不做出選擇及改變，3 年後或是 5 年後的你會不會後悔？」</p>
-<p>我的答案是，「會！」不想讓未來的自己有遺憾，如果真的轉職成功，當然是我期望的。如果沒有成功，我也不會留有後悔及遺憾，至少我努力過、嘗試過。</p>
-<h2 id="轉職的選擇？要如何達成轉職目標？"><a href="#轉職的選擇？要如何達成轉職目標？" class="headerlink" title="轉職的選擇？要如何達成轉職目標？"></a><font color=#FFA344>轉職的選擇？要如何達成轉職目標？</font></h2><p>非常確定我想要改變現在的生活及工作內容，轉職已是必然，但是要朝什麼樣的方向選擇，及如何準備可提高轉職的成功率，和身邊親朋好友討論及自己上網蒐集相關資料，經過分析及衡量，主要影響我選擇轉職方向的是我的高中好友，他是本科系畢業，目前擔任 APP 開發工程師 (屬於軟體工程師)，且累積工作年資和我一樣，但是他的薪資每年調整且成長幅度滿高，已經是所謂的年薪百萬俱樂部，他的工作型態及薪資讓我非常憧憬。以高中好友為例子，我確定「軟體工程師」這個職位包含：</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">薪資水平提升的垂直發展性。</span><br><span class="line">專業能力廣度的橫向發展性。</span><br></pre></td></tr></table></figure>
-<p>這兩個特性確實符合我所期望的工作條件，「軟體工程師」就決定是你了！</p>
-<p>已經確定好轉職的方向，剩下要考慮的就是如何達成，從零基礎到具備專業能力與知識，勢必需從頭學起，網路上很容易搜尋到各種豐富的學習資源，依照你的需求，選擇適合自己學習的資源及方式來進修。我非常確定自己不適合透過線上教學影片這類型的「自學」方法，顯而易見，適合我的就是實體授課的學習資源。</p>
-<h2 id="選擇-ASTRO-Camp-作為改變的起點"><a href="#選擇-ASTRO-Camp-作為改變的起點" class="headerlink" title="選擇 ASTRO Camp 作為改變的起點"></a><font color=#FFA344>選擇 ASTRO Camp 作為改變的起點</font></h2><p><img src="https://i.imgur.com/w804C16.jpg" alt="文章圖片002"><br>開始上網尋找是否有符合我個人的實體學習資源，再找尋的過程中，五倍學院 <strong><a href="https://astro.5xruby.tw/">ASTRO Camp 全端工程師實戰訓練營</a></strong> 的字樣出現在了瀏覽器的頁面上，基於好奇點開連結，瀏覽五倍學院的網站課程規劃及說明，我注意到了在 YouTube 上歷屆學員的「Demo Day」成果發表影片，看到這麼多的學員在參加 ASTRO Camp 後竟然可以在3個月的時間內，從一個完全沒有程式基礎的素人，經過技能學習並實際進行團隊協作專案，最終完成屬於自己的作品。</p>
-<p>我非常驚豔 ASTRO Camp 的黑魔法為什麼可以在短時間培育出全端工程師，這讓我非常好奇也嚮往，是否我加入 ASTRO Camp 之後，也能跟那些學員一樣成功翻轉職涯？<br>於是我報名參加實體說明會，更加深入了解 ASTRO Camp 的規劃及目標後，決定為自己踏出那一步，我的轉職之路正式開始。</p>
-<h2 id="如果可以用最短的時間成本達成學習目標，爲什麼要花更久的時間？"><a href="#如果可以用最短的時間成本達成學習目標，爲什麼要花更久的時間？" class="headerlink" title="如果可以用最短的時間成本達成學習目標，爲什麼要花更久的時間？"></a><font color=#FFA344>如果可以用最短的時間成本達成學習目標，爲什麼要花更久的時間？</font></h2><p>評估自身各方面因素，全職投入學習到完成轉職，我給自己設立的轉職期限是半年，參加實體說明會，深入了解「ASTRO Camp」確實可做到 3 個月培養我具備全端網頁工程師的能力，於是說明會結束後，我馬上就報名 ASTRO Camp。</p>
-<h2 id="轉職成功的關鍵，掌握面面俱到的「軟」、「硬」實力"><a href="#轉職成功的關鍵，掌握面面俱到的「軟」、「硬」實力" class="headerlink" title="轉職成功的關鍵，掌握面面俱到的「軟」、「硬」實力"></a><font color=#FFA344>轉職成功的關鍵，掌握面面俱到的「軟」、「硬」實力</font></h2><p>ASTRO Camp 有非常扎實的專業技能課程規劃，線上先修預習課程、實體課程。線上線下虛實整合的學習資源，著實提升學習效率。</p>
-<p>在 ASTRO Camp，講師希望學員們要做的第一件事情，就是<strong>改變學習方式</strong>，只要在課堂上有不會的、不懂的就舉手發問，不要把問題帶回家。目的就是要培養我們「如何問問題」。問對問題，是非常重要的一件事，甚至說是一項能力，因為工程師往往要找答案時，要先知道問題是什麼。</p>
-<h2 id="密集實體課程-amp-助教制度"><a href="#密集實體課程-amp-助教制度" class="headerlink" title="密集實體課程 &amp; 助教制度"></a><font color=#FFA344>密集實體課程 &amp; 助教制度</font></h2><p>講師們都是現役業界中的一時之選，透過<strong>密集</strong>的<strong>實體課程</strong>深入淺出的解釋技術原理及觀念，外加實作練習，課堂上透過分析近期的實例分享，幫你打好基底。</p>
-<p>在學習的過程中，<strong>現役工程師</strong>作為我們的助教，每天的課程結束後，會有助教時間，可以讓我們詢問，助教們也會以引導的方式，把我們思考的方向調整到正確的思路，靠自己去思考找出答案，這也是講師與助教們的心法傳授「授人以魚不如授人以漁」，培養工程師應具備的獨自<strong>分析問題</strong>、<strong>有效率且有系統性的找出解決方法</strong>、<strong>學習新技術更快掌握且能實際應用輸出</strong>的能力。每天不斷累積扎實的基礎觀念與技能，而在這過程中，我發現面對單一功能或是網頁畫面切版的需求，竟然可以用不同方法將其實踐出來，我想能夠寫出最有效率的程式，就是工程師的專業和價值所在。</p>
-<h2 id="個人履歷製作-amp-快速面試"><a href="#個人履歷製作-amp-快速面試" class="headerlink" title="個人履歷製作 &amp; 快速面試"></a><font color=#FFA344>個人履歷製作 &amp; 快速面試</font></h2><p>ASTRO Camp 更顧及到學員結訓後未來轉職的第一個關卡「企業面試」所需的軟實力。提供<strong>製作個人履歷</strong>課程之外，老師親自幫每位學員<strong>履歷健檢</strong>，也提供模擬面試，幫助我在結訓後的求職階段，不用感到擔心或徬徨，有一份完整的個人履歷，可以把自己的學習成果及亮點完美展現，提升錄取的成功率。</p>
-<p>ASTRO Camp 也在課程的尾聲，安排學員們與廠商進行<strong>快速面試</strong>，等於是結訓後，大大提升可以馬上有被各間國內外廠商看見，進而拿到 offer 的機會，減少自己到求職網站投遞履歷的時間成本，這也是五倍學院讓我覺得貼心的地方。</p>
-<h2 id="團隊專案-amp-成果發表"><a href="#團隊專案-amp-成果發表" class="headerlink" title="團隊專案 &amp; 成果發表"></a><font color=#FFA344>團隊專案 &amp; 成果發表</font></h2><p>ASTRO Camp 最重要的一個環節就是在訓練的最後階段，1個月左右時間，實際參與團隊的專案製作與最後結訓前的成果發表「Demo Day」。</p>
-<p>當初我會選擇報名 ASTRO Camp 也是因為看到網頁上介紹課程的規劃，包含<strong>團隊專案</strong>這個部分，因為我清楚知道想要提升轉職成功率，就需要有所謂的作品在面試時可以展現出來個人的學習歷程，這也是<strong>學習成果與技術能力</strong>最實際也是最直觀的展示方式。</p>
-<p>實際開始進行團隊專案開發時，該如何起頭、專案主題的決定，組員們就有彼此間諸多的意見碰撞與討論，從這樣的經驗就可以了解實際職場上團隊開發是更複雜且更需要良好的跨團隊溝通，以確保專案的進程可以如期地推進。</p>
-<p>過程中也有遇到各種突發狀況，原本是 5 人團隊，其中一位隊友因個人家裡因素中途退出 ASTRO Camp，後續由包含我在內共 4 位成員們一起努力完成專案。</p>
-<p>當隨著時間越來越接近 Demo Day，就在 Demo Day 的前兩週我確診需隔離，一面擔心不能出席 Demo Day，一面努力吃藥休息，希望可以盡快康復回歸團隊，在確診的前3天基本上，真的是滿不舒服的，身體非常疲累，沒辦法好好專心完成我負責的功能，感謝隊友們的體諒、支援與配合，這時候 Discord、Google Meet 等便利的通訊軟體，我與組員們依然可透過線上會議或是訊息往返的方式，對焦每天的 Standup Meeting，順利交接我的任務給組員僅恩，請他協助完成剩下的部分，讓我負責的功能得以順利部署上線，最終我們順利的完成專案，且終於隔離後的第 10 天我也順利出席 Demo Day。</p>
-<p><img src="https://i.imgur.com/jFgJtOp.jpg" alt="文章圖片003"></p>
-<h2 id="前面99個台階已經走完，只剩最後1個台階，你可以的！"><a href="#前面99個台階已經走完，只剩最後1個台階，你可以的！" class="headerlink" title="前面99個台階已經走完，只剩最後1個台階，你可以的！"></a><font color=#FFA344>前面99個台階已經走完，只剩最後1個台階，你可以的！</font></h2><p>Demo Day 結束後，緊接著就是前面提到的<strong>快速面試</strong>，我有幸在快速面試中獲得其中一間廠商給予第2次面試機會，雖然最後我沒有進入第3階段，但因有了這次快速面試的經驗，我知道後續可以如何調整及加強裝備自己，在各個求職平台投遞履歷及準備面試時可以更好的展現，提升拿到 offer 的機率。</p>
-<p>ASTRO Camp 結訓後，便開始修改自己的履歷及針對想要應徵的職缺投遞履歷，了解該間公司且研究該職缺的工作內容須具備哪些能力，專業能力部分如有尚未具備的，便開始自我學習加強，以期如有獲得後續面試機會可以展現這期間所做的準備。</p>
-<h2 id="不斷地調整面試準備方法，增加獲得-offer-的機率"><a href="#不斷地調整面試準備方法，增加獲得-offer-的機率" class="headerlink" title="不斷地調整面試準備方法，增加獲得 offer 的機率"></a><font color=#FFA344>不斷地調整面試準備方法，增加獲得 offer 的機率</font></h2><p>在主動投遞履歷且參加面試，但收到 2 次感謝信後，我檢討整個面試的環節中是否有可以提升的地方，我開始調整準備面試的方式，如何自我介紹、如何提高履歷在投遞後被看見的「能見度」，於是我開始針對應徵的職缺撰寫「自我推薦信」，而不是套用求職平台的公版格式，調整後，我個人而言認為是有效的，我發現自從有撰寫自我推薦信，公司回覆我的機率變高，獲得面試邀請的次數變多。</p>
-<p>前後修改了 10 次履歷，也不斷地進行想像練習，不斷練習自我介紹，練到不會講話卡卡的，相信在接下來的面試可以很流暢的表現，順利完成面試過程。</p>
-<h2 id="入場券到手，給自己一個掌聲"><a href="#入場券到手，給自己一個掌聲" class="headerlink" title="入場券到手，給自己一個掌聲"></a><font color=#FFA344>入場券到手，給自己一個掌聲</font></h2><p>終於，我在結訓後的 2 個月拿到了軟體工程師的 offer 轉職成功。謝謝自己當初願意踏出那一步，先給自己掌聲，你做到了！</p>
-<p>當然過程中，一定會遇到挫與自我懷疑，我真的可以嗎？我真的適合工程師嗎？<br>真的非常感謝五倍學院的講師、助教、課務組們的陪伴與支援，還有 ASTRO Camp 一起想轉職成為工程師的同學們，在同一個環境底下，我不會感到孤單，我知道有同伴跟我一起奮鬥前進。轉職這條路不輕鬆，<strong>但請記得「莫忘初衷」，記得當初勇敢選擇改變的自己</strong>。</p>
-<p>改變，就在踏出那一步，沒有實際開始第一步，改變也就是一個念想，你依然是原來的你。</p>
-<p>假如你跟我一樣，對於未來的職涯及人生有想要看到不一樣的景色、更加地飽滿，或許可以問問自己：「如果我今天沒有踏出這一步，3 年或 5 年後的自己會不會後悔？」</p>
-<p>如果你想轉職軟體工程師，但是還沒找到一個強大給力的學習資源 Support你， <strong><a href="https://astro.5xruby.tw/">ASTRO Camp 全端工程師實戰訓練營</a>會是你轉職之路的好夥伴</strong> 。</p>
-<p>或是你對於轉職為工程師有點嚮往，但是還是有疑問或迷惘，提供我的聯絡方式，歡迎你跟我聊聊</p>
-<blockquote>
-<p>信箱：<a href="mailto:&#119;&#x6f;&#x6f;&#x64;&#109;&#105;&#110;&#x67;&#x39;&#x38;&#x38;&#57;&#x40;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;">&#119;&#x6f;&#x6f;&#x64;&#109;&#105;&#110;&#x67;&#x39;&#x38;&#x38;&#57;&#x40;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#x6f;&#109;</a></p>
-</blockquote>
-<hr>
-<blockquote>
-<p>👩‍🏫 課務小幫手：<br>✨ 想要再自我精進技能嗎？ 五倍學院開設眾多實體課程與線上課程<br>✨ 想要三個月轉職網站工程師嗎？ 五倍學院有 ASTRO Camp 全端工程師實戰訓練營</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>轉職心得分享</category>
-      </categories>
-      <tags>
-        <tag>轉職心得</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2022/12/05/test/</url>
-    <content><![CDATA[<hr>
-<p>title: test<br>date: 2022-12-05 18:59:18<br>tags:<br>這是測試用文章</p>
-]]></content>
-  </entry>
-  <entry>
     <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)</title>
     <url>/2023/02/01/Ruby%20on%20Rails%20%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC%20%E7%B7%B4%E7%BF%92-ActiveRecord-%E8%B3%87%E6%96%99%E8%A1%A8%E9%97%9C%E9%80%A3-part-3(%E9%97%9C%E8%81%AF%E6%80%A7)%E4%B8%80%E5%B0%8D%E5%A4%9A/</url>
     <content><![CDATA[<h1 id="ActiveRecord-資料表關連-part-3-關聯性-一對多"><a href="#ActiveRecord-資料表關連-part-3-關聯性-一對多" class="headerlink" title="ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)"></a>ActiveRecord - 資料表關連 part 3 (關聯性)(一對多)</h1><span id="more"></span>
@@ -1060,6 +999,13 @@
       <tags>
         <tag>Ruby on Rails</tag>
       </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2022/12/05/test/</url>
+    <content><![CDATA[<hr>
+<p>title: test<br>date: 2022-12-05 18:59:18<br>tags:<br>這是測試用文章</p>
+]]></content>
   </entry>
   <entry>
     <title>Ruby on Rails 網站開發 練習 - ActiveRecord - 資料表關連 part 4 (ORM基本操作)</title>
